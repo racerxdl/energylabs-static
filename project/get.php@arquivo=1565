@@ -1,0 +1,92 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+015-016 CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+01F.6   C1OUT
+01F.7   C2OUT
+020     @INTERRUPT_AREA
+021     @INTERRUPT_AREA
+022     @INTERRUPT_AREA
+023     @INTERRUPT_AREA
+024     @INTERRUPT_AREA
+025     @INTERRUPT_AREA
+026     @INTERRUPT_AREA
+027     @INTERRUPT_AREA
+028     @INTERRUPT_AREA
+029-02A tOn
+02B-02C period
+02D.0   noteOn
+02D.1   buffer_loaded
+02E     loadedNote
+02F-031 buffer
+032     buffer_counter
+033-034 MAIN.pos
+035     MAIN.@SCRATCH
+036     MAIN.@SCRATCH
+037     MAIN.@SCRATCH
+038     MAIN.@SCRATCH
+039     MAIN.@SCRATCH
+03A     MAIN.@SCRATCH
+03B-03E @FLT.P1
+03B     MAIN.@SCRATCH
+03C     MAIN.@SCRATCH
+03D-03E @ITOF.P1
+03D-040 @MULFF.P2
+03D-040 @SFTOI.P3
+03F-042 @FLT.P1
+041-044 @MULFF.P1
+043     @FLT.@SCRATCH
+044     @FLT.@SCRATCH
+045     @MULFF.@SCRATCH
+046     @MULFF.@SCRATCH
+047     @MULFF.@SCRATCH
+048     @MULFF.@SCRATCH
+049     @MULFF.@SCRATCH
+04A     serial_isr.@SCRATCH
+04B     serial_isr.@SCRATCH
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     @SCRATCH
+10D-10E @READ_PROGRAM_MEMORY8.P1
+
+003B  notas
+0142  serial_isr
+015E  resetTimer1
+0255  MAIN
+0165  @ITOF
+0182  @MULFF
+01F7  @FLT
+0236  @SFTOI
+0255  @cinit
+
+Project Directory:
+    c:\program files (x86)\picc\projects\midi int\
+
+Project Files:
+    main.c
+    main.h
+    ..\..\devices\16F628A.h
+
+Units:
+    c:\program files (x86)\picc\projects\midi int\main.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F628A
+    Pointer Size:   16
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    Errors:      main.err
+    Ext Symbols: main.esym
+    INHX8:       main.hex
+    Symbols:     main.sym
+    List:        main.lst
+    Debug/COFF:  main.cof
+    Project:     main.PJT
+    Call Tree:   main.tre
+    Statistics:  main.sta

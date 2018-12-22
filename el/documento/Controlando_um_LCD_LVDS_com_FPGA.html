@@ -1,0 +1,481 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Documentos do ProjectSource > Controlando um LCD LVDS com FPGA | EnergyLabs Brasil</title>
+	<meta name="title" content="Documentos do ProjectSource > Controlando um LCD LVDS com FPGA | EnergyLabs Brasil">
+	<meta name="url" content="http://www.energylabs.com.br/el">
+	<meta name="description" content="Este documento explica como controlar um LCD com Interface LVDS (A mais usada atualmente) com um FPGA. O Exemplo inclui um gerador de escala de cinza para testes.">
+	<meta name="keywords" content="{META_KEYWORDS}">
+	<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"><meta name="autor" content="Lucas Teske">
+	<meta name="company" content="Documentos do ProjectSource > Controlando um LCD LVDS com FPGA | EnergyLabs Brasil"><meta name="revisit-after" content="1">
+	
+	<meta property="og:title" content="Documentos do ProjectSource > Controlando um LCD LVDS com FPGA | EnergyLabs Brasil"/> 
+	<meta property="og:type" content="other:technology"/> 
+	<meta property="og:url" content="http://www.energylabs.com.br/el/documento/Controlando_um_LCD_LVDS_com_FPGA"/> 
+	<meta property="og:site_name" content="EnergyLabs Brasil"/> 
+	<meta property="og:image" content="http://www.energylabs.com.br/el/images/logo.png"/> 
+	<meta property="og:description" content="Este documento explica como controlar um LCD com Interface LVDS (A mais usada atualmente) com um FPGA. O Exemplo inclui um gerador de escala de cinza para testes."/>
+	<meta property="fb:admins" content="1748067536"/>
+	
+	<link rev=made href="mailto:lucas@teske.com.br"><meta name="verify-v1" content="HbXsI9oX1d7u9sMh16F96hMhakEiH85q6n/RDndJB8s=" >
+	
+	<link rel="stylesheet" href="../css/energylabs.css" type="text/css" />
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/hoverIntent.js"></script>
+	<script type="text/javascript" src="../js/superfish.js"></script>
+	
+	<style type="text/css">.supertext{font-size:13px;text-shadow: 2px -2px 6px #ccc, 0px 0px 4px  #FFF;}</style>
+<style type="text/css">
+pre {
+width: 790px;
+font-family: .Consolas.,monospace;
+font-size: 9pt;
+text-align:left;
+background-color: #D9D4C9;
+color: #000000;
+overflow-x: auto; /* Use horizontal scroller if needed; for Firefox 2, not
+white-space: pre-wrap; /* css-3 */
+white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+word-wrap: break-word; /* Internet Explorer 5.5+ */
+margin: 0px 0px 0px 0px;
+padding:5px 5px 3px 5px;
+/*white-space : normal;  crucial for IE 6, maybe 7? */
+}
+</style>
+	
+	
+
+	<script type="text/javascript">
+	$(document).ready(function(){ 
+		$("ul.sf-menu").superfish({ 
+			animation: {height:'show'},   // slide-down effect without fade-in 
+			delay:     1200              // 1.2 second delay on mouseout 
+		}); 
+	}); 
+	// initialise plugins
+	jQuery(function(){
+		jQuery('ul.sf-menu').superfish();
+	});
+	</script>
+
+</head>
+<body onload"">
+
+<div id="topbar" class="topbar"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="1000" height="155">
+            <param name="movie" value="/el/images/topo.swf" />
+			<param name="wmode" value="transparent" />
+			<param name="bgcolor" value="#ffffff" />
+            <param name="quality" value="high" />
+            <embed src="../images/topo.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" wmode="transparent" type="application/x-shockwave-flash" width="1000" height="155"></embed>
+          </object></div>
+<div id="topbardown" class="topbardown"></div>
+<div id="menubar" class="menubar">
+	<div id="loginmenu" class="loginmenu"></div>
+	<div id="userphoto" class="userphoto"><img class="userpic" src="../images/no_user_image.png" width=100 height=100></div>
+	<div id="loginmenu" class="loginmenu"><a href="../secao/login.html">Login</a><BR><a href="../secao/registro.html">Registrar-se</a></div>
+					<ul class="sf-menu sf-vertical">
+					<li class="current">
+						<img src="../images/botoes/home.png" 		width="135" height="28" alt="Home" 			title="Se&ccedil;&otilde;es da P&aacute;gina"/>
+						<ul>
+							<li>
+								<a href="../../el.html" title="P&acute;gina inicial da EnergyLabs" class="menux">Home</a>
+							</li>
+							
+							<li>
+								<a href="../secao/chatroom/index.html" title="Chat da EnergyLabs" class="menux">ChatDC</a>
+							</li>
+							
+							<li>
+								<a href="http://forum.energylabs.com.br" title="F&oacute;m da EnergyLabs" class="menux">F&oacute;rum</a>
+							</li>
+							
+							<li>
+								<a href="http://blog.energylabs.com.br/" title="Blog Tumblr da EnergyLabs" class="menux">Blog Tumblr</a>
+							</li>
+							
+							<li>
+								<a href="../secao/contato/index.html" title="Formas de Contato com a EnergyLabs" class="menux">Contato</a>
+							</li>
+							
+							<li>
+								<a href="../secao/ajudeaenergylabs.html" title="Formas de ajudar a energylabs" class="menux">Ajude</a>
+							</li>
+							
+							<li>
+								<a href="../secao/sobre/index.html" title="Sobre a EnergyLabs e Autor" class="menux">Sobre</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/secao.png" 		width="135" height="28" alt="Se&ccedil;&otilde;es" 		title="Projetos"/>
+						<ul>
+							<li>
+								<a href="../secao/altatensao.html" title="Projetos relacionados a Alta Tens&atilde;o" class="menux">Alta Tens&atilde;o</a>
+							</li>
+							
+							<li>
+								<a href="../secao/bobina_de_tesla.html" title="Projetos relacionados a Bobina de Tesla" class="menux">Bobina de Tesla</a>
+							</li>
+							
+							<li>
+								<a href="../secao/eletronica.html" title="Projetos relacionados a Eletr&ocirc;nica" class="menux">Eletr&ocirc;nica</a>
+							</li>
+							
+							<li>
+								<a href="../secao/openhardware.html" title="Projetos relacionados a Open Hardware" class="menux">Open Hardware</a>
+							</li>
+							
+							<li>
+								<a href="../secao/outros.html" title="Projetos relacionados a Outros" class="menux">Outros</a>
+							</li>
+							
+							<li>
+								<a href="../secao/quimica.html" title="Projetos relacionados a Qu&iacute;mica" class="menux">Qu&iacute;mica</a>
+							</li>
+							
+							<li>
+								<a href="../secao/som.html" title="Projetos relacionados a Som" class="menux">Som</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/documentos.png" 	width="135" height="28" alt="Documentos" 	title="Documentos da EnergyLabs"/>
+						<ul>
+							<li>
+								<a href="../documentos/eletronica.html" title="Documentos relacionados à: Eletr&ocirc;nica" class="menux">Eletr&ocirc;nica</a>
+							</li>
+							
+							<li>
+								<a href="../documentos/fpga.html" title="Documentos relacionados à: FPGA" class="menux">FPGA</a>
+							</li>
+							
+							<li>
+								<a href="../documentos/index.html" title="Todos os documentos da EnergyLabs" class="menux">Todos Documentos</a>
+							</li>
+							
+							<li>
+								<a href="../documentos/tutorial.html" title="Documentos relacionados à: Tutorial" class="menux">Tutorial</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/calculadoras.png"width="135" height="28" alt="Calculadoras"	title="Calculadoras da EnergyLabs"/>
+						<ul>
+							<li>
+								<a href="../calculadora/mmc.html" title="Calculadora de Banco de Capacitores" class="menux">Banco de Capacitores</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/spiral.html" title="Calculadora de Bobina Plana (Espiral de Arquimedes)" class="menux">Bobina Plana</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/solenoide.html" title="Calculadora de Bobina Vertical (Solen&oacute;ide)" class="menux">Bobina Solen&oacute;ide</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/platecap.html" title="Calculadora de Capacitor de Vidro" class="menux">Capacitor de Vidro</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/lccalc.html" title="Calculadora de Circuito Resso&acirc;nte LC" class="menux">Circuito LC</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/boostconv.html" title="Calculadora de Conversor do tipo Boost" class="menux">Conversor Boost</a>
+							</li>
+							
+							<li>
+								<a href="../tcalc.html" title="Simulador de curvas de Trans&iacute;stores" class="menux">Curva do Trans&iacute;stor</a>
+							</li>
+							
+							<li>
+								<a href="../hwg.html" title="Gerador de Ondas Harm&ocirc;nicas" class="menux">Harmonic Wave Generator</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/ohmlaw.html" title="Calculadora da Lei de Ohm" class="menux">Lei de Ohm</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/capreac.html" title="Calculadora de Reat&acirc;ncia Capacitiva" class="menux">Reat&acirc;ncia Capacitiva</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/indreac.html" title="Calculadora de Reat&acirc;ncia Indutiva" class="menux">Reat&acirc;ncia Indutiva</a>
+							</li>
+							
+							<li>
+								<a href="../bggen.html" title="Simulador de fundo animado por f&oacute;mula" class="menux">Simulador de Fundo</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/terrometro.html" title="Calculadora de Imped&acirc;ncia do aterramento" class="menux">Terr&ocirc;metro</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/toroid.html" title="Calculadora de Tor&oacute;ide" class="menux">Tor&oacute;ide</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/sources.png" 	width="135" height="28" alt="Sources" 		title="Se&ccedil;&otilde;es Sources"/>
+						<ul>
+							<li>
+								<a href="../projetosdc/index.html" title="Projetos da DangerCenter" class="menux">Projetos DC</a>
+							</li>
+							
+							<li>
+								<a href="../soundsource.html" title="Projetos da &aacute;rea de Som" class="menux">SoundSource</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/sm/" title="Se&ccedil;&atilde;o de Stepmania/Pump da EnergyLabs" class="menux">Stepmania</a>
+							</li>
+							
+							<li>
+								<a href="../teslasource.html" title="Projetos da &aacute;rea de Qu&iacute;mica" class="menux">TeslaSource</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/reviews.png" 	width="135" height="28" alt="Reviews" 		title="Reviews de Produtos"/>
+						<ul>
+							<li>
+								<a href="../produtos/reviews/cat.1.html" title="Review de produtos: Produtos DX" class="menux">Produtos DX</a>
+							</li>
+							
+							<li>
+								<a href="../produtos/reviews.html" title="Review de todos os produtos EnergyLabs" class="menux">Todos Reviews</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/produtos.png" 	width="135" height="28" alt="Produtos" 		title="P&aacute;gina de produtos"/>
+						<ul>
+							<li>
+								<a href="../loja/index.html" title="Todos os produtos EnergyLabs" class="menux">Todos os Produtos</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/videos.png" 		width="135" height="28" alt="V&iacute;deos" 		title="Videos da EnergyLabs"/>
+						<ul>
+							<li>
+								<a href="../videos/altatensao.html" title="Videos Explicativos: Alta Tens&atilde;o" class="menux">Alta Tens&atilde;o</a>
+							</li>
+							
+							<li>
+								<a href="../videos/bobina_de_tesla.html" title="Videos Explicativos: Bobinas de Tesla" class="menux">Bobinas de Tesla</a>
+							</li>
+							
+							<li>
+								<a href="../videos/computador.html" title="Videos Explicativos: Computador" class="menux">Computador</a>
+							</li>
+							
+							<li>
+								<a href="../videos/eletronica.html" title="Videos Explicativos: Eletr&ocirc;nica" class="menux">Eletr&ocirc;nica</a>
+							</li>
+							
+							<li>
+								<a href="../videos/alleletronicsgr.html" title="Videos Explicativos: Eletr&ocirc;nica para Iniciante" class="menux">Eletr&ocirc;nica para Iniciante</a>
+							</li>
+							
+							<li>
+								<a href="../videos/eventos.html" title="Videos Explicativos: Eventos" class="menux">Eventos</a>
+							</li>
+							
+							<li>
+								<a href="../videos/palestras.html" title="Videos Explicativos: Palestras" class="menux">Palestras</a>
+							</li>
+							
+							<li>
+								<a href="../videos/quimica.html" title="Videos Explicativos: Qu&iacute;mica" class="menux">Qu&iacute;mica</a>
+							</li>
+							
+							<li>
+								<a href="../videos/index.html" title="Todos Videos Explicativos da EnergyLabs/TeslaBrasil" class="menux">Todos os Videos</a>
+							</li>
+							
+							<li>
+								<a href="../videosource.html" title="VideoSource da EnergyLabs" class="menux">VideoSource</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/downloads.png"	width="135" height="28" alt="Downloads" 	title="Downloads" />
+						<ul>
+							<li>
+								<a href="../secao/downloads.html">Todos</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+	<center><a id="doit" href="javascript:var%20s%20=%20document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src='http://www.energylabs.com.br/el/js/asteroids.js';void(0);" title="Destrua!"><font color="red">Destrua a EnergyLabs!</font></a></center>
+</div>
+<center>
+<div id="headspace" class="headspace"></div>
+<div id="content" class="content">
+<center><h1 style="text-align: center;"><span style="font-size: x-large;">Controlando um LCD LVDS com FPGA</span></h1>
+<h2 style="text-align: center;"><span style="font-size: x-large;">(LCD de <span lang="en-US">Notebook</span>)</span></h2>
+<p align="CENTER"><br /><br /></p>
+<p style="text-align: justify;"><strong>Sum&aacute;rio</strong><br /> 1 - <a href="Controlando_um_LCD_LVDS_com_FPGA.html#OSLVDS">O Sinal LVDS	1</a><br /> 2 &ndash; <a href="Controlando_um_LCD_LVDS_com_FPGA.html#SLVDS">Serializador  LVDS</a><br /> 3 &ndash; <a href="Controlando_um_LCD_LVDS_com_FPGA.html#SLVDSV">Serializador  LVDS de V&iacute;deo (Tela de LCD)</a><br /> 4 &ndash; <a href="Controlando_um_LCD_LVDS_com_FPGA.html#DPL">Designa&ccedil;&atilde;o  de Pinos no LCD</a><br /> 5 &ndash; <a href="Controlando_um_LCD_LVDS_com_FPGA.html#PGS">Programando o  Gerador de Sincronias</a><br /> 6 &ndash; <a href="Controlando_um_LCD_LVDS_com_FPGA.html#EGS">Escrevendo o  c&oacute;digo do Gerador de Sincronias</a><br /> 7 &ndash; <a href="Controlando_um_LCD_LVDS_com_FPGA.html#MSXAPP">Modificando o  Serializador 7:1 XAPP486 da Xilinx </a><br /> 8 &ndash; <a href="Controlando_um_LCD_LVDS_com_FPGA.html#CTOP">Criando o  modelo do topo e um gerador de escala de cinza </a><br /> 9 &ndash; <a href="Controlando_um_LCD_LVDS_com_FPGA.html#RES">Resultados</a></p>
+<p style="text-align: justify;">Estou iniciando este documento para auxiliar pessoas que queiram controlar Telas de LCD com Interface LVDS (Como as de <span lang="en-US">notebook</span> ou de computadores atuais), pois tive uma certa dificuldade devida a falta de documenta&ccedil;&atilde;o adequada na internet.</p>
+<p style="text-align: justify;">Para iniciar come&ccedil;arei explicando como funciona o Sinal LVDS.</p>
+<h2 style="text-align: left;"><a id="OSLVDS" name="OSLVDS"></a>1 - O Sinal LVDS</h2>
+<p style="text-align: justify;" lang="pt-BR">O <strong>LVDS</strong><span style="font-weight: normal;"> (</span><span lang="en-US"><span style="font-weight: normal;">Low</span></span><span style="font-weight: normal;"> </span><span lang="en-US"><span style="font-weight: normal;">Voltage</span></span><span style="font-weight: normal;"> </span><span lang="en-US"><span style="font-weight: normal;">Differential</span></span><span style="font-weight: normal;"> </span><span lang="en-US"><span style="font-weight: normal;">Signal</span></span><span style="font-weight: normal;"> ou Sinal Diferencial de Baixa Tens&atilde;o) &eacute; um sinal transmitido aos pares (um positivo e outro negativo). Por&eacute;m ao contr&aacute;rio dos sinais normais, onde um dos fios &eacute; GND (0V) e outro &eacute; o sinal, ou seja, um est&aacute;tico e outro din&acirc;mico, o LVDS tem os dois pares com sinal. Por&eacute;m um invertido do outro (enquanto um est&aacute; em n&iacute;vel l&oacute;gico 1, o outro est&aacute; em n&iacute;vel l&oacute;gico 0).</span></p>
+<p style="text-align: justify;" lang="pt-BR"><span style="font-weight: normal;"> Abaixo vai um esquema b&aacute;sico de um transmissor LVDS:</span></p>
+<p lang="pt-BR" align="CENTER"><img border=0 title="TX e RX LVDS" src="../pr/get.php@arquivo=900"  alt="Transmissor e Receptor LVDS Simplificados" width="569" height="165" /><br /><br /></p>
+<p style="margin-bottom: 0cm; text-align: justify;">O transmissor LVDS apenas transmite um sinal invertido do outro. O Receptor efetua a subtra&ccedil;&atilde;o dos dois sinais (A &ndash; B), como o B &eacute; sempre o inverso de  A, a opera&ccedil;&atilde;o a ser feita &eacute;         A - (-A) = A + A = 2A. Sendo assim, na sa&iacute;da teremos sempre o Sinal A . O par do LVDS &eacute; tra&ccedil;ado dentro do cabo que transmite o sinal, devido a isso, caso os fios peguem algum ru&iacute;do de algum condutor pr&oacute;ximo, ou ondas eletromagn&eacute;ticas, ambos fios pegaram a mesma intensidade de sinal. Quando o receptor for efetuar a subtra&ccedil;&atilde;o ele fara R &ndash; R = 0, logo o ru&iacute;do ser&aacute; eliminado. Isso possibilita transmiss&otilde;es com <span lang="en-US">clocks</span> muito mais elevados do que com fios comuns.</p>
+<p style="margin-bottom: 0cm; text-align: justify;">&nbsp;</p>
+<h2 style="text-align: left;"><a id="SLVDS" name="SLVDS"></a>2 &ndash; Serializador LVDS</h2>
+<p style="text-align: justify;">Para efetuar transmiss&otilde;es de m&uacute;ltiplos <span lang="en-US">bits</span> numa mesma linha LVDS, &eacute; usado um <strong>Serializador</strong><span style="font-weight: normal;">. O papel do serializador, &eacute; coletar os </span><span lang="en-US"><span style="font-weight: normal;">bits</span></span><span style="font-weight: normal;"> em paralelo (ou seja, todos ao mesmo tempo) e os transmiti-los em serial, ou, um a um. </span></p>
+<p style="text-align: justify;"><span style="font-weight: normal;"> No caso do Serializador LVDS n&atilde;o &eacute; muito diferente, por&eacute;m al&eacute;m das linhas de dados (Canais) h&aacute; uma linha de </span><span lang="en-US"><span style="font-weight: normal;">clock</span></span><span style="font-weight: normal;"> (PLL </span><span lang="en-US"><span style="font-weight: normal;">Clock</span></span><span style="font-weight: normal;">). Esse </span><span lang="en-US"><span style="font-weight: normal;">clock</span></span><span style="font-weight: normal;"> serve para sincronizar o receptor com o transmissor.</span></p>
+<p>&nbsp;</p>
+<h2 style="text-align: left;"><a id="SLVDSV" name="SLVDSV"></a> <strong>3 &ndash; Serializador LVDS de V&iacute;deo (Tela de LCD)</strong></h2>
+<p style="text-align: justify;"><strong> </strong><span style="font-weight: normal;">Bom, agora vamos ao que realmente importa para n&oacute;s! Como funciona a interface do LCD.</span></p>
+<p style="text-align: justify;"><span style="font-weight: normal;">O LCD que usei para brincar aqui era de 18Bit. Os LCD de 18 bit tem interface de 20 Pinos e as designa&ccedil;&otilde;es dos pinos s&atilde;o padr&otilde;es. S&atilde;o 3 Canais de dados e um </span><span lang="en-US"><span style="font-weight: normal;">clock.</span></span><span style="font-weight: normal;"> A serializa&ccedil;&atilde;o &eacute; feita 7-para-1, ou seja, cada canal comporta 7 bits. Logo ser&atilde;o 21 Bits de dados para o lcd.</span></p>
+<p style="text-align: justify;" lang="pt-BR"><strong> </strong><span style="font-weight: normal;">O LCD tem interface digital, e esses com 18 bits de cores tem 6 bits para cada cor e 3 bits de controle (DE, HSync, VSync &ndash; Respectivamente Dado V&aacute;lido, Sincronia Horizontal, Sincronia Vertical), totalizando 21 Bits (ou seja 3 Canais).</span></p>
+<p style="text-align: justify;" lang="pt-BR"><span style="font-weight: normal;"> Ao contrario dos LCDs antigos de interface paralela, esses n&atilde;o tem o </span><span lang="en-US"><span style="font-weight: normal;">Dot</span></span><span style="font-weight: normal;"> </span><span lang="en-US"><span style="font-weight: normal;">Clock</span></span><span style="font-weight: normal;"> (</span><span lang="en-US"><span style="font-weight: normal;">Clock</span></span><span style="font-weight: normal;"> de </span><span lang="en-US"><span style="font-weight: normal;">P&iacute;xel</span></span><span style="font-weight: normal;">) separado, pois eles usam a linha de clock, como clock do pixel. Para que os 21 Bits sejam transmitidos em tempo real (Ou ao menos, a cada Clock de P&iacute;xel), &eacute; necess&aacute;rio transmiti-los a uma velocidade maior, no caso 7 vezes (pois s&atilde;o 7 bits por canal) do que o clock de entrada. Por&eacute;m o uso de Flip-flops DDR (Double Data Rate, ou seja, que acionam na subida e descida do clock), podemos usar apenas metade dessa velocidade, ou seja, 3.5 vezes.</span></p>
+<p style="text-align: justify;" lang="pt-BR"><span style="font-weight: normal;"> O clock transmitido pela linha LVDS ser&aacute; o Dot Clock original, por&eacute;m com  o Duty Cycle (Ciclo de Trabalho) alterado de uma rela&ccedil;&atilde;o 1:1 do n&iacute;vel alto para o baixo, para uma rela&ccedil;&atilde;o de 4:3. Os dados ser&atilde;o transmitidos a 7x a velocidade do Dot Clock. Assim no receptor do LCD, ser&aacute; multiplicado o Dot Clock para poder receber os dados em paralelo tamb&eacute;m, completando o ciclo de dados pelas linhas LVDS.</span></p>
+<p style="text-align: justify;" lang="pt-BR"><span style="font-weight: normal;">Abaixo vai um desenho da transmiss&atilde;o LVDS, repare o Duty Cycle em 4:3:</span></p>
+<p style="text-align: center;" lang="pt-BR"><span style="font-weight: normal;"><a href="../pr/get.php@arquivo=895" target="_blank"><img border=0 title="Transmissor 3 Canais LVDS" src="../pr/get.php@arquivo=895"  alt="Transmissor LVDS 3 canais Gen&eacute;rico" width="650" height="456" /></a><br /></span></p>
+<p style="text-align: justify;"><span lang="pt-BR"><span style="font-weight: normal;"> Repare na figura acima, que s&atilde;o transmitidos primeiros os bits mais altos (MSB), e tamb&eacute;m que os dados come&ccedil;am nas duas ultimas partes do n&iacute;vel alto do clock, e terminam nas duas primeiras. Abaixo vai outro esquema, por&eacute;m este &eacute; com os detalhes interessantes para o nosso uso:</span></span></p>
+<p lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="text-align: center;"><a href="../pr/get.php@arquivo=893" target="_blank"><img border=0 title="Transmissor 3 Canais LVDS para LCD" src="../pr/get.php@arquivo=893"  alt="Transmissor LVDS 3 Canais para LCD" width="650" height="456" /></a></p>
+<h2 style="text-align: left;"><a id="DPL" name="DPL"></a><strong><span style="font-weight: normal;">4 &ndash; Designa&ccedil;&atilde;o de Pinos no LCD</span></strong></h2>
+<p style="text-align: justify;"><span style="font-weight: normal;"> Outro ponto que demorei um tempinho pra perceber (na verdade demorei algumas telas de lcd para perceber hehe), &eacute; a quest&atilde;o da pinagem do LCD.	 Com tempo reparei que todos os LCD que eram 18bit de cores tinham 20 pinos. E analisando 3 LCDs diferentes vi que as pinagens eram iguais. Segue abaixo os modelos que testei e a pinagem:<br /> LQ141X1LH82 	(Sharp 14.1'' 1024x768) 	&ndash; Chip Receptor Sharp KZ4E028615<br /> LQ150X1LH93 	(Sharp 15'' 1024x768) 	&ndash; Chip Receptor Sharp KZ4E028615<br /> QD15XL06 		(Quanta 15'' 1024x768) Pinagem:</span></p>
+<pre>1	- <span style="color: #ff3333;"><strong>VCC</strong></span><span style="color: #ff3333; font-weight: normal;"> (3.3V)</span><br />2	- <span style="color: #ff3333;"><strong>VCC</strong></span><span style="color: #ff3333; font-weight: normal;"> (3.3V)</span><br />3	- <strong>GND</strong><br />4	- <strong>GND</strong><br />5	- <span style="color: #00cccc; font-weight: normal;">Rx0_N</span><br />6	- <span style="color: #ff3333; font-weight: normal;">Rx0_P</span><br />7	- <strong>GND</strong><br />8	- <span style="color: #00cccc; font-weight: normal;">Rx1_N</span><br />9	- <span style="color: #ff3333; font-weight: normal;">Rx1_P</span><br />10	- <strong>GND</strong><br />11	- <span style="color: #00cccc; font-weight: normal;">Rx2_N</span><br />12	- <span style="color: #ff3333; font-weight: normal;">Rx2_P</span><br />13	- <strong>GND</strong><br />14	- <span style="color: #00cccc; font-weight: normal;">CLK_N</span><br />15	- <span style="color: #ff3333; font-weight: normal;">CLK_P</span><br />16	- <strong>GND</strong><br />17	- <em><span style="font-weight: normal;">NC</span></em><br />18	- <em><span style="font-weight: normal;">NC</span></em><br />19	- <strong>GND</strong><br />20	- <strong>GND</strong><br /></pre>
+<p style="text-align: justify;"><span style="font-weight: normal;"> Os dois pinos N&atilde;o Conectados (17 e 18) me parecem ser o 4 canal para as telas de 24bit, como todas que eu tinha aqui eram 18, todas elas n&atilde;o estavam conectadas.</span></p>
+<p style="text-align: justify;"><span style="font-weight: normal;"> Reparem que toda linha LVDS est&aacute; com dois GND em volta. Isso &eacute; uma caracter&iacute;stica que sempre existir&aacute; nas placas de LCD. Caso voc&ecirc; n&atilde;o tenha certeza da pinagem, voc&ecirc; pode observar na placa do seu LCD, pois as linhas LVDS sempre estar&atilde;o com GND em volta.</span></p>
+<p style="text-align: justify;"><br /><br /></p>
+<h2 style="text-align: left;"><span style="font-weight: normal;"><a id="PGS" name="PGS"></a>5 &ndash; Programando o Gerador de Sincronias</span></h2>
+<p style="text-align: justify;"><span style="font-weight: normal;">O Gerador de sincronia serve para gerar os sinais de Sincronia Vertical, Horizontal e tamb&eacute;m o DE (Data Enable). O sinal de Sincronia Horizontal serve para o LCD ir para a pr&oacute;xima linha, e o de vertical serve para ele retornar para o in&iacute;cio da tela. O LCD grava os 18 bits de cores em uma mem&oacute;ria RAM interna a cada ciclo do Clock. Ent&atilde;o precisamos apenas gerar os sinais de sincronia vertical e horizontal.</span></p>
+<p style="text-align: justify;"><span style="font-weight: normal;"> Infelizmente o LCD demora um pouco pra trocar de linha e tamb&eacute;m para voltar para o in&iacute;cio da tela, ent&atilde;o temos que dar uma &ldquo;pausa&rdquo; entre as linhas e entre as telas. Nada que seja um problema.</span></p>
+<p style="text-align: justify;"><span style="font-weight: normal;">Iremos fazer dois Contadores. Um </span><strong>ContadorX</strong><span style="font-weight: normal;">, que ir&aacute; contar as colunas, e outro, </span><strong>ContadorY </strong><span style="font-weight: normal;">que ir&aacute; contar as linhas. As minhas telas de teste eram todas 1024x768 (1024 colunas por 768 linhas), o que da 786432 pixels. Uma atualiza&ccedil;&atilde;o de tela comum fica em torno de 60Hz, para 786432 pixels temos uma sincronia horizontal de aproximadamente 46kHz, e que por sua vez nos d&aacute; um dot clock de aproximadamente 47MHz. ( 768 linhas * 60 = 46k, 46k * 1024 = 47MHz).</span></p>
+<p style="text-align: justify;"><span style="font-weight: normal;"> Na placa tenho dispon&iacute;vel um clock de 16Mhz, e como ainda tempos que dar uma &ldquo;pausa&rdquo; entre as linhas e as telas, usarei o clock multiplicado por 4, ou seja, 64Mhz, o que nos deve dar uma atualiza&ccedil;&atilde;o de tela de 81Hz aproximadamente e uma sincronia horizontal de 62,5kHz.</span></p>
+<p style="text-align: justify;"><em><span style="font-weight: normal;">Obs: Os sinais de sincronia s&atilde;o todos ativados com a passagem por 0, logo por padr&atilde;o eles </span></em></p>
+<p style="text-align: justify;"><span style="font-weight: normal;"> Para as pausas, fiz uma m&eacute;dia entre uns datasheets de telas de LCD que achei. O ContadorX ser&aacute; incrementado a cada ciclo de 64MHz. Ap&oacute;s o ContadorX chegar a 1023 (final da linha, lembrando que o contador come&ccedil;a em 0), colocaremos o </span><strong>HSync</strong><span style="font-weight: normal;"> em 0, e esperaremos 280 pixels para colocarmos em 1. Esperaremos mais 20 pixels e faremos a incrementa&ccedil;&atilde;o do ContadorY, e mais 20 pixels ap&oacute;s a incrementa&ccedil;&atilde;o do ContadorY para resetar o ContadorX. Para a incrementa&ccedil;&atilde;o do ContadorY. Quando o ContadorY chegar a 767 (final da tela) colocaremos o </span><strong>VSync</strong><span style="font-weight: normal;"> em 0 e esperaremos 35 linhas para coloca-lo em 1 novamente. O </span><strong>DE</strong><span style="font-weight: normal;"> ficar&aacute; em 0 toda vez que os Contadores estiverem fora dos limites da tela (ou seja, quando ContadorX passar de 1023 ou ContadorY passar de 767).</span></p>
+<p style="text-align: justify;"><span style="font-weight: normal;"> Com as configura&ccedil;&otilde;es acima, consegui fazer todos os lcds funcionarem sem problemas aqui. Fazendo os c&aacute;lculos das sincronias novamente para 1344 colunas e 803 linhas teremos 47kHz de Sincronia Horizontal e 59Hz de Sincronia Vertical. Bem pr&oacute;ximo do que quer&iacute;amos. Vamos ent&atilde;o come&ccedil;ar a escrever o c&oacute;digo.</span></p>
+<p style="text-align: justify;">&nbsp;</p>
+<h2 style="text-align: left;"><span style="font-weight: normal;"><a id="EGS" name="EGS"></a>6 &ndash; Escrevendo o c&oacute;digo do Gerador de Sincronias</span></h2>
+<p style="text-align: justify;"><span style="font-weight: normal;"> Crie um arquivo no Xilinx ISE em Verilog HDL, com as seguintes entradas e sa&iacute;das:</span></p>
+<pre><span style="color: #0066cc; font-weight: normal;"> input	</span>clk,		<span style="color: #00ae00; font-weight: normal;">// Entrada do clock de 16Mhz</span><br /><span style="color: #0066cc; font-weight: normal;"> output	</span>dotclk,		<span style="color: #00ae00; font-weight: normal;">// Sa&iacute;da do Clock de 64Mhz</span><br /><span style="color: #0066cc; font-weight: normal;"> output	</span>DE,		<span style="color: #00ae00; font-weight: normal;">// Sa&iacute;da do Data Enable</span><br /><span style="color: #0066cc; font-weight: normal;"> input	</span>[5:0] 	Red,	<span style="color: #00ae00; font-weight: normal;">// Entrada de 6 bits da cor vermelha</span><br /><span style="color: #0066cc; font-weight: normal;"> input	</span>[5:0] 	Green,	<span style="color: #00ae00; font-weight: normal;">// Entrada de 6 bits da cor vermelha</span><br /><span style="color: #0066cc; font-weight: normal;"> input	</span>[5:0] 	Blue,	<span style="color: #00ae00; font-weight: normal;">// Entrada de 6 bits da cor vermelha</span><br /><span style="color: #0066cc; font-weight: normal;"> output	</span>[27:0] 	dataout,<span style="color: #00ae00; font-weight: normal;">// Sa&iacute;da de 27 Bits para o Serializador</span><br /><span style="color: #0066cc; font-weight: normal;"> output	</span><span style="font-weight: normal;">[10:0] 	X,	</span><span style="color: #00ae00; font-weight: normal;">// Sa&iacute;da de 11 bits para posi&ccedil;&atilde;o X</span><br /><span style="color: #0066cc; font-weight: normal;"> output	</span><span style="font-weight: normal;">[10:0] 	Y	</span><span style="color: #00ae00; font-weight: normal;">// Sa&iacute;da de 11 bits para posi&ccedil;&atilde;o Y</span><br /></pre>
+<pre>Ap&oacute;s isso, vamos criar o DCM para multiplicar o clock de 16MHz de entrada para 64Mhz.<br /><br /><span style="color: #0066cc; font-weight: normal;">wire</span> clo,clk4x;<br /><span style="color: #eb613d; font-weight: normal;">DCM_SP</span>#(<br /> .CLKIN_PERIOD		("<span style="color: #999999;">62.5</span>"),<span style="color: #00ae00;">// 62.5 ns = 16Mhz</span><br /> .CLKFX_MULTIPLY	(4)<br /> )<br />dcm_main (<br /> .CLKIN   			(clk),<br /> .CLKFB   			(clo),<br /> .RST     			(1'b0),<br /> .CLK0    			(clo),<br /> .CLKFX   			(clk4x)<br />);<br /><br /><span style="color: #0066cc;">defparam </span>dcm_main.CLKIN_PERIOD 		= 62.5;<br /><span style="color: #0066cc;">defparam </span>dcm_main.CLKFX_MULTIPLY 	= 4;<br /><span style="color: #0066cc;">defparam </span>dcm_main.CLKFX_DIVIDE 		= 1;<br /></pre>
+<p><br /> Feito isso, teremos 64Mhz no fio clk4x. Criaremos agora dois par&acirc;metros com o tamanho da tela, para que o controlador seja flex&iacute;vel. Tamb&eacute;m criaremos os registradores que iremos usar no controlador.</p>
+<pre><span style="color: #0084d1;">parameter </span>ScreenX 	= 1024; <span style="color: #00ae00;">// N&uacute;mero de colunas</span><br /><span style="color: #0084d1;">parameter </span>ScreenY 	= 768; <span style="color: #00ae00;">	// N&uacute;mero de linhas</span><br /><span style="color: #0084d1;">reg </span>[10:0] ContadorX 	= 0; <span style="color: #00ae00;">	// Contador de colunas 2048 max</span><br /><span style="color: #0084d1;">reg </span>[10:0] ContadorY 	= 0; <span style="color: #00ae00;">	// Contador de linhas  2048 max</span><br /><span style="color: #0084d1;">reg </span>HSync 		= 1; <span style="color: #00ae00;">	// Sincronia Horizontal</span><br /><span style="color: #0084d1;">reg </span>VSync 		= 1; <span style="color: #00ae00;">	// Sincronia Vertical</span><br /><span style="color: #0084d1;">reg </span>data_enable 	= 1; <span style="color: #00ae00;">	// Data Enable</span><br /><span style="color: #0084d1;">wire </span>[27:0] lcddata; <span style="color: #00ae00;">		// Dados do LCD</span><br /></pre>
+<p style="text-align: justify;">Temos agora tudo que precisamos para fazer o ciclo para incrementar os contadores e gerar as sincronias. Vamos ent&atilde;o ao c&oacute;digo abaixo:</p>
+<pre><span style="color: #0084d1;">always</span> @(<span style="color: #0084d1;">posedge</span> clk4x)<br /><span style="color: #0084d1;">begin</span><br />	 ContadorX &lt;= ContadorX + 1; <span style="color: #00ae00;">// Incrementa o ContadorX a cada ciclo</span><br />	 <span style="color: #0084d1;">if</span>((ContadorX == 0) &amp; (ContadorY &lt; ScreenY))<br />		data_enable 	&lt;= 1;<span style="color: #00ae00;">//Todo novo come&ccedil;o de linha, caso a linha</span><br />	 <span style="color: #00ae00;">//esteja nos limites da tela, o DE ser&aacute; ativado</span><br />	 <span style="color: #0084d1;">if(ContadorX == ScreenX)</span><br />	 <span style="color: #0084d1;">begin</span><br />	 <span style="color: #00ae00;">	//Primeiro ponto da sincronia vertical, deixando o DE e HSync em 0.</span><br />		data_enable	&lt;= 0;<br />		HSync 		&lt;= 0;<br />	 <span style="color: #0084d1;">end</span><br />	 <br />	 <span style="color: #0084d1;">if</span>(ContadorX == (ScreenX+280))<br />		HSync 		&lt;= 1; <span style="color: #00ae00;">//Ap&oacute;s 280 pixels, ativamos novamente o HSync</span><br />	 <br />	 <br />	 <span style="color: #0084d1;">if</span>(ContadorX == (ScreenX+300))<br />	 <span style="color: #0084d1;">begin</span><br />	 <span style="color: #00ae00;">	//Ap&oacute;s 20 Pixels da ativa&ccedil;&atilde;o do HSync, faremos a incrementa&ccedil;&atilde;o do ContadorY</span><br />	 <span style="color: #0084d1;">	if</span>(ContadorY == ScreenY)<br />	 <span style="color: #0084d1;">	begin</span><br />	 <span style="color: #00ae00;">		//Caso ContadorY tenha chegado ao final da tela, colocamos o DE e VSync</span><br />	 <span style="color: #00ae00;">		//Em 0</span><br />			VSync 		&lt;= 0;<br />			data_enable	&lt;= 0;<br />	 <span style="color: #0084d1;">	end</span><br />	 <span style="color: #0084d1;">	if</span>(ContadorY == (ScreenY+35))<br />	 <span style="color: #0084d1;">	begin</span><br />	 <span style="color: #00ae00;">		//Ap&oacute;s 35 linhas, Colocamos o VSync em 1, e resetamos os contadores.</span><br />			VSync 		&lt;= 1;<br />			ContadorY 	&lt;= 0;<br />			ContadorX 	&lt;= 0;<br />	 <span style="color: #0084d1;">	end</span><br />	 <span style="color: #0084d1;">	else</span><br />			ContadorY 	&lt;= ContadorY +1; <span style="color: #00ae00;">// Caso n&atilde;o tenha chegado ao fim, incrementa</span><span style="color: #00ae00;">o ContadorY</span><br />	 <span style="color: #0084d1;">end</span><br />	 <br />	 <span style="color: #0084d1;">if</span>(ContadorX == (ScreenX+320))<br />		ContadorX 	&lt;= 0; <span style="color: #00ae00;">//Ap&oacute;s 20 pixels da incrementa&ccedil;&atilde;o do ContadorY, resetar o</span><span style="color: #00ae00;">ContadorX</span> <br /><span style="color: #0084d1;">end</span><br />&nbsp;<br /></pre>
+<p><span style="font-weight: normal;">Temos ai ent&atilde;o o gerador de sincronia pronto! Agora &eacute; s&oacute; fazer as associa&ccedil;&otilde;es.</span></p>
+<pre><span style="color: #0084d1;">assign </span>dotclk	=	clk4x; <span style="color: #00ae00;">// Clock para sincronizar transmissor de imagem</span><br /><span style="color: #0084d1;">assign </span>X	= 	ContadorX; <span style="color: #00ae00;">//Valores para saber a posi&ccedil;&atilde;o da tela</span><br /><span style="color: #0084d1;">assign </span>Y	=	ContadorY; <span style="color: #00ae00;">//Valores para saber a posi&ccedil;&atilde;o da tela</span><br /></pre>
+<p style="text-align: justify;"><span><span style="font-weight: normal;">Por&eacute;m, tive um pequeno problema. O serializador da Xilinx XAPP486 transmite os dados de uma forma diferente do que precisamos:</span></span></p>
+<p style="text-align: justify;"><span><span style="font-weight: normal;">O XAPP486 da Xilinx envia os dados assim:</span></span></p>
+<pre>0, 	4, 	8,	12,	16, 	20, 	24 	- Canal 0<br />1, 	5,	9,	13,	17, 	21, 	25 	- Canal 1<br />2, 	6, 	10,	14,	18, 	22, 	26 	- Canal 2<br />3, 	7, 	11,	15,	19, 	23, 	27 	- Canal 3<br /></pre>
+<p style="text-align: justify;"><span><span style="font-weight: normal;">Por&eacute;m, para o LCD precisamos deles assim:</span></span></p>
+<pre>6,	5,	4,	3,	2,	1,	0	- Canal 0<br />13,	12,	12,	10,	9,	8,	7	- Canal 1<br />20,	19,	18,	17,	16,	15,	14	- Canal 2<br />X,	X,	X,	X,	X,	X,	X	- Canal 3<br /></pre>
+<p style="text-align: justify;">&gt;Nota: X &lt;= Irrelevante</p>
+<p style="text-align: justify;">Ent&atilde;o fiz aqui uma associa&ccedil;&atilde;o da maneira que eu precisava.</p>
+<pre><span style="color: #0084d1;">assign </span><span style="font-weight: normal;">dataout[0] 	=	lcddata[6];	</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[4] 	=	lcddata[5];	</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[8] 	=	lcddata[4];	</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[12] 	= 	lcddata[3];	</span><span style="color: #00ae00;">//</span><span style="color: #00ae00;">Canal 0 </span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[16] 	= 	lcddata[2];	</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[20] 	= 	lcddata[1];	</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[24] 	=	lcddata[0];	</span><span style="color: #00ae00;">//</span><br /><br /><br /><br /><span style="color: #0084d1;">assign </span><span style="font-weight: normal;">dataout[1] 	=	lcddata[13];	</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign </span><span style="font-weight: normal;">dataout[5] 	=	lcddata[12];	</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[9] 	= 	lcddata[11];	</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[13] 	= 	lcddata[10];	</span><span style="color: #00ae00;">//	Canal 1</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[17] 	=	lcddata[9];	</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[21] 	= 	lcddata[8];	</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[25] 	= 	lcddata[7];	</span><span style="color: #00ae00;">//</span><br /><br /><br /><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[2] 	= 	lcddata[20];	</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[6] 	= 	lcddata[19];	</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[10] 	= 	lcddata[18];	</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[14] 	=	lcddata[17];	</span><span style="color: #00ae00;">//	Canal 3</span><br /><span style="color: #0084d1;">assign </span><span style="font-weight: normal;">dataout[18] 	= 	lcddata[16];	</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[22] 	=	lcddata[15];	</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[26] 	= 	lcddata[14];	</span><span style="color: #00ae00;">//</span><br /><br /><br /><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[3] 	= 1'b0; 		</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[7] 	= 1'b0; 		</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[11] 	= 1'b0; 		</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[15] 	= 1'b0; 		</span><span style="color: #00ae00;">//	Canal 4 - Por&eacute;m irrelevante</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[19] 	= 1'b0; 		</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[23] 	= 1'b0; 		</span><span style="color: #00ae00;">//</span><br /><span style="color: #0084d1;">assign</span><span style="font-weight: normal;"> dataout[27] 	= 1'b0; 		</span><span style="color: #00ae00;">//</span><br /></pre>
+<p style="text-align: justify;"><span><span style="font-weight: normal;">Agora podemos fazer a associa&ccedil;&atilde;o de maneira mais facil:</span></span></p>
+<p style="text-align: justify;"><br /><br /></p>
+<pre><span style="color: #0084d1;">assign</span> lcddata [20:18]	= { data_enable , VSync, Hsync}; <span style="color: #00ae00;">	// Bit 20, 19, 18</span><br /><span style="color: #0084d1;">assign</span> lcddata [17:0]	= {Blue, Green, Red}; <span style="color: #00ae00;">			// Bits 17 &agrave; 0</span><br /><span style="color: #0084d1;">assign</span> DE		= data_enable; <span style="color: #00ae00;">				// Sa&iacute;da Data Enable</span><br /></pre>
+<p style="text-align: justify;"><span><span style="font-weight: normal;">Terminamos aqui o controlador do LCD. Abaixo vai o desenho do modelo:</span></span></p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><img border=0 title="Modelo do Controlador de LCD" src="../pr/get.php@arquivo=892"  alt="Modelo do Controlador de LCD" width="320" height="329" /></p>
+<p><br /><br /></p>
+<h2 style="text-align: left;"><span style="font-weight: normal;"><a id="MSXAPP" name="MSXAPP"></a>7 &ndash; Modificando o Serializador 7:1 XAPP486 da Xilinx</span></h2>
+<p style="text-align: justify;"><span style="font-weight: normal;">Como havia dito no t&oacute;pico anterior, o XAPP486 envia os sinais para o LCD de maneira diferente do que precisamos, ent&atilde;o tivemos que associar os bits. Mas al&eacute;m disso, outras altera&ccedil;&otilde;es s&atilde;o necess&aacute;rias para o uso dele. Baixe o <a href="https://secure.xilinx.com/webreg/clickthrough.do?cid=55785&amp;license=RefDesLicense">XAPP486</a> aqui.</span></p>
+<p style="text-align: justify;"><span style="font-weight: normal;"> Adicione ele ao projeto e fa&ccedil;a as seguintes modifica&ccedil;&otilde;es:</span></p>
+<p style="text-align: justify;"><span style="font-weight: normal;">No arquivo: </span><strong>top4_tx</strong><span style="font-weight: normal;"> </span></p>
+<p style="text-align: justify;"><br /><br /></p>
+<p style="text-align: justify;"><span style="font-weight: normal;">Modificar Linha: </span></p>
+<pre><span style="color: #0084d1;">input</span> clkin,<span style="color: #00ae00;">// clock in</span><br /></pre>
+<p style="text-align: justify;"><span style="font-weight: normal;">para</span></p>
+<pre><span style="color: #0084d1;">input</span> clkint, <span style="color: #00ae00;"> // clock in</span><br /></pre>
+<p><span style="font-weight: normal;">Remover Linha: </span></p>
+<pre><span style="color: #0084d1;">wire</span> clkint ; <span style="color: #00ae00;">// clock input from pin</span><br /></pre>
+<p><span style="font-weight: normal;">Remover Linha: </span></p>
+<pre><span style="color: #eb613d;">IBUFG</span> #(.<span style="color: #eb613d;">IOSTANDARD</span>("LVCMOS25")) clk_ibuf (.I(clkin), .O(clkint) );<br /></pre>
+<p style="text-align: justify;"><span style="font-weight: normal;">Alterar:</span></p>
+<pre>.CLKIN_PERIOD ("12"), <br /></pre>
+<p><span style="font-weight: normal;">para </span></p>
+<pre>.CLKIN_PERIOD ("15.625"),<br /></pre>
+<pre><span style="color: #eb613d;">OBUFDS</span>#(.<span style="color: #eb613d;">IOSTANDARD</span>("LVDS_25")) <br /></pre>
+<p><span style="font-weight: normal;">para</span></p>
+<pre><span style="color: #eb613d;">OBUFDS</span>#(.<span style="color: #eb613d;">IOSTANDARD</span>("LVDS_33"))<br /></pre>
+<p style="text-align: justify;"><span style="font-weight: normal;"><br /></span></p>
+<pre><span style="color: #eb613d;">OBUFDS</span>#(.<span style="color: #eb613d;">IOSTANDARD</span>("LVDS_25")) lvds_clka_obuf (.I(clkoutint),   .O(clkouta1_p),    .OB(clkouta1_n) );<br /></pre>
+<p><span style="font-weight: normal;">para</span></p>
+<pre><span style="color: #eb613d;">OBUFDS</span> #(.<span style="color: #eb613d;">IOSTANDARD</span>("LVDS_33")) lvds_clka_obuf (.I(clkoutint), .O(clkouta1_p),    .OB(clkouta1_n) );<br /></pre>
+<p style="text-align: justify;"><span style="font-weight: normal;">No arquivo </span><strong>serdes_4b_7to1</strong></p>
+<p style="text-align: justify;"><span style="font-weight: normal;">Remover Linhas:</span></p>
+<pre><span style="color: #0084d1;">assign</span> clkcp_d = (~pba[2] &amp; ~pba[1] &amp; pba[0]) | (~pba[2] &amp; pba[1] &amp; ~pba[0]) | (pba[2] &amp; ~pba[1] &amp; pba[0]) ; <span style="color: #00ae00;">// Use these two lines for 3:4 output clock</span><br /><span style="color: #0084d1;">assign</span> clkcn_d = (~pba[2] &amp; ~pba[1] &amp; pba[0]) | (pba[2] &amp; ~pba[1] &amp; ~pba[0]) | (pba[2] &amp; ~pba[1] &amp; pba[0]) ;<br /></pre>
+<p style="text-align: justify;"><span style="font-weight: normal;">Descomentar Linhas:</span></p>
+<pre><span style="color: #0084d1;">assign</span> clkcp_d = (~pba[2] &amp; ~pba[1] &amp; pba[0]) | (~pba[2] &amp; pba[1] &amp; ~pba[0]) | (pba[2] &amp; ~pba[1] &amp; pba[0]) | (pba[2] &amp;  pba[1] &amp; ~pba[0]) ; <span style="color: #00ae00;">// Use these two lines for 4:3 output clock</span><br /><span style="color: #0084d1;">assign</span> clkcn_d = (~pba[2] &amp; ~pba[1] &amp; pba[0]) | (~pba[2] &amp; pba[1] &amp; ~pba[0]) | (pba[2] &amp; ~pba[1] &amp; pba[0]) | (pba[2] &amp; ~pba[1] &amp; ~pba[0]) ;<br /></pre>
+<p style="text-align: justify;"><span style="font-weight: normal;">Salve tudo, terminamos as modifica&ccedil;&otilde;es no XAPP486. Abaixo vai um modelo do serializador:</span></p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><img border=0 title="Modelo do Serializador LVDS XAPP486" src="../pr/get.php@arquivo=894"  alt="Modelo do Serializador LVDS XAPP486" width="320" height="251" /></p>
+<h2 style="text-align: left;"><span style="font-weight: normal;"><a id="CTOP" name="CTOP"></a>8 &ndash; Criando o modelo do topo e um gerador de escala de cinza</span></h2>
+<p><br /><br /></p>
+<p style="text-align: justify;"><span style="font-weight: normal;"> Agora que terminamos toda a base, podemos modelar o desenho de topo, onde ficar&atilde;o as liga&ccedil;&otilde;es entre o serializador e o gerador de sincronias.  Faremos tamb&eacute;m um gerador de escala de cinza para testar se tudo ocorre bem. Crie um arquivo verilog chamado </span><strong>top_lcd </strong><span style="font-weight: normal;"> com as seguintes entradas e sa&iacute;das:</span></p>
+<pre><span style="color: #0084d1;">input </span> clk, 			<span style="color: #00ae00;">// Entrada do clock de 16Mhz</span><br /><span style="color: #0084d1;">output</span> [2:0] lvdsdata_p,	<span style="color: #00ae00;">// Sa&iacute;das Positivas dos 3 canais</span><br /><span style="color: #0084d1;">output</span> [2:0] lvdsdata_n,	<span style="color: #00ae00;">// Sa&iacute;das Negativas dos 3 Canais</span><br /><span style="color: #0084d1;">output</span> lvdsclk_p,		<span style="color: #00ae00;">// Sa&iacute;da Positiva do Clock</span><br /><span style="color: #0084d1;">output</span> lvdsclk_n		<span style="color: #00ae00;">// Sa&iacute;da Negativa do Clock</span><br /></pre>
+&nbsp;
+<p>&nbsp;</p>
+<p><span style="font-weight: normal;"> Criaremos tamb&eacute;m os fios para ligar os modelos e os registradores para o gerador de escala de cinza.</span></p>
+<p>&nbsp;</p>
+<pre><span style="color: #0084d1;">wire </span> dotclk;<br /><span style="color: #0084d1;">wire </span> [27:0] 	ParallelData;<br /><span style="color: #0084d1;">wire </span> [10:0] 	X;<br /><span style="color: #0084d1;">wire </span> [10:0] 	Y;<br /><span style="color: #0084d1;">wire </span> [5:0] 	DRed;<br /><span style="color: #0084d1;">wire </span> [5:0] 	DGreen;<br /><span style="color: #0084d1;">wire </span> [5:0] 	DBlue;<br /><span style="color: #0084d1;">wire </span> DEnable;<br /><span style="color: #0084d1;">reg </span>  [5:0] 	Red 	= 	0;<br /><span style="color: #0084d1;">reg </span>  [5:0] 	Green 	= 	0;<br /><span style="color: #0084d1;">reg </span>  [5:0] 	Blue	=	0;<br /><br /><br /><br /></pre>
+<p>Vamos agora inicializar os modelos do XAPP486 e do Controlador:</p>
+<pre>	<br />top4_tx TransmissorLVDS (<br /> .clkint(dotclk), <br /> .datain(ParallelData), <br /> .rstin(1'b1), <br /> .dataouta_p(lvdsdata_p), <br /> .dataouta_n(lvdsdata_n), <br /> .clkouta1_p(lvdsclk_p), <br /> .clkouta1_n(lvdsclk_n)<br /> );<br /><br /><br /><br />controlador ControladorLCD (<br /> .clk(clk), <br /> .dotclk(dotclk), <br /> .DE(DEnable), <br /> .Red(Red), <br /> .Green(Green), <br /> .Blue(Blue), <br /> .dataout(ParallelData), <br /> .X(X), <br /> .Y(Y)<br /> );<br /></pre>
+<p><span style="font-weight: normal;">Feito isso, estar&aacute; inicializado, repare que no bloco </span><em><strong>Hierarchy</strong></em><span style="font-style: normal;"><span style="font-weight: normal;"> do Xilinx ISE, os c&oacute;digos verilog ir&atilde;o para dentro do </span></span><span style="font-style: normal;"><strong>top_lcd</strong></span><span style="font-style: normal;"><span style="font-weight: normal;">.</span></span></p>
+<p>&nbsp;</p>
+<p style="text-align: justify;"><span><span style="font-style: normal;"><span style="font-weight: normal;"> Para finalizarmos faremos o gerador de escala de cinza. &Eacute; algo bem simples, iremos tratar as cores como se fossem contadores, incrementando um a cada Dot Clock. Fazendo isso teremos colunas de escala de cinza de 64 pixels de largura. Faremos aqui tamb&eacute;m as associa&ccedil;&otilde;es.</span></span></span></p>
+<pre><span style="color: #0084d1;">always</span> @(<span style="color: #0084d1;">posedge</span> dotclk)<br /><span style="color: #0084d1;">begin</span><br />	 <span style="color: #0084d1;">if</span>(DEnable)<br />	 <span style="color: #0084d1;">begin</span><br />		 Red 	&lt;= Red 		+1;<br />		 Green 	&lt;= Green 	+1;<br />		 Blue 	&lt;= Blue 	+1;<br />	 <span style="color: #0084d1;">end</span><br /><span style="color: #0084d1;">end</span><br /><br /><br /><br /><span style="color: #0084d1;">assign</span> DRed 	= Red;<br /><span style="color: #0084d1;">assign</span> DGreen	= Green;<br /><span style="color: #0084d1;">assign</span> DBlue	= Blue;<br /></pre>
+<p style="text-align: justify;"><span><span style="font-style: normal;"><span style="font-weight: normal;">Feito isso, a ultima parte do nosso c&oacute;digo est&aacute; pronta! Segue o modelo e seu sub-circuito:</span></span></span></p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><img border=0 title="Modelo de Topo do Controlador de LCD" src="../pr/get.php@arquivo=898"  alt="Modelo de Topo do Controlador de LCD" width="320" height="294" /></p>
+<p style="text-align: center;"><img border=0 title="Sub-Circuito do Modelo do Controlador de LCD" src="../pr/get.php@arquivo=899"  alt="Sub-Circuito do Modelo de Topo do Controlador de LCD" width="650" height="606" /></p>
+<p style="text-align: justify;"><span><span style="font-style: normal;"><span style="font-weight: normal;">Agora &eacute; s&oacute; configurar os pinos de acordo com sua placa de desenvolvimento e testar!</span></span></span></p>
+<p>&nbsp;</p>
+<h2 style="text-align: left;"><span style="font-style: normal;"><span style="font-weight: normal;"><a id="RES" name="RES"></a>9 &ndash; Resultados</span></span></h2>
+<p style="text-align: justify;"><span style="font-style: normal;"><span style="font-weight: normal;"> Abaixo vai imagens dos resultados e um link para baixar o projeto completo:</span></span></p>
+<p align="CENTER"><a href="../pr/get.php@arquivo=896" target="_blank"><img border=0 title="Teste de escala de cinza no LCD de Notebook" src="../pr/get.php@arquivo=896"  alt="Teste de escala de cinza no LCD de Notebook" width="650" height="488" /></a></p>
+<p align="CENTER"><a href="../pr/get.php@arquivo=897" target="_blank"><img border=0 title="Teste de escala de cinza no LCD de Notebook" src="../pr/get.php@arquivo=897"  alt="Teste de escala de cinza no LCD de Notebook" width="650" height="488" /></a></p>
+<p style="text-align: justify;"><span style="font-style: normal;"><span style="font-weight: normal;">Links para o projeto</span></span></p>
+<p style="text-align: justify;"><span style="font-style: normal;"><span style="font-weight: normal;"><a href="../pr/get.php@arquivo=901">Projeto Completo</a> <br /></span></span></p>
+<p style="text-align: justify;"><span style="font-style: normal;"><span style="font-weight: normal;">Outros documentos para consulta:</span></span></p>
+<p style="text-align: justify;"><span style="font-style: normal;"><span style="font-weight: normal;"><a href="https://secure.xilinx.com/webreg/clickthrough.do?cid=55785&amp;license=RefDesLicense">https://secure.xilinx.com/webreg/clickthrough.do?cid=55785&amp;license=RefDesLicense</a> - XAPP486</span></span></p>
+<p style="text-align: justify;"><span style="font-style: normal;"><span style="font-weight: normal;"><a href="http://www.latticesemi.com/dynamic/view_document.cfm?document_id=21823">http://www.latticesemi.com/dynamic/view_document.cfm?document_id=21823</a> - Lattice Reference</span></span></p>
+<p style="text-align: justify;"><span style="font-style: normal;"><span style="font-weight: normal;"><a href="http://www.intel.com/design/intarch/papers/315975.pdf">http://www.intel.com/design/intarch/papers/315975.pdf</a> - Intel LVDS Panel Connectors</span></span></p>
+<p align="CENTER">&nbsp;</p>
+<p align="center"><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img border=0 src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png"  alt="Licen&ccedil;a Creative Commons" /></a><br /> A obra <span>Controlando um LCD LVDS com FPGA</span> de <a rel="cc:attributionURL" href="../ver-documento/832.html">Lucas Teske - EnergyLabs Brasil</a> foi licenciada com uma Licen&ccedil;a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons - Atribui&ccedil;&atilde;o - Partilha nos Mesmos Termos 3.0 N&atilde;o Adaptada</a>.<br /> Permiss&otilde;es adicionais ao &acirc;mbito desta licen&ccedil;a podem estar dispon&iacute;veis em <a rel="cc:morePermissions" href="../ver-documento/832.html">http://www.energylabs.com.br</a>.</p><BR><center> Comente este conte&uacute;do!</center><table width=650 bgcolor=white border=1 cellpadding="0" cellspacing="1"><tr><td><center><div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:comments href="http%3A%2F%2Fwww.energylabs.com.br%2Fel%2Fdocumento%2FControlando_um_LCD_LVDS_com_FPGA" numposts="10" width="650" publish_feed="true"></fb:comments></centeR></td></tr></table></center>
+</div>
+</center>
+<div id="lateralbar" class="lateralbar">
+<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+<a class="addthis_button_preferred_1"></a><BR>
+<a class="addthis_button_preferred_2"></a><BR>
+<a class="addthis_button_preferred_3"></a><BR>
+<a class="addthis_button_preferred_4"></a><BR>
+<a class="addthis_button_compact"></a><BR>
+<a class="addthis_counter addthis_bubble_style"></a>
+</div>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4f5118946b269cb3"></script>
+</div>
+<div id="footspace" class="footspace"></div>
+<div id="footbar1" class="footbar1"><form method="post"  id="forms" name="google_translate" action="http://translate.google.com.br/translate"><td colspan="2" valign="top"><center>Voc&ecirc; est&aacute; em:  <a href="../documento.html">Documento</a> =&gt; <font color=darkgreen style="font-size: 14px"><B></B></font> - <input type="hidden" name="js" value="y" /><input type="hidden" name="hl" value="en-US" /><input type="hidden" name="sl" value="pt" /><input type="hidden" name="tl" value="en" /><input type="hidden" name="u" value="http://www.energylabs.com.br/el/documento/Controlando_um_LCD_LVDS_com_FPGA" /><a href="javascript:void(0);" onclick="javascript:google_translate.submit();">Translate this page to English</a></center></td></form></div>
+<div id="footbar2" class="footbar2">
+	<a href="http://www.facebook.com/pages/Energylabs/165685600142934">	<img src="../images/facebook.png" 	width="32" height="32" 	border=0 title="Facebook da EnergyLabs"	/></a>
+	<a href="http://twitter.com/EnergyLabsBR">	<img src="../images/twitter.png" 	width="32" height="32"  border=0 title="Twitter da EnergyLabs"	/></a>
+	<a href="http://www.energylabs.com.br/el/rss/noticias.xml">		<img src="../images/rss.png"	 		width="32" height="32"  border=0 title="RSS da EnergyLabs"		/></a>
+</div>
+<script type="text/javascript">var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));</script><script type="text/javascript">try {var pageTracker = _gat._getTracker("UA-15334730-1");pageTracker._trackPageview();} catch(err) {};</script>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+  {lang: 'pt-BR'}
+</script>
+
+</body>
+</html>

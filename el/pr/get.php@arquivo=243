@@ -1,0 +1,58 @@
+#include "D:\Program Files (x86)\PICC\Projects\LedChaser\main.h"
+
+int timing = 50;
+
+void check_timer() {
+   if(!INPUT(PIN_A0)) {
+      if(timing != 400) 
+         timing = timing+10;
+   }
+   if(!INPUT(PIN_A1)) {
+      if(timing != 30) 
+         timing = timing-10;
+   }
+}
+void main()
+{
+
+   setup_timer_0(RTCC_INTERNAL|RTCC_DIV_1);
+
+   while(true) {
+   OUTPUT_B(0x80);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0xC0);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0x60);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0x30);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0x18);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0x0C);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0x06);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0x03);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0x01);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0x01);   
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0x03);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0x06);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0x0C);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0x18);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0x30);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0x60);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0xC0);
+   delay_ms(timing);check_timer();
+   OUTPUT_B(0x80);
+   delay_ms(timing*2);
+   }
+}

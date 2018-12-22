@@ -1,0 +1,92 @@
+#include "C:\Program Files (x86)\PICC\Projects\MIDI INT\main.h"
+
+const unsigned int16 notas[] = {29171,31212,33139,34957,36673,38293,39822,41265,42627,43913,45127,46272,47353,48374,49337,50246,51104,51914,52679,53400,54081,54724,55331,55904,56444,56954,57436,57890,58320,58725,59107,59468,59808,60130,60433,60719,60990,61245,61485,61713,61927,62130,62321,62501,62672,62832,62984,63127,63262,63390,63510,63624,63731,63832,63928,64018,64103,64184,64259,64331,64399,64462,64523,64579,64633,64684,64731,64777,64819,64859,64897,64933,64967,64999,65029,65057,65084,65109,65133,65156,65177,65197,65216,65234,65251,65267,65282,65296,65310,65322,65334,65345,65356,65366,65376,65385,65393,65401,65408,65416,65422,65429,65435,65440,65446,65451,65455,65460,65464,65468,65472,65475,65479,65482,65485,65488,65490,65493,65495,65497,65499,65501,65503,65505,65507,65508,65510,65511};
+
+static unsigned int16 tOn = 250;    //tOn
+static unsigned int16 period = 0;   //Período
+static int1 noteOn = 0;             //Nota Ligada
+static int8 loadedNote = 0;         //Nota Carregada
+static char buffer[3];              //Buffer de Bytes
+static int1 buffer_loaded;          //Estado do Buffer
+static int  buffer_counter = 0;     //Contador do Buffer
+
+#int_rda 
+void serial_isr() 
+{ 
+   if(buffer_counter!=3) {             //Se ainda não leu 3 bytes
+      buffer[buffer_counter]=getc();   //Ler o byte e guardar no buffer
+      buffer_counter++;
+      if(buffer_counter==3) {          //Se ler 3 bytes, 
+         buffer_counter = 0;           //Resetar o contador
+         buffer_loaded = 1;            //Marcar o buffer como carregado
+      }else{                           //Se não
+         buffer_loaded = 0;            //Manter o status do buffer como 0
+      }
+   }else                               //Caso receber algum byte com o buffer
+      getc();                          //carregado, descartar o byte.
+}
+
+#INT_TIMER1
+void resetTimer1() {
+   set_timer1(period);
+}
+
+int16 TickGet(void)
+{
+    int16 ret;
+    disable_interrupts(INT_TIMER1);
+    ret=get_timer1();
+    enable_interrupts(INT_TIMER1);
+    return ret;
+}
+
+
+void main()
+{
+   int16 pos;
+   setup_timer_0(RTCC_INTERNAL|RTCC_DIV_1);
+   setup_timer_1(T1_INTERNAL|T1_DIV_BY_2);
+   setup_timer_2(T2_DISABLED,0,1);
+   setup_comparator(NC_NC_NC_NC);
+   setup_vref(FALSE);
+   enable_interrupts(global);
+   enable_interrupts(INT_TIMER1); 
+   enable_interrupts(INT_RDA); 
+
+   while(true) {                    //Loop para sempre
+      pos=get_timer1()-period;      //Pega valor do timer, e subtrai do periodo
+                                    //Iremos usar isso para o tOn
+      if((pos<=tOn)&noteOn)         //Se a posição for menor que o tOn 
+         OUTPUT_HIGH(PIN_A0);       //Liga saída A0
+      else                          //Se não
+         OUTPUT_LOW(PIN_A0);        //Desliga saída A0
+         
+    if(buffer_loaded) {             //Aqui iremos fazer o processo do buffer
+                                    //Se o valor no byte1 for 0x90, e não houver
+                                    //nota ligada, e o pino A1 estiver ligado 
+       if((buffer[0] == 0x90) & !(noteOn) & INPUT(PIN_A1)) {
+         period = notas[buffer[1]]; //Carrega o valor da nota no periodo
+         tON = ((0xFFFF-period)*0.1)>200?200:(0xFFFF-period)*0.1; //Faz o tOn ser 10% do periodo total
+         noteOn = 1;                //Fala que a nota está ligada
+         OUTPUT_HIGH(PIN_A2);       //Coloca saída A2 em alta, PIC ocupado
+         loadedNote = buffer[1];    //Guarda o número da nota carregada
+       }else if(buffer[0] == 0x80) {//Se for 0x80, é para desligar a nota
+       if(buffer[1] == loadedNote) {//Verifica se a nota que esta tocando é a
+                                    //mesma que está pedindo para desligar
+            period = 0xFFFF;        //Reseta periodo
+            noteOn = 0;             //Desliga nota
+            OUTPUT_LOW(PIN_A2);     //Desliga saida A2, PIC Disponível
+            loadedNote = 0x00;      //Zera nota carregada
+       }
+       }else if(buffer[0] == 0xB0) {
+         period = 0xFFFF;           
+         noteOn = 0;                
+         OUTPUT_LOW(PIN_A2);        
+         loadedNote = 0x00;
+         buffer_counter = 0;
+         buffer_loaded = 0;
+       }
+       buffer_loaded = 0;           //Libera o buffer para recarregamento
+    }
+   }
+}

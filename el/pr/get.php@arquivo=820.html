@@ -1,0 +1,90 @@
+<title>fpga_work.html</title><h1 style="text-align: center;"><span style="font-size: xx-large;">Como funciona um FPGA</span></h1>
+<h2 style="text-align: justify;">- C&eacute;lulas l&oacute;gicas</h2>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp; Os FPGA's s&atilde;o construidos apartir de uma c&eacute;lula l&oacute;gica basica. Um FPGA cont&eacute;m milhares de c&eacute;lulas l&oacute;gicas. A c&eacute;lula l&oacute;gica &eacute; basicamente composta de uma <strong>LUT </strong>(Small Look-up Table), um Flip-Flop tipo D e um Mux 2 para 1.</p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><img border=0 title="FPGA Logic Cell" src="get.php@arquivo=816"  alt="C&eacute;lula L&oacute;gica de um FPGA" width="116" height="85" /></p>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp; A LUT &eacute; como se fosse uma pequena RAM que pode implementar qualquer fun&ccedil;&atilde;o l&oacute;gica. Geralmente ela tem poucas entradas (4 na figura acima), ent&atilde;o por exemplo uma porta <strong>AND</strong> de 3 Entradas caberia nela e sobraria uma entrada livre ainda.</p>
+<p style="text-align: justify;">&nbsp;</p>
+<p style="text-align: justify;">&nbsp;</p>
+<h2 style="text-align: justify;">- Interconex&atilde;o de c&eacute;lulas</h2>
+<p style="text-align: justify;">&nbsp;&nbsp; Cada c&eacute;lula l&oacute;gica pode ser conectado a outras c&eacute;lulas atrav&eacute;s dos recursos de interconex&atilde;o ( fios e mux que est&atilde;o colocados em volta das c&eacute;lulas l&oacute;gicas ). Cada c&eacute;lula pode fazer pouca coisa, mas v&aacute;rias delas conectadas podem realizar praticamente qualquer coisa.</p>
+<p style="text-align: justify;">&nbsp;</p>
+<p style="text-align: center;"><img border=0 title="Interconex&atilde;o de C&eacute;lulas L&oacute;gicas" src="get.php@arquivo=817"  alt="Interconex&atilde;o de C&eacute;lulas L&oacute;gicas" width="276" height="275" /></p>
+<h2 style="text-align: justify;">- C&eacute;lulas de Entrada e Sa&iacute;da (C&eacute;lulas de IO)</h2>
+<p style="text-align: justify;">&nbsp;&nbsp; Os recursos de interconex&atilde;o podem inclusive ir at&eacute; os limites do FPGA onde estar&atilde;o as c&eacute;lulas que fazem a conex&atilde;o com o meio exterior do FPGA (C&eacute;lulas de Entrada e Sa&iacute;da).</p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><img border=0 title="Interconex&atilde;o entre C&eacute;lulas L&oacute;gicas e C&eacute;lulas IO" src="get.php@arquivo=819"  alt="C&eacute;lulas de Entrada e Saida com Interconex&atilde;o as C&eacute;lulas L&oacute;gicas" width="697" height="276" /></p>
+<h2 style="text-align: justify;">- La&ccedil;os de rotas dedicadas =&gt; Correntes de transmiss&atilde;o</h2>
+<p style="text-align: justify;">&nbsp;&nbsp; Al&eacute;m dos recursos de interconex&atilde;o, os FPGA's cont&eacute;m linhas dedicadas de alta velocidade para comunica&ccedil;&atilde;o com c&eacute;lulas vizinhas. O tipo mais comum de linhas dedicadas s&atilde;o as <strong>Correntes de Tramiss&atilde;o</strong>. Essas Correntes de Tramiss&atilde;o permitem a cria&ccedil;&atilde;o eficiente de circuitos que realizam fun&ccedil;&otilde;es aritim&eacute;ticas, por exemplo somadores ou contadores.</p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><img border=0 title="Correntes de Transmiss&atilde;o de um FPGA" src="get.php@arquivo=818"  alt="Correntes de Transmiss&atilde;o de um FPGA" width="127" height="288" /></p>
+<p style="text-align: center;">&nbsp;</p>
+<h2 style="text-align: justify;">- RAM Interna (Mem&oacute;ria de Acesso Aleat&oacute;rio Interna)</h2>
+<p style="text-align: justify;">&nbsp;&nbsp; O FPGA tamb&eacute;m cont&eacute;m blocos de RAM est&aacute;tica que pode ser usadas e controladas pelos elementos l&oacute;gicos.</p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><img border=0 title="RAM no FPGA" src="get.php@arquivo=821"  alt="RAM Est&aacute;tica no FPGA" width="426" height="265" /></p>
+<h2 style="text-align: justify;">- Opera&ccedil;&atilde;o da RAM Interna</h2>
+<p style="text-align: justify;">&nbsp; Existem muitos parametros para o funcionamento da RAM Interna dos FPGA's. O parametro principal, &eacute; quantos <strong>agentes</strong> ir&atilde;o acessar a RAM simultaneamente.</p>
+<ul style="text-align: justify;">
+<li>Single Port Ram - Apenas um agente acessa a mem&oacute;ria por vez.</li>
+<li style="text-align: justify;">Dual Port Ram ou Quad Port RAM - Dois ou Quatro agentes podem acessar a mem&oacute;ria ram simultaneamente. Usado atualmente em placas de Video, onde &eacute; necess&aacute;ria uma mem&oacute;ria onde a GPU possa gravar em clock elevado e a processador de sa&iacute;da de video possa ler em um clock mais baixo.</li>
+</ul>
+<p style="text-align: justify;">&nbsp;</p>
+<p style="text-align: center;"><img border=0 title="Dual Port RAM" src="get.php@arquivo=822"  alt="RAM de Porta Dupla" width="270" height="93" /></p>
+<p style="text-align: justify;">&nbsp;&nbsp; Para saber quantos agentes podem acessar a RAM, basta contar o numero de endere&ccedil;os, e pontos de controle separados da RAM. Cada agente ter&aacute; sua bus de endere&ccedil;o, dados e controle.</p>
+<p style="text-align: justify;">&nbsp;</p>
+<h2 style="text-align: justify;">- Blockram vs RAM Distribuida</h2>
+<p style="text-align: justify;">&nbsp;&nbsp; H&aacute; dois tipos de RAM no FPGA: As <strong>Blockram's</strong> e <strong>RAM's Distribuidas</strong>. Geralmente o tamanho necess&aacute;rio para a fun&ccedil;&atilde;o l&oacute;gica determina qual ser&aacute; usada.</p>
+<ul style="text-align: justify;">
+<li>As grandes RAM s&atilde;o as <strong>Blockram's</strong>, as quais est&atilde;o localizadas em regi&otilde;es especificas do FPGA. Cada FPGA tem uma quantidade limitada de Blockram's, e caso voc&ecirc; n&atilde;o use-as, voc&ecirc; as perde. Elas n&atilde;o podem ser usadas pra nada al&eacute;m de RAM)</li>
+<li style="text-align: justify;">As pequenas RAM s&atilde;o as <strong>RAM's Distribuidas</strong>. As RAM's Distribuidas s&atilde;o baiscamente feitas do uso das c&eacute;lulas l&oacute;gicas do FPGA. Elas podem ser colocadas virtualmente em qualquer lugar do FPGA sendo bem flex&iacute;veis. Por&eacute;m n&atilde;o s&atilde;o eficientes em quest&atilde;o de &aacute;rea, pois uma c&eacute;lula l&oacute;gica n&atilde;o consegue armazenar muito.</li>
+</ul>
+<p style="text-align: justify;">&nbsp;</p>
+<h2 style="text-align: justify;">- Pinos do FPGA</h2>
+<p style="text-align: justify;">&nbsp;&nbsp; Os FPGAs costumam ter muitos pinos, mas geralmente s&atilde;o separados em duas categorias. Os <strong>Pinos do Usu&aacute;rio</strong> e <strong>Pinos Dedicados</strong>.</p>
+<p style="text-align: justify;">&nbsp;</p>
+<h2 style="text-align: justify;">- Pinos do Usu&aacute;rio</h2>
+<p style="text-align: justify;">&nbsp;&nbsp; Os <strong>Pinos do usu&aacute;rio</strong> s&atilde;o geralmente chamados de <strong>IOs</strong> (Input and Output), I/Os, I/Os do usu&aacute;rio, ou qualquer coisa do tipo.</p>
+<ul style="text-align: justify;">
+<li>Geralmente voc&ecirc; tem controle absoluto sobre eles. Eles podem ser programados como Entradas, Sa&iacute;das, ou Pino Bi-direcional (Buffer de Tr&ecirc;s Estados - Tristate).</li>
+</ul>
+<ul style="text-align: justify;">
+<li>Cada pino de Entrada e Sa&iacute;da &eacute; conectado a uma <strong>C&eacute;lula de Entrada e Sa&iacute;da</strong> (Visto anteriormente). As c&eacute;lulas de entrada e sa&iacute;da s&atilde;o alimentadas pela entrada <strong>VCCIO</strong>.</li>
+</ul>
+<p style="text-align: justify;">&nbsp;</p>
+<h2 style="text-align: justify;">- Pinos Dedicados</h2>
+<p style="text-align: justify;">&nbsp;&nbsp; Os <strong>Pinos Dedicados</strong> s&atilde;o pr&eacute;-fabricados com uma fun&ccedil;&atilde;o especifica. Eles est&atilde;o organizados em tr&ecirc;s sub-categorias:</p>
+<ul style="text-align: justify;">
+<li>Pinos de Energia</li>
+<li>Pinos de Configura&ccedil;&atilde;o: Usado para configurar o FPGA</li>
+<li>Entradas dedicadas ou pinos de clock: Esses pinos est&atilde;o ligados a uma grande rede interna no FPGA, fazendo-os ideal para alimentar clocks em circuitos grandes.</li>
+</ul>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp; Os pinos de energia s&atilde;o organizados em duas categorias, sendo elas <strong>Tens&atilde;o do N&uacute;cleo (Core Voltage) </strong>e<strong> Tens&atilde;o de IO (IO Voltage)</strong>.</p>
+<ul style="text-align: justify;">
+<li>A <strong>Tens&atilde;o do N&uacute;cleo</strong> geralmente vem com o t&iacute;tulo de <strong>VCC</strong> para Xilinx e <strong>VCCINT</strong> para Altera. &Eacute; uma tens&atilde;o fixa e depende do modelo de FPGA que voc&ecirc; est&aacute; usando.</li>
+<li>A <strong>Tens&atilde;o de IO</strong> geralmente vem com o t&iacute;tulo de <strong>VCCO </strong>para Xilinx e <strong>VCCIO</strong> para Altera. &Eacute; usado para alimentar os blocos de Entrada e Sa&iacute;da (pinos) do FPGA. Essa tens&atilde;o deve ser a mesma que os outros dispositivos conectados ao FPGA.</li>
+</ul>
+<p style="text-align: justify;">&nbsp;&nbsp; Um FPGA tem muitos pinos <strong>VCCIO</strong> que geralmente s&atilde;o alimentados com a mesma tens&atilde;o. Por&eacute;m os novos FPGA's tem um conceito de <strong>Banco de IO do Usu&aacute;rio</strong>. S&atilde;o grupos separados de I/O cada um com sua alimenta&ccedil;&atilde;o <strong>VCCIO</strong> pr&oacute;pria. Isso permite usar o FPGA como um tradutor de tens&atilde;o, ou interface entre dispositivos que trabalham com tens&otilde;es diferentes. Util para quando uma parte do seu circuito funciona a 5V e outra a 3.3V.</p>
+<p style="text-align: justify;">&nbsp;</p>
+<h2 style="text-align: justify;">- Clocks e Linhas Globais</h2>
+<p style="text-align: justify;">&nbsp;&nbsp; Um circuito l&oacute;gico de FPGA geralmente funciona sincronizadamente. Isso significa que o desenho funciona baseado num clock. A cada subida ou descida de clock faz os Flip-Flops mudarem de estado.</p>
+<p style="text-align: justify;">&nbsp;&nbsp; Em um circuito s&iacute;ncrono, um mesmo clock deve ir para muitos flip-flops ao mesmo tempo. Isso pode causar problemas de atraso e tamb&eacute;m el&eacute;tricos dentro o FPGA. Para isso funcionar bem, os fabricantes de FPGA fizeram uma linha interna chamada <strong>Roteamento Global</strong> ou <strong>Linhas Globais</strong>. Elas permitem uma distribui&ccedil;&atilde;o eficiente do clock por todo FPGA com pouco atraso.</p>
+<p style="text-align: justify;">&nbsp;&nbsp; Quando voc&ecirc; insere um Clock em seu FPGA, voc&ecirc; n&atilde;o deve usar nenhum pino do FPGA e sim um pino dedicado ao clock. Os software de FPGA j&aacute; est&atilde;o programados para o uso desses pinos dedicados de entrada e far&atilde;o uso caso seja dado a op&ccedil;&atilde;o.</p>
+<p style="text-align: justify;">&nbsp;</p>
+<h2 style="text-align: justify;">- Dom&iacute;nios de Clock</h2>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp; Um FPGA pode usar v&aacute;rios clocks para funcionar. Cada Clock forma um <strong>Dom&iacute;nio de Clock</strong> dentro do FPGA.</p>
+<h2 style="text-align: justify;">- Velocidade dos Dom&iacute;nios de Clock</h2>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp; Para cada <strong>Dom&iacute;nio de Clock</strong>, o software do FPGA ir&aacute; analizar todos os caminhos de flip-flop a flip-flop e te dar&aacute; um relat&oacute;rio sobre as frequ&ecirc;ncias m&aacute;ximas permitidas.</p>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp; Um Dom&iacute;nio de Clock pode funcionara 10MHz enquanto o outro funciona a 100MHz. Enquanto eles usem uma <strong>Linha Global</strong>, e o clock que voc&ecirc; usar esteja abaixo dos limites dados pelo software, voc&ecirc; n&atilde;o precisa se preocupar com atrasos internos do FPGA.</p>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp; Por&eacute;m ainda h&aacute; uma preocupa&ccedil;&atilde;o em rela&ccedil;&atilde;o ao atraso nas entradas e sa&iacute;da do FPGA. O software do FPGA ir&aacute; te dar um relat&oacute;rio sobre isso.</p>
+<p style="text-align: justify;">&nbsp;</p>
+<h2 style="text-align: justify;">- Sinais entre Dom&iacute;nios de Clock</h2>
+<p style="text-align: justify;">&nbsp;&nbsp; Caso voc&ecirc; precise enviar uma informa&ccedil;&atilde;o entre dom&iacute;nios de clock diferentes, h&aacute; considera&ccedil;&otilde;es a serem feitas.</p>
+<p style="text-align: justify;">&nbsp;&nbsp; Na maioria dos casos, o seus clocks n&atilde;o tem rela&ccedil;&atilde;o um com o outro. Logo voc&ecirc; n&atilde;o poder&aacute; usar o sinal gerado em um para transmitir a informa&ccedil;&atilde;o para o outro. Fazendo isso voc&ecirc; estar&aacute; sujeito a perda de dados e falta de consistencia.</p>
+<p style="text-align: justify;">&nbsp;&nbsp; Para isso &eacute; necess&aacute;rio algumas t&eacute;cnicas especiais, como o uso de sincronizadores (Simples) ou FIFOs (Mais complicados).</p>
+<p style="text-align: justify;">&nbsp;</p>
+<p style="text-align: justify;">Espero que tenha dado para entender como funciona um FPGA com este documento. &Eacute; um documento simples, mas que explica toda estrutura de um FPGA.</p>
+<p style="text-align: justify;">Este documento foi baseado na introdu&ccedil;&atilde;o para FPGA do site <a href="http://www.fpga4fun.com" target="_blank">FPGA4FUN</a>.</p>
+<p style="text-align: justify;">&nbsp;</p>
+<p style="text-align: justify;">Feito por Lucas Teske</p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img border=0 style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" alt="Licen&ccedil;a Creative Commons" /></a><br />Esta <span>obra</span> de <a rel="cc:attributionURL" href="../ver-documento/832.html">EnergyLabs Brasil</a>, foi licenciada com uma Licen&ccedil;a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons - Atribui&ccedil;&atilde;o - Partilha nos Mesmos Termos 3.0 N&atilde;o Adaptada</a>.<br />Permiss&otilde;es adicionais ao &acirc;mbito desta licen&ccedil;a podem estar dispon&iacute;veis em <a rel="cc:morePermissions" href="../ver-documento/832.html">http://www.energylabs.com.br</a>.</p>

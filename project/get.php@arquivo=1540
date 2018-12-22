@@ -1,0 +1,5 @@
+>>> Warning 202 "main.c" Line 50(10,14): Variable never used:   tmp3
+>>> Warning 202 "main.c" Line 51(11,14): Variable never used:   tmp
+>>> Warning 202 "main.c" Line 52(8,12): Variable never used:   tmp2
+      Memory usage:   ROM=40%      RAM=17% - 23%
+      0 Errors,  3 Warnings.

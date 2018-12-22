@@ -1,0 +1,193 @@
+CCS PCM C Compiler, Version 4.049, 63808               24-fev-11 21:52
+
+               Filename: D:\Program Files (x86)\PICC\Projects\AudioINT\main.lst
+
+               ROM used: 124 words (12%)
+                         Largest free fragment is 900
+               RAM used: 9 (7%) at main() level
+                         9 (7%) worst case
+               Stack:    1 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   004
+0003:  NOP
+0004:  CALL   3FF
+0005:  BSF    03.5
+0006:  MOVWF  0F
+0007:  MOVLW  00
+0008:  MOVWF  0A
+0009:  GOTO   01D
+.................... #include "D:\Program Files (x86)\PICC\Projects\AudioINT\main.h" 
+.................... #include <12C671.h> 
+.................... //////// Standard Header file for the PIC12C671 device //////////////// 
+.................... #device PIC12C671 
+.................... #list 
+....................  
+.................... #device adc=8 
+....................  
+.................... #FUSES NOWDT                 	//No Watch Dog Timer 
+.................... #FUSES INTRC_IO              	//Internal RC Osc, no CLKOUT 
+.................... #FUSES NOPUT                 	//No Power Up Timer 
+.................... #FUSES NOPROTECT             	//Code not protected from reading 
+.................... #FUSES NOMCLR                	//Master Clear pin used for I/O 
+....................  
+.................... #use delay(clock=4000000) 
+000A:  MOVLW  12
+000B:  SUBWF  28,F
+000C:  BTFSS  03.0
+000D:  GOTO   01C
+000E:  MOVLW  28
+000F:  MOVWF  04
+0010:  MOVLW  FC
+0011:  ANDWF  00,F
+0012:  BCF    03.0
+0013:  RRF    00,F
+0014:  RRF    00,F
+0015:  MOVF   00,W
+0016:  BTFSC  03.2
+0017:  GOTO   01C
+0018:  GOTO   01A
+0019:  NOP
+001A:  DECFSZ 00,F
+001B:  GOTO   019
+001C:  GOTO   05E (RETURN)
+....................  
+....................  
+....................  
+.................... //#use fast_io(a) 
+....................  
+.................... int tOn = 150; 
+*
+0024:  MOVLW  96
+0025:  BCF    03.5
+0026:  MOVWF  25
+.................... int tmpint = 0; 
+0027:  CLRF   26
+.................... int lock = 0; 
+0028:  CLRF   27
+.................... void main() 
+.................... { 
+*
+001D:  CLRF   04
+001E:  MOVLW  1F
+001F:  ANDWF  03,F
+0020:  BSF    03.5
+0021:  BSF    1F.0
+0022:  BSF    1F.1
+0023:  BSF    1F.2
+....................  
+....................    setup_adc_ports(AN0); 
+*
+0029:  BSF    03.5
+002A:  BCF    1F.0
+002B:  BSF    1F.1
+002C:  BSF    1F.2
+....................    setup_adc(ADC_CLOCK_DIV_8); 
+002D:  BCF    03.5
+002E:  BSF    1F.6
+002F:  BCF    1F.7
+0030:  BSF    1F.0
+....................    setup_timer_0(RTCC_INTERNAL|RTCC_DIV_1); 
+0031:  BSF    03.5
+0032:  MOVF   01,W
+0033:  ANDLW  C7
+0034:  IORLW  08
+0035:  MOVWF  01
+....................    set_adc_channel(0); 
+0036:  MOVLW  00
+0037:  BCF    03.5
+0038:  MOVWF  21
+0039:  MOVF   1F,W
+003A:  ANDLW  C7
+003B:  IORWF  21,W
+003C:  MOVWF  1F
+....................    output_low(PIN_A1); 
+003D:  BSF    03.5
+003E:  BCF    05.1
+003F:  BCF    03.5
+0040:  BCF    05.1
+....................    while(true) { 
+....................       set_adc_channel(0); 
+0041:  MOVLW  00
+0042:  MOVWF  21
+0043:  MOVF   1F,W
+0044:  ANDLW  C7
+0045:  IORWF  21,W
+0046:  MOVWF  1F
+....................       tmpint = (read_adc(7) < 2); 
+0047:  BSF    1F.2
+0048:  BTFSC  1F.2
+0049:  GOTO   048
+004A:  MOVF   1E,W
+004B:  SUBLW  01
+004C:  BTFSC  03.0
+004D:  GOTO   050
+004E:  MOVLW  00
+004F:  GOTO   051
+0050:  MOVLW  01
+0051:  MOVWF  26
+....................        
+....................       if( tmpint & ~lock ) { 
+0052:  MOVF   27,W
+0053:  XORLW  FF
+0054:  ANDWF  26,W
+0055:  BTFSC  03.2
+0056:  GOTO   064
+....................          OUTPUT_HIGH(PIN_A1); 
+0057:  BSF    03.5
+0058:  BCF    05.1
+0059:  BCF    03.5
+005A:  BSF    05.1
+....................          delay_us(tOn); 
+005B:  MOVF   25,W
+005C:  MOVWF  28
+005D:  GOTO   00A
+....................          OUTPUT_LOW(PIN_A1); 
+005E:  BSF    03.5
+005F:  BCF    05.1
+0060:  BCF    03.5
+0061:  BCF    05.1
+....................          lock = 1; 
+0062:  MOVLW  01
+0063:  MOVWF  27
+....................       } 
+....................       if(!tmpint) 
+0064:  MOVF   26,F
+0065:  BTFSC  03.2
+....................          lock = 0; 
+0066:  CLRF   27
+....................       delay_us(100); 
+0067:  MOVLW  21
+0068:  MOVWF  20
+0069:  DECFSZ 20,F
+006A:  GOTO   069
+....................       if(INPUT(PIN_A2)) 
+006B:  BSF    03.5
+006C:  BSF    05.2
+006D:  BCF    03.5
+006E:  BTFSS  05.2
+006F:  GOTO   073
+....................          tOn = 150; 
+0070:  MOVLW  96
+0071:  MOVWF  25
+....................       else 
+0072:  GOTO   075
+....................          tOn = 75; 
+0073:  MOVLW  4B
+0074:  MOVWF  25
+....................       delay_us(200); 
+0075:  MOVLW  42
+0076:  MOVWF  20
+0077:  DECFSZ 20,F
+0078:  GOTO   077
+0079:  NOP
+....................    } 
+007A:  GOTO   041
+....................  
+.................... } 
+007B:  SLEEP
+
+Configuration Fuses:
+   Word  1: 3F74   NOWDT NOPUT NOPROTECT NOMCLR INTRC_IO

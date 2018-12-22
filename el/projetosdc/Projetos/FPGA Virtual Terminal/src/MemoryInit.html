@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Projetos DangerCenter > Projetos > FPGA Virtual Terminal > src > MemoryInit | EnergyLabs Brasil</title>
+	<meta name="title" content="Projetos DangerCenter > Projetos > FPGA Virtual Terminal > src > MemoryInit | EnergyLabs Brasil">
+	<meta name="url" content="http://www.energylabs.com.br/el">
+	<meta name="description" content="Projetos DangerCenter > Projetos > FPGA Virtual Terminal > src > MemoryInit- Projetos vindos do ProjectSource adicionados pelos membros da EnergyLabs.">
+	<meta name="keywords" content="{META_KEYWORDS}">
+	<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"><meta name="autor" content="Lucas Teske">
+	<meta name="company" content="Projetos DangerCenter > Projetos > FPGA Virtual Terminal > src > MemoryInit | EnergyLabs Brasil"><meta name="revisit-after" content="1">
+	
+	<meta property="og:title" content="Projetos DangerCenter > Projetos > FPGA Virtual Terminal > src > MemoryInit | EnergyLabs Brasil"/> 
+	<meta property="og:type" content="other:technology"/> 
+	<meta property="og:url" content="http://www.energylabs.com.br/el/projetosdc/Projetos/FPGA%20Virtual%20Terminal/src/MemoryInit"/> 
+	<meta property="og:site_name" content="EnergyLabs Brasil"/> 
+	<meta property="og:image" content="http://www.energylabs.com.br/el/images/logo.png"/> 
+	<meta property="og:description" content="Projetos DangerCenter > Projetos > FPGA Virtual Terminal > src > MemoryInit- Projetos vindos do ProjectSource adicionados pelos membros da EnergyLabs."/>
+	<meta property="fb:admins" content="1748067536"/>
+	
+	<link rev=made href="mailto:lucas@teske.com.br"><meta name="verify-v1" content="HbXsI9oX1d7u9sMh16F96hMhakEiH85q6n/RDndJB8s=" >
+	
+	<link rel="stylesheet" href="../../../../css/energylabs.css" type="text/css" />
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="../../../../js/hoverIntent.js"></script>
+	<script type="text/javascript" src="../../../../js/superfish.js"></script>
+	
+	<style type="text/css">.supertext{font-size:13px;text-shadow: 2px -2px 6px #ccc, 0px 0px 4px  #FFF;}</style>
+<style type="text/css">
+pre {
+width: 790px;
+font-family: .Consolas.,monospace;
+font-size: 9pt;
+text-align:left;
+background-color: #D9D4C9;
+color: #000000;
+overflow-x: auto; /* Use horizontal scroller if needed; for Firefox 2, not
+white-space: pre-wrap; /* css-3 */
+white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+word-wrap: break-word; /* Internet Explorer 5.5+ */
+margin: 0px 0px 0px 0px;
+padding:5px 5px 3px 5px;
+/*white-space : normal;  crucial for IE 6, maybe 7? */
+}
+</style>
+	
+	
+
+	<script type="text/javascript">
+	$(document).ready(function(){ 
+		$("ul.sf-menu").superfish({ 
+			animation: {height:'show'},   // slide-down effect without fade-in 
+			delay:     1200              // 1.2 second delay on mouseout 
+		}); 
+	}); 
+	// initialise plugins
+	jQuery(function(){
+		jQuery('ul.sf-menu').superfish();
+	});
+	</script>
+
+</head>
+<body onload"">
+
+<div id="topbar" class="topbar"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="1000" height="155">
+            <param name="movie" value="/el/images/topo.swf" />
+			<param name="wmode" value="transparent" />
+			<param name="bgcolor" value="#ffffff" />
+            <param name="quality" value="high" />
+            <embed src="../../../../images/topo.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" wmode="transparent" type="application/x-shockwave-flash" width="1000" height="155"></embed>
+          </object></div>
+<div id="topbardown" class="topbardown"></div>
+<div id="menubar" class="menubar">
+	<div id="loginmenu" class="loginmenu"></div>
+	<div id="userphoto" class="userphoto"><img class="userpic" src="../../../../images/no_user_image.png" width=100 height=100></div>
+	<div id="loginmenu" class="loginmenu"><a href="../../../../secao/login.html">Login</a><BR><a href="../../../../secao/registro.html">Registrar-se</a></div>
+					<ul class="sf-menu sf-vertical">
+					<li class="current">
+						<img src="../../../../images/botoes/home.png" 		width="135" height="28" alt="Home" 			title="Se&ccedil;&otilde;es da P&aacute;gina"/>
+						<ul>
+							<li>
+								<a href="../../../../../el.html" title="P&acute;gina inicial da EnergyLabs" class="menux">Home</a>
+							</li>
+							
+							<li>
+								<a href="../../../../secao/chatroom/index.html" title="Chat da EnergyLabs" class="menux">ChatDC</a>
+							</li>
+							
+							<li>
+								<a href="http://forum.energylabs.com.br" title="F&oacute;m da EnergyLabs" class="menux">F&oacute;rum</a>
+							</li>
+							
+							<li>
+								<a href="http://blog.energylabs.com.br/" title="Blog Tumblr da EnergyLabs" class="menux">Blog Tumblr</a>
+							</li>
+							
+							<li>
+								<a href="../../../../secao/contato/index.html" title="Formas de Contato com a EnergyLabs" class="menux">Contato</a>
+							</li>
+							
+							<li>
+								<a href="../../../../secao/ajudeaenergylabs.html" title="Formas de ajudar a energylabs" class="menux">Ajude</a>
+							</li>
+							
+							<li>
+								<a href="../../../../secao/sobre/index.html" title="Sobre a EnergyLabs e Autor" class="menux">Sobre</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../../../../images/botoes/secao.png" 		width="135" height="28" alt="Se&ccedil;&otilde;es" 		title="Projetos"/>
+						<ul>
+							<li>
+								<a href="../../../../secao/altatensao.html" title="Projetos relacionados a Alta Tens&atilde;o" class="menux">Alta Tens&atilde;o</a>
+							</li>
+							
+							<li>
+								<a href="../../../../secao/bobina_de_tesla.html" title="Projetos relacionados a Bobina de Tesla" class="menux">Bobina de Tesla</a>
+							</li>
+							
+							<li>
+								<a href="../../../../secao/eletronica.html" title="Projetos relacionados a Eletr&ocirc;nica" class="menux">Eletr&ocirc;nica</a>
+							</li>
+							
+							<li>
+								<a href="../../../../secao/openhardware.html" title="Projetos relacionados a Open Hardware" class="menux">Open Hardware</a>
+							</li>
+							
+							<li>
+								<a href="../../../../secao/outros.html" title="Projetos relacionados a Outros" class="menux">Outros</a>
+							</li>
+							
+							<li>
+								<a href="../../../../secao/quimica.html" title="Projetos relacionados a Qu&iacute;mica" class="menux">Qu&iacute;mica</a>
+							</li>
+							
+							<li>
+								<a href="../../../../secao/som.html" title="Projetos relacionados a Som" class="menux">Som</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../../../../images/botoes/documentos.png" 	width="135" height="28" alt="Documentos" 	title="Documentos da EnergyLabs"/>
+						<ul>
+							<li>
+								<a href="../../../../documentos/eletronica.html" title="Documentos relacionados à: Eletr&ocirc;nica" class="menux">Eletr&ocirc;nica</a>
+							</li>
+							
+							<li>
+								<a href="../../../../documentos/fpga.html" title="Documentos relacionados à: FPGA" class="menux">FPGA</a>
+							</li>
+							
+							<li>
+								<a href="../../../../documentos/index.html" title="Todos os documentos da EnergyLabs" class="menux">Todos Documentos</a>
+							</li>
+							
+							<li>
+								<a href="../../../../documentos/tutorial.html" title="Documentos relacionados à: Tutorial" class="menux">Tutorial</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../../../../images/botoes/calculadoras.png"width="135" height="28" alt="Calculadoras"	title="Calculadoras da EnergyLabs"/>
+						<ul>
+							<li>
+								<a href="../../../../calculadora/mmc.html" title="Calculadora de Banco de Capacitores" class="menux">Banco de Capacitores</a>
+							</li>
+							
+							<li>
+								<a href="../../../../calculadora/spiral.html" title="Calculadora de Bobina Plana (Espiral de Arquimedes)" class="menux">Bobina Plana</a>
+							</li>
+							
+							<li>
+								<a href="../../../../calculadora/solenoide.html" title="Calculadora de Bobina Vertical (Solen&oacute;ide)" class="menux">Bobina Solen&oacute;ide</a>
+							</li>
+							
+							<li>
+								<a href="../../../../calculadora/platecap.html" title="Calculadora de Capacitor de Vidro" class="menux">Capacitor de Vidro</a>
+							</li>
+							
+							<li>
+								<a href="../../../../calculadora/lccalc.html" title="Calculadora de Circuito Resso&acirc;nte LC" class="menux">Circuito LC</a>
+							</li>
+							
+							<li>
+								<a href="../../../../calculadora/boostconv.html" title="Calculadora de Conversor do tipo Boost" class="menux">Conversor Boost</a>
+							</li>
+							
+							<li>
+								<a href="../../../../tcalc.html" title="Simulador de curvas de Trans&iacute;stores" class="menux">Curva do Trans&iacute;stor</a>
+							</li>
+							
+							<li>
+								<a href="../../../../hwg.html" title="Gerador de Ondas Harm&ocirc;nicas" class="menux">Harmonic Wave Generator</a>
+							</li>
+							
+							<li>
+								<a href="../../../../calculadora/ohmlaw.html" title="Calculadora da Lei de Ohm" class="menux">Lei de Ohm</a>
+							</li>
+							
+							<li>
+								<a href="../../../../calculadora/capreac.html" title="Calculadora de Reat&acirc;ncia Capacitiva" class="menux">Reat&acirc;ncia Capacitiva</a>
+							</li>
+							
+							<li>
+								<a href="../../../../calculadora/indreac.html" title="Calculadora de Reat&acirc;ncia Indutiva" class="menux">Reat&acirc;ncia Indutiva</a>
+							</li>
+							
+							<li>
+								<a href="../../../../bggen.html" title="Simulador de fundo animado por f&oacute;mula" class="menux">Simulador de Fundo</a>
+							</li>
+							
+							<li>
+								<a href="../../../../calculadora/terrometro.html" title="Calculadora de Imped&acirc;ncia do aterramento" class="menux">Terr&ocirc;metro</a>
+							</li>
+							
+							<li>
+								<a href="../../../../calculadora/toroid.html" title="Calculadora de Tor&oacute;ide" class="menux">Tor&oacute;ide</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../../../../images/botoes/sources.png" 	width="135" height="28" alt="Sources" 		title="Se&ccedil;&otilde;es Sources"/>
+						<ul>
+							<li>
+								<a href="../../../index.html" title="Projetos da DangerCenter" class="menux">Projetos DC</a>
+							</li>
+							
+							<li>
+								<a href="../../../../soundsource.html" title="Projetos da &aacute;rea de Som" class="menux">SoundSource</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/sm/" title="Se&ccedil;&atilde;o de Stepmania/Pump da EnergyLabs" class="menux">Stepmania</a>
+							</li>
+							
+							<li>
+								<a href="../../../../teslasource.html" title="Projetos da &aacute;rea de Qu&iacute;mica" class="menux">TeslaSource</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../../../../images/botoes/reviews.png" 	width="135" height="28" alt="Reviews" 		title="Reviews de Produtos"/>
+						<ul>
+							<li>
+								<a href="../../../../produtos/reviews/cat.1.html" title="Review de produtos: Produtos DX" class="menux">Produtos DX</a>
+							</li>
+							
+							<li>
+								<a href="../../../../produtos/reviews.html" title="Review de todos os produtos EnergyLabs" class="menux">Todos Reviews</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../../../../images/botoes/produtos.png" 	width="135" height="28" alt="Produtos" 		title="P&aacute;gina de produtos"/>
+						<ul>
+							<li>
+								<a href="../../../../loja/index.html" title="Todos os produtos EnergyLabs" class="menux">Todos os Produtos</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../../../../images/botoes/videos.png" 		width="135" height="28" alt="V&iacute;deos" 		title="Videos da EnergyLabs"/>
+						<ul>
+							<li>
+								<a href="../../../../videos/altatensao.html" title="Videos Explicativos: Alta Tens&atilde;o" class="menux">Alta Tens&atilde;o</a>
+							</li>
+							
+							<li>
+								<a href="../../../../videos/bobina_de_tesla.html" title="Videos Explicativos: Bobinas de Tesla" class="menux">Bobinas de Tesla</a>
+							</li>
+							
+							<li>
+								<a href="../../../../videos/computador.html" title="Videos Explicativos: Computador" class="menux">Computador</a>
+							</li>
+							
+							<li>
+								<a href="../../../../videos/eletronica.html" title="Videos Explicativos: Eletr&ocirc;nica" class="menux">Eletr&ocirc;nica</a>
+							</li>
+							
+							<li>
+								<a href="../../../../videos/alleletronicsgr.html" title="Videos Explicativos: Eletr&ocirc;nica para Iniciante" class="menux">Eletr&ocirc;nica para Iniciante</a>
+							</li>
+							
+							<li>
+								<a href="../../../../videos/eventos.html" title="Videos Explicativos: Eventos" class="menux">Eventos</a>
+							</li>
+							
+							<li>
+								<a href="../../../../videos/palestras.html" title="Videos Explicativos: Palestras" class="menux">Palestras</a>
+							</li>
+							
+							<li>
+								<a href="../../../../videos/quimica.html" title="Videos Explicativos: Qu&iacute;mica" class="menux">Qu&iacute;mica</a>
+							</li>
+							
+							<li>
+								<a href="../../../../videos/index.html" title="Todos Videos Explicativos da EnergyLabs/TeslaBrasil" class="menux">Todos os Videos</a>
+							</li>
+							
+							<li>
+								<a href="../../../../videosource.html" title="VideoSource da EnergyLabs" class="menux">VideoSource</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../../../../images/botoes/downloads.png"	width="135" height="28" alt="Downloads" 	title="Downloads" />
+						<ul>
+							<li>
+								<a href="../../../../secao/downloads.html">Todos</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+	<center><a id="doit" href="javascript:var%20s%20=%20document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src='http://www.energylabs.com.br/el/js/asteroids.js';void(0);" title="Destrua!"><font color="red">Destrua a EnergyLabs!</font></a></center>
+</div>
+<center>
+<div id="headspace" class="headspace"></div>
+<div id="content" class="content">
+<BR><center>
+<center><font size=5 color="#FFFFFF"><B>/Projetos/FPGA Virtual Terminal/src/MemoryInit</B> -  <a href="../src.html">Voltar</a></font></center>
+<center>
+<BR><table width="" border="0" cellpadding="2" cellspacing="2" bordercolordark="#003366" bordercolorlight="#00FF00">
+<tr>
+    <td width="199" height="200" valign="top" background="../../../../../project/images/bg1.png"><BR><BR><BR><div align="center"><a href="http://www.energylabs.com.br/el/pr/get.php?arquivo=987" title=""><img src="../../../../../mime2/unknown.gif" border=0 width="64" height="64" title=""></a></div>
+								<div align="center"><font color="#FFFFFF"><a href="http://www.energylabs.com.br/el/pr/get.php?arquivo=987" title=""><B><font color=white>ellogo.coe</font></b></a></font></div>
+								<div align="center"><font color="#FFFFFF">09-12 16:09</font></div>    <div align="center"><font color="#FFFFFF">76.06 kB</font></div>
+							   </td>    <td width="199" height="200" valign="top" background="../../../../../project/images/bg1.png"><BR><BR><BR><div align="center"><a href="http://www.energylabs.com.br/el/pr/get.php?arquivo=988" title=""><img src="../../../../../mime2/unknown.gif" border=0 width="64" height="64" title=""></a></div>
+								<div align="center"><font color="#FFFFFF"><a href="http://www.energylabs.com.br/el/pr/get.php?arquivo=988" title=""><B><font color=white>fontrom.coe</font></b></a></font></div>
+								<div align="center"><font color="#FFFFFF">09-12 19:51</font></div>    <div align="center"><font color="#FFFFFF">18.08 kB</font></div>
+							   </td>    <td width="199" height="200" valign="top" background="../../../../../project/images/bg1.png"><BR><BR><BR><div align="center"><a href="http://www.energylabs.com.br/el/pr/get.php?arquivo=989" title=""><img src="../../../../../mime2/unknown.gif" border=0 width="64" height="64" title=""></a></div>
+								<div align="center"><font color="#FFFFFF"><a href="http://www.energylabs.com.br/el/pr/get.php?arquivo=989" title=""><B><font color=white>preram.coe</font></b></a></font></div>
+								<div align="center"><font color="#FFFFFF">09-12 02:42</font></div>    <div align="center"><font color="#FFFFFF">10.70 kB</font></div>
+							   </td>    <td width="199" height="200" valign="top" background="../../../../../project/images/bg1.png"><BR><BR><BR><div align="center"><a href="http://www.energylabs.com.br/el/pr/get.php?arquivo=990" title=""><img src="../../../../../mime2/unknown.gif" border=0 width="64" height="64" title=""></a></div>
+								<div align="center"><font color="#FFFFFF"><a href="http://www.energylabs.com.br/el/pr/get.php?arquivo=990" title=""><B><font color=white>scancodes_abnt2ma.list</font></b></a></font></div>
+								<div align="center"><font color="#FFFFFF">14-12 17:23</font></div>    <div align="center"><font color="#FFFFFF">307 B</font></div>
+							   </td>  </tr>	<tr>    <td width="199" height="200" valign="top" background="../../../../../project/images/bg1.png"><BR><BR><BR><div align="center"><a href="http://www.energylabs.com.br/el/pr/get.php?arquivo=991" title=""><img src="../../../../../mime2/unknown.gif" border=0 width="64" height="64" title=""></a></div>
+								<div align="center"><font color="#FFFFFF"><a href="http://www.energylabs.com.br/el/pr/get.php?arquivo=991" title=""><B><font color=white>scancodes_abnt2mi.list</font></b></a></font></div>
+								<div align="center"><font color="#FFFFFF">13-12 02:15</font></div>    <div align="center"><font color="#FFFFFF">307 B</font></div>
+							   </td></table><p>
+<BR><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="Licen&ccedil;a Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br />Esta <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" rel="dct:type">obra</span> de <a xmlns:cc="http://creativecommons.org/ns#" href="../../../../../index.html" property="cc:attributionName" rel="cc:attributionURL">EnergyLabs Brasil</a>, foi licenciada com uma Licen&ccedil;a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons - Atribui&ccedil;&atilde;o - Partilha nos Mesmos Termos 3.0 N&atilde;o Adaptada</a>.<br />Permiss&otilde;es adicionais ao &acirc;mbito desta licen&ccedil;a podem estar dispon&iacute;veis em <a xmlns:cc="http://creativecommons.org/ns#" href="../../../../../index.html" rel="cc:morePermissions">http://www.energylabs.com.br</a>.
+</div>
+</center>
+<div id="lateralbar" class="lateralbar">
+<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+<a class="addthis_button_preferred_1"></a><BR>
+<a class="addthis_button_preferred_2"></a><BR>
+<a class="addthis_button_preferred_3"></a><BR>
+<a class="addthis_button_preferred_4"></a><BR>
+<a class="addthis_button_compact"></a><BR>
+<a class="addthis_counter addthis_bubble_style"></a>
+</div>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4f5118946b269cb3"></script>
+</div>
+<div id="footspace" class="footspace"></div>
+<div id="footbar1" class="footbar1"><form method="post"  id="forms" name="google_translate" action="http://translate.google.com.br/translate"><td colspan="2" valign="top"><center>Voc&ecirc; est&aacute; em:  <a href="../../../index.html">Projetos DC</a> =&gt; <a href="../../../Projetos.html">Projetos</a> =&gt; <a href="../../FPGA&#32;Virtual&#32;Terminal.html">FPGA Virtual Terminal</a> =&gt; <a href="../src.html">src</a> =&gt; <font color=darkgreen style="font-size: 14px"><B>MemoryInit</B></font> - <input type="hidden" name="js" value="y" /><input type="hidden" name="hl" value="en-US" /><input type="hidden" name="sl" value="pt" /><input type="hidden" name="tl" value="en" /><input type="hidden" name="u" value="http://www.energylabs.com.br/el/projetosdc/Projetos/FPGA%20Virtual%20Terminal/src/MemoryInit" /><a href="javascript:void(0);" onclick="javascript:google_translate.submit();">Translate this page to English</a></center></td></form></div>
+<div id="footbar2" class="footbar2">
+	<a href="http://www.facebook.com/pages/Energylabs/165685600142934">	<img src="../../../../images/facebook.png" 	width="32" height="32" 	border=0 title="Facebook da EnergyLabs"	/></a>
+	<a href="http://twitter.com/EnergyLabsBR">	<img src="../../../../images/twitter.png" 	width="32" height="32"  border=0 title="Twitter da EnergyLabs"	/></a>
+	<a href="http://www.energylabs.com.br/el/rss/noticias.xml">		<img src="../../../../images/rss.png"	 		width="32" height="32"  border=0 title="RSS da EnergyLabs"		/></a>
+</div>
+<script type="text/javascript">var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));</script><script type="text/javascript">try {var pageTracker = _gat._getTracker("UA-15334730-1");pageTracker._trackPageview();} catch(err) {};</script>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+  {lang: 'pt-BR'}
+</script>
+
+</body>
+</html>

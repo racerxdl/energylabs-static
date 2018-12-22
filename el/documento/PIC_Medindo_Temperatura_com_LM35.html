@@ -1,0 +1,456 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Documentos do ProjectSource > PIC: Medindo Temperatura com LM35 | EnergyLabs Brasil</title>
+	<meta name="title" content="Documentos do ProjectSource > PIC: Medindo Temperatura com LM35 | EnergyLabs Brasil">
+	<meta name="url" content="http://www.energylabs.com.br/el">
+	<meta name="description" content="Bom, estarei explicando aqui como medir temperatura com um PIC 16F877A e um LM35, um sensor de temperatura anal&oacute;gico.">
+	<meta name="keywords" content="{META_KEYWORDS}">
+	<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"><meta name="autor" content="Lucas Teske">
+	<meta name="company" content="Documentos do ProjectSource > PIC: Medindo Temperatura com LM35 | EnergyLabs Brasil"><meta name="revisit-after" content="1">
+	
+	<meta property="og:title" content="Documentos do ProjectSource > PIC: Medindo Temperatura com LM35 | EnergyLabs Brasil"/> 
+	<meta property="og:type" content="other:technology"/> 
+	<meta property="og:url" content="http://www.energylabs.com.br/el/documento/PIC_Medindo_Temperatura_com_LM35"/> 
+	<meta property="og:site_name" content="EnergyLabs Brasil"/> 
+	<meta property="og:image" content="http://www.energylabs.com.br/el/images/logo.png"/> 
+	<meta property="og:description" content="Bom, estarei explicando aqui como medir temperatura com um PIC 16F877A e um LM35, um sensor de temperatura anal&oacute;gico."/>
+	<meta property="fb:admins" content="1748067536"/>
+	
+	<link rev=made href="mailto:lucas@teske.com.br"><meta name="verify-v1" content="HbXsI9oX1d7u9sMh16F96hMhakEiH85q6n/RDndJB8s=" >
+	
+	<link rel="stylesheet" href="../css/energylabs.css" type="text/css" />
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/hoverIntent.js"></script>
+	<script type="text/javascript" src="../js/superfish.js"></script>
+	
+	<style type="text/css">.supertext{font-size:13px;text-shadow: 2px -2px 6px #ccc, 0px 0px 4px  #FFF;}</style>
+<style type="text/css">
+pre {
+width: 790px;
+font-family: .Consolas.,monospace;
+font-size: 9pt;
+text-align:left;
+background-color: #D9D4C9;
+color: #000000;
+overflow-x: auto; /* Use horizontal scroller if needed; for Firefox 2, not
+white-space: pre-wrap; /* css-3 */
+white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+word-wrap: break-word; /* Internet Explorer 5.5+ */
+margin: 0px 0px 0px 0px;
+padding:5px 5px 3px 5px;
+/*white-space : normal;  crucial for IE 6, maybe 7? */
+}
+</style>
+	
+	
+
+	<script type="text/javascript">
+	$(document).ready(function(){ 
+		$("ul.sf-menu").superfish({ 
+			animation: {height:'show'},   // slide-down effect without fade-in 
+			delay:     1200              // 1.2 second delay on mouseout 
+		}); 
+	}); 
+	// initialise plugins
+	jQuery(function(){
+		jQuery('ul.sf-menu').superfish();
+	});
+	</script>
+
+</head>
+<body onload"">
+
+<div id="topbar" class="topbar"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="1000" height="155">
+            <param name="movie" value="/el/images/topo.swf" />
+			<param name="wmode" value="transparent" />
+			<param name="bgcolor" value="#ffffff" />
+            <param name="quality" value="high" />
+            <embed src="../images/topo.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" wmode="transparent" type="application/x-shockwave-flash" width="1000" height="155"></embed>
+          </object></div>
+<div id="topbardown" class="topbardown"></div>
+<div id="menubar" class="menubar">
+	<div id="loginmenu" class="loginmenu"></div>
+	<div id="userphoto" class="userphoto"><img class="userpic" src="../images/no_user_image.png" width=100 height=100></div>
+	<div id="loginmenu" class="loginmenu"><a href="../secao/login.html">Login</a><BR><a href="../secao/registro.html">Registrar-se</a></div>
+					<ul class="sf-menu sf-vertical">
+					<li class="current">
+						<img src="../images/botoes/home.png" 		width="135" height="28" alt="Home" 			title="Se&ccedil;&otilde;es da P&aacute;gina"/>
+						<ul>
+							<li>
+								<a href="../../el.html" title="P&acute;gina inicial da EnergyLabs" class="menux">Home</a>
+							</li>
+							
+							<li>
+								<a href="../secao/chatroom/index.html" title="Chat da EnergyLabs" class="menux">ChatDC</a>
+							</li>
+							
+							<li>
+								<a href="http://forum.energylabs.com.br" title="F&oacute;m da EnergyLabs" class="menux">F&oacute;rum</a>
+							</li>
+							
+							<li>
+								<a href="http://blog.energylabs.com.br/" title="Blog Tumblr da EnergyLabs" class="menux">Blog Tumblr</a>
+							</li>
+							
+							<li>
+								<a href="../secao/contato/index.html" title="Formas de Contato com a EnergyLabs" class="menux">Contato</a>
+							</li>
+							
+							<li>
+								<a href="../secao/ajudeaenergylabs.html" title="Formas de ajudar a energylabs" class="menux">Ajude</a>
+							</li>
+							
+							<li>
+								<a href="../secao/sobre/index.html" title="Sobre a EnergyLabs e Autor" class="menux">Sobre</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/secao.png" 		width="135" height="28" alt="Se&ccedil;&otilde;es" 		title="Projetos"/>
+						<ul>
+							<li>
+								<a href="../secao/altatensao.html" title="Projetos relacionados a Alta Tens&atilde;o" class="menux">Alta Tens&atilde;o</a>
+							</li>
+							
+							<li>
+								<a href="../secao/bobina_de_tesla.html" title="Projetos relacionados a Bobina de Tesla" class="menux">Bobina de Tesla</a>
+							</li>
+							
+							<li>
+								<a href="../secao/eletronica.html" title="Projetos relacionados a Eletr&ocirc;nica" class="menux">Eletr&ocirc;nica</a>
+							</li>
+							
+							<li>
+								<a href="../secao/openhardware.html" title="Projetos relacionados a Open Hardware" class="menux">Open Hardware</a>
+							</li>
+							
+							<li>
+								<a href="../secao/outros.html" title="Projetos relacionados a Outros" class="menux">Outros</a>
+							</li>
+							
+							<li>
+								<a href="../secao/quimica.html" title="Projetos relacionados a Qu&iacute;mica" class="menux">Qu&iacute;mica</a>
+							</li>
+							
+							<li>
+								<a href="../secao/som.html" title="Projetos relacionados a Som" class="menux">Som</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/documentos.png" 	width="135" height="28" alt="Documentos" 	title="Documentos da EnergyLabs"/>
+						<ul>
+							<li>
+								<a href="../documentos/eletronica.html" title="Documentos relacionados à: Eletr&ocirc;nica" class="menux">Eletr&ocirc;nica</a>
+							</li>
+							
+							<li>
+								<a href="../documentos/fpga.html" title="Documentos relacionados à: FPGA" class="menux">FPGA</a>
+							</li>
+							
+							<li>
+								<a href="../documentos/index.html" title="Todos os documentos da EnergyLabs" class="menux">Todos Documentos</a>
+							</li>
+							
+							<li>
+								<a href="../documentos/tutorial.html" title="Documentos relacionados à: Tutorial" class="menux">Tutorial</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/calculadoras.png"width="135" height="28" alt="Calculadoras"	title="Calculadoras da EnergyLabs"/>
+						<ul>
+							<li>
+								<a href="../calculadora/mmc.html" title="Calculadora de Banco de Capacitores" class="menux">Banco de Capacitores</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/spiral.html" title="Calculadora de Bobina Plana (Espiral de Arquimedes)" class="menux">Bobina Plana</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/solenoide.html" title="Calculadora de Bobina Vertical (Solen&oacute;ide)" class="menux">Bobina Solen&oacute;ide</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/platecap.html" title="Calculadora de Capacitor de Vidro" class="menux">Capacitor de Vidro</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/lccalc.html" title="Calculadora de Circuito Resso&acirc;nte LC" class="menux">Circuito LC</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/boostconv.html" title="Calculadora de Conversor do tipo Boost" class="menux">Conversor Boost</a>
+							</li>
+							
+							<li>
+								<a href="../tcalc.html" title="Simulador de curvas de Trans&iacute;stores" class="menux">Curva do Trans&iacute;stor</a>
+							</li>
+							
+							<li>
+								<a href="../hwg.html" title="Gerador de Ondas Harm&ocirc;nicas" class="menux">Harmonic Wave Generator</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/ohmlaw.html" title="Calculadora da Lei de Ohm" class="menux">Lei de Ohm</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/capreac.html" title="Calculadora de Reat&acirc;ncia Capacitiva" class="menux">Reat&acirc;ncia Capacitiva</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/indreac.html" title="Calculadora de Reat&acirc;ncia Indutiva" class="menux">Reat&acirc;ncia Indutiva</a>
+							</li>
+							
+							<li>
+								<a href="../bggen.html" title="Simulador de fundo animado por f&oacute;mula" class="menux">Simulador de Fundo</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/terrometro.html" title="Calculadora de Imped&acirc;ncia do aterramento" class="menux">Terr&ocirc;metro</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/toroid.html" title="Calculadora de Tor&oacute;ide" class="menux">Tor&oacute;ide</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/sources.png" 	width="135" height="28" alt="Sources" 		title="Se&ccedil;&otilde;es Sources"/>
+						<ul>
+							<li>
+								<a href="../projetosdc/index.html" title="Projetos da DangerCenter" class="menux">Projetos DC</a>
+							</li>
+							
+							<li>
+								<a href="../soundsource.html" title="Projetos da &aacute;rea de Som" class="menux">SoundSource</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/sm/" title="Se&ccedil;&atilde;o de Stepmania/Pump da EnergyLabs" class="menux">Stepmania</a>
+							</li>
+							
+							<li>
+								<a href="../teslasource.html" title="Projetos da &aacute;rea de Qu&iacute;mica" class="menux">TeslaSource</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/reviews.png" 	width="135" height="28" alt="Reviews" 		title="Reviews de Produtos"/>
+						<ul>
+							<li>
+								<a href="../produtos/reviews/cat.1.html" title="Review de produtos: Produtos DX" class="menux">Produtos DX</a>
+							</li>
+							
+							<li>
+								<a href="../produtos/reviews.html" title="Review de todos os produtos EnergyLabs" class="menux">Todos Reviews</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/produtos.png" 	width="135" height="28" alt="Produtos" 		title="P&aacute;gina de produtos"/>
+						<ul>
+							<li>
+								<a href="../loja/index.html" title="Todos os produtos EnergyLabs" class="menux">Todos os Produtos</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/videos.png" 		width="135" height="28" alt="V&iacute;deos" 		title="Videos da EnergyLabs"/>
+						<ul>
+							<li>
+								<a href="../videos/altatensao.html" title="Videos Explicativos: Alta Tens&atilde;o" class="menux">Alta Tens&atilde;o</a>
+							</li>
+							
+							<li>
+								<a href="../videos/bobina_de_tesla.html" title="Videos Explicativos: Bobinas de Tesla" class="menux">Bobinas de Tesla</a>
+							</li>
+							
+							<li>
+								<a href="../videos/computador.html" title="Videos Explicativos: Computador" class="menux">Computador</a>
+							</li>
+							
+							<li>
+								<a href="../videos/eletronica.html" title="Videos Explicativos: Eletr&ocirc;nica" class="menux">Eletr&ocirc;nica</a>
+							</li>
+							
+							<li>
+								<a href="../videos/alleletronicsgr.html" title="Videos Explicativos: Eletr&ocirc;nica para Iniciante" class="menux">Eletr&ocirc;nica para Iniciante</a>
+							</li>
+							
+							<li>
+								<a href="../videos/eventos.html" title="Videos Explicativos: Eventos" class="menux">Eventos</a>
+							</li>
+							
+							<li>
+								<a href="../videos/palestras.html" title="Videos Explicativos: Palestras" class="menux">Palestras</a>
+							</li>
+							
+							<li>
+								<a href="../videos/quimica.html" title="Videos Explicativos: Qu&iacute;mica" class="menux">Qu&iacute;mica</a>
+							</li>
+							
+							<li>
+								<a href="../videos/index.html" title="Todos Videos Explicativos da EnergyLabs/TeslaBrasil" class="menux">Todos os Videos</a>
+							</li>
+							
+							<li>
+								<a href="../videosource.html" title="VideoSource da EnergyLabs" class="menux">VideoSource</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/downloads.png"	width="135" height="28" alt="Downloads" 	title="Downloads" />
+						<ul>
+							<li>
+								<a href="../secao/downloads.html">Todos</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+	<center><a id="doit" href="javascript:var%20s%20=%20document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src='http://www.energylabs.com.br/el/js/asteroids.js';void(0);" title="Destrua!"><font color="red">Destrua a EnergyLabs!</font></a></center>
+</div>
+<center>
+<div id="headspace" class="headspace"></div>
+<div id="content" class="content">
+<center><!-- 		@page { margin: 2cm } 		P { margin-bottom: 0.21cm } -->
+<p align="CENTER"><span style="font-size: large;">Medindo Temperatura com PIC e LM35</span></p>
+<p align="JUSTIFY">&nbsp;</p>
+<p align="JUSTIFY">Bom, estarei explicando aqui como medir temperatura com um PIC 16F877A e um LM35, um sensor de temperatura anal&oacute;gico.</p>
+<p align="JUSTIFY">Estaremos usando um PIC16F877A, um sensor de temperatura LM35 e um console serial virtual. Iniciaremos configurando o PIC no <strong>CCS C</strong><span style="font-weight: normal;">.</span></p>
+<p style="text-align: center;" align="JUSTIFY"><span style="font-weight: normal;"><img border=0 src="../pr/get.php@arquivo=191" alt="" width="704" height="617" /><br /></span></p>
+<p lang="pt-BR" align="JUSTIFY">Configuramos o PIC para rodar a 4MHz e usar Ponteiros de 16Bit, isto &eacute; necess&aacute;rio para que possamos usar toda memoria <span lang="en-US">ram</span> dispon&iacute;vel. Neste projeto n&atilde;o usaremos nada da memoria <span lang="en-US">ram</span>, mas costumo deixar ativado para usar. Pr&oacute;ximo passo configurar o <strong>Conversor Anal&oacute;gico Digital</strong> do PIC:</p>
+<p lang="pt-BR" align="JUSTIFY">&nbsp;</p>
+<p lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="text-align: center;"><img border=0 src="../pr/get.php@arquivo=192" alt="" width="711" height="623" /></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;">Configuramos ele para usar a porta anal&oacute;gica </span><strong>A0,</strong><span style="font-weight: normal;"> para ter uma resolu&ccedil;&atilde;o de </span><strong>1024 </strong><span lang="en-US"><strong>bits</strong></span><strong> </strong><span style="font-weight: normal;">e para usar o </span><span lang="en-US"><span style="font-weight: normal;">clock</span></span><span style="font-weight: normal;"> interno do ADC. Configurado tudo, podemos clicar </span><strong>Ok</strong><span style="font-weight: normal;"> e veremos o c&oacute;digo do programa j&aacute;.</span></p>
+<p lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="text-align: center;"><img border=0 src="../pr/get.php@arquivo=189" alt="" width="600" height="547" /></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"> Feito isso podemos come&ccedil;ar o circuito no simulador. Abrindo o simulador e colocando o </span><strong>LM35 </strong><span style="font-weight: normal;">podemos reparar na tens&atilde;o que ele fornece para determinada temperatura:</span></p>
+<p lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="text-align: center;"><img border=0 src="../pr/get.php@arquivo=197" alt="" width="300" height="368" /></p>
+<p style="text-align: center;"><img border=0 src="../pr/get.php@arquivo=198" alt="" width="300" height="363" /></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"> Podemos reparar, que o LM35 fornece 1mV por grau c&eacute;lsius. Esta informa&ccedil;&atilde;o pode ser conferida no </span><span lang="en-US"><span style="font-weight: normal;">data sheet</span></span><span style="font-weight: normal;"> do LM35. Teremos ent&atilde;o de fazer o PIC contar 1&ordm;C para cada milivolt. Adicionaremos ent&atilde;o o PIC e o </span><strong>Console Virtual</strong><span style="font-weight: normal;">.</span></p>
+<p style="text-align: center;" lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"><img border=0 src="../pr/get.php@arquivo=190" alt="" width="600" height="334" /><br /></span></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"> Ligaremos todo circuito conforme a figura. N&atilde;o estamos considerando partes essenciais para o funcionamento real do PIC, como o cristal e a alimenta&ccedil;&atilde;o, pois isto &eacute; apenas uma simula&ccedil;&atilde;o.</span></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"> Configure o PIC16F877A para rodar a 4MHz e selecione o arquivo do programa (main.hex) que estamos usando (entre no compilador e aperte </span><strong>F9 </strong><span style="font-weight: normal;">para compilar o c&oacute;digo).</span></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"> Definiremos ent&atilde;o agora as vari&aacute;veis que iremos usar no programa.</span></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"> Usaremos tr&ecirc;s variaveis:</span></p>
+<p lang="en-US" align="JUSTIFY"><span style="font-weight: normal;"> </span><span lang="pt-BR"><strong>tensao</strong></span><span style="font-weight: normal;"> =&gt; </span><strong>Long Integer</strong></p>
+<p lang="en-US" align="JUSTIFY"><strong> temperatura =&gt; Long Integer</strong></p>
+<p lang="en-US" align="JUSTIFY"><strong> temporario =&gt; Float</strong></p>
+<p lang="en-US" align="JUSTIFY"><br /><br /></p>
+<p lang="pt-BR" align="JUSTIFY"><strong> </strong><span style="font-weight: normal;">Essas tr&ecirc;s vari&aacute;veis ser&atilde;o usadas no decorrer do programa, onde </span><strong>tensao</strong><span style="font-weight: normal;"> armazenara o valor o qual obteremos do ADC (tens&atilde;o em bin&aacute;rio), </span><strong>temporario </strong><span style="font-weight: normal;">iremos usar para armazenar o resultado do c&aacute;lculo que faremos para descobrir a tens&atilde;o em volts, e </span><strong>temperatura</strong><span style="font-weight: normal;"> onde iremos armazenar o valor da temperatura.</span></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"> Para definirmos essas variaveis, teremos de colocar o seguinte trecho de c&oacute;digo </span><strong>antes </strong><span style="font-weight: normal;">da se&ccedil;&atilde;o </span><strong>void main()</strong></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em> long int tensao,temperatura;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em> float temporario;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em> </em><span style="font-style: normal;">Ap&oacute;s isso teremos de criar o </span><span style="font-style: normal;"><strong>loop</strong></span><span style="font-style: normal;"> que ir&aacute; ler o valor do ADC, fazer os c&aacute;lculos e mandar para o console serial. Primeiro faremos a leitura do seguinte modo:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>while(true) {</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>SET_ADC_CHANNEL(0); // Acertar o canal do ADC para o A0</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>delay_ms(10); // Esperar 10ms</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>tensao = READ_ADC(7); // Iniciar ADC e ler o conte&uacute;do para vari&aacute;vel tensao</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>printf("Tensao %u &ldquo;, tensao); // Mandar conteudo da var&iacute;avel para o console.</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>delay_ms(1000); // Esperar 1 segundo.</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>}</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em> </em><span style="font-style: normal;">Compilando este programa, iremos obter o seguinte resultado:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> Para 30&ordm;C:</span></p>
+<p style="font-weight: normal; text-align: center;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"><img border=0 src="../pr/get.php@arquivo=199" alt="" width="451" height="250" /><br /></span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> </span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> </span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> Para 35&ordm;C:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="text-align: center;"><img border=0 src="../pr/get.php@arquivo=200" alt="" width="453" height="251" /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> Como pudemos observar, conseguimos o valor em </span><span style="font-style: normal;"><strong>bin&aacute;rio</strong></span><span style="font-style: normal;"> da tens&atilde;o. Logo precisamos converter isso. Isto &eacute; bem simples:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> Configuramos o ADC para uma resolu&ccedil;&atilde;o de 1024 bits, e a tens&atilde;o do ADC &eacute; a mesma do que o PIC, logo 5V. Para sabermos quantos </span><span style="font-style: normal;"><strong>volts por bit </strong></span><span style="font-style: normal;"> o ADC l&ecirc;, basta dividirmos 5 por 1024.</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> 5 / 1024 = </span><span style="font-style: normal;"><strong>0,0048828125</strong></span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"><strong> </strong></span><span style="font-style: normal;">Ou seja, 0,0048828125 volts por bit. Numero quebrado n&atilde;o? N&atilde;o tem problema, para isso criamos a vari&aacute;vel </span><span style="font-style: normal;"><strong>temporario</strong></span><span style="font-style: normal;"> com tipo </span><span style="font-style: normal;"><strong>float</strong></span><span style="font-style: normal;">. Float significa que a vari&aacute;vel ter&aacute; uma virgula e n&uacute;meros ap&oacute;s ela. </span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> Bom j&aacute; sabemos agora quantos Volts por Bit, e agora para sabermos a temperatura? Bem &eacute; simples. Basta dividir a tens&atilde;o por 0,01 (1mV por &ordm;C) e teremos a temperatura:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> 62 * 0,0048828125 = 0,302734375 / 0,01 = 30,2734375 &ordm;C arrendondando 30&ordm;C</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> 72 * 0,0048828125 = 0,3515625 / 0,001 = 35,15625 &ordm;C arredondando 35&ordm;C</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> Tudo certo? Ent&atilde;o vamos a programa&ccedil;&atilde;o! Parece complicado, mas &eacute; realmente simples, aqui vai como fica nosso trecho de c&oacute;digo:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>while(true) {</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>SET_ADC_CHANNEL(0); // Acertar o canal do ADC para o A0</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>delay_ms(10); // Esperar 10ms</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>tensao = READ_ADC(7); // Iniciar ADC e ler o conte&uacute;do para vari&aacute;vel tensao</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>temporario = tensao * 0.0048828125; // Calculo para descobrir quantos volts o pic mediu.</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>temperatura = temporario / 0.01; // Calculo para descobrir a temperatura.</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>printf("\fTemperatura: %Lu \n", temperatura); // Mostrar a temperatura no console.</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>delay_ms(1000); // Esperar 1 segundo</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>}</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em> </em><span style="font-style: normal;">Simples n&atilde;o? Poderiamos simplificar e fazer tudo junto:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> t</span><em>emperatura = tensao * 0.0048828125 / 0.01;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em> </em><span style="font-style: normal;">ou at&eacute; mesmo:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> t</span><em>emperatura = tensao * 0.48828125;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em> </em><span style="font-style: normal;">Vejamos o resultado ent&atilde;o:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><img border=0 src="../pr/get.php@arquivo=193" alt="" width="400" height="203" /><img border=0 src="../pr/get.php@arquivo=194" alt="" width="400" height="191" /><img border=0 src="../pr/get.php@arquivo=195" alt="" width="400" height="190" /><img border=0 src="../pr/get.php@arquivo=196" alt="" width="400" height="195" /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> Viu como &eacute; simples? Aqui est&aacute; o c&oacute;digo completo para caso voc&ecirc; n&atilde;o tenha conseguido fazer funcionar:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>#include "D:\Program Files (x86)\PICC\Projects\temp\main.h"</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>long int tensao,temperatura;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>float temporario;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>void main()</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>{</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_adc_ports(AN0);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_adc(ADC_CLOCK_INTERNAL);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_psp(PSP_DISABLED);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_spi(SPI_SS_DISABLED);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_timer_0(RTCC_INTERNAL|RTCC_DIV_1);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_timer_1(T1_DISABLED);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_timer_2(T2_DISABLED,0,1);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_comparator(NC_NC_NC_NC);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_vref(FALSE);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>while(true) {</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>SET_ADC_CHANNEL(0);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>delay_ms(10);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>tensao = READ_ADC(7);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>temporario = tensao * 0.0048828125;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>temperatura = temporario / 0.01;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>printf("\fTemperatura: %Lu \n", temperatura);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>delay_ms(1000);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>}</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY">&nbsp;</p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>}</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY">&nbsp;</p>
+<p style="font-weight: normal; text-align: center;" lang="pt-BR"><span style="font-size: x-large;">Documento por Lucas Teske</span><em><br /></em></p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img border=0 style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" alt="Licen&ccedil;a Creative Commons" /></a><br />Esta <span>obra</span> de <a rel="cc:attributionURL" href="../ver-documento/832.html">EnergyLabs Brasil</a>, foi licenciada com uma Licen&ccedil;a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons - Atribui&ccedil;&atilde;o - Partilha nos Mesmos Termos 3.0 N&atilde;o Adaptada</a>.<br />Permiss&otilde;es adicionais ao &acirc;mbito desta licen&ccedil;a podem estar dispon&iacute;veis em <a rel="cc:morePermissions" href="../ver-documento/832.html">http://www.energylabs.com.br</a>.</p><BR><center> Comente este conte&uacute;do!</center><table width=650 bgcolor=white border=1 cellpadding="0" cellspacing="1"><tr><td><center><div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:comments href="http%3A%2F%2Fwww.energylabs.com.br%2Fel%2Fdocumento%2FPIC_Medindo_Temperatura_com_LM35" numposts="10" width="650" publish_feed="true"></fb:comments></centeR></td></tr></table></center>
+</div>
+</center>
+<div id="lateralbar" class="lateralbar">
+<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+<a class="addthis_button_preferred_1"></a><BR>
+<a class="addthis_button_preferred_2"></a><BR>
+<a class="addthis_button_preferred_3"></a><BR>
+<a class="addthis_button_preferred_4"></a><BR>
+<a class="addthis_button_compact"></a><BR>
+<a class="addthis_counter addthis_bubble_style"></a>
+</div>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4f5118946b269cb3"></script>
+</div>
+<div id="footspace" class="footspace"></div>
+<div id="footbar1" class="footbar1"><form method="post"  id="forms" name="google_translate" action="http://translate.google.com.br/translate"><td colspan="2" valign="top"><center>Voc&ecirc; est&aacute; em:  <a href="../documento.html">Documento</a> =&gt; <font color=darkgreen style="font-size: 14px"><B></B></font> - <input type="hidden" name="js" value="y" /><input type="hidden" name="hl" value="en-US" /><input type="hidden" name="sl" value="pt" /><input type="hidden" name="tl" value="en" /><input type="hidden" name="u" value="http://www.energylabs.com.br/el/documento/PIC_Medindo_Temperatura_com_LM35" /><a href="javascript:void(0);" onclick="javascript:google_translate.submit();">Translate this page to English</a></center></td></form></div>
+<div id="footbar2" class="footbar2">
+	<a href="http://www.facebook.com/pages/Energylabs/165685600142934">	<img src="../images/facebook.png" 	width="32" height="32" 	border=0 title="Facebook da EnergyLabs"	/></a>
+	<a href="http://twitter.com/EnergyLabsBR">	<img src="../images/twitter.png" 	width="32" height="32"  border=0 title="Twitter da EnergyLabs"	/></a>
+	<a href="http://www.energylabs.com.br/el/rss/noticias.xml">		<img src="../images/rss.png"	 		width="32" height="32"  border=0 title="RSS da EnergyLabs"		/></a>
+</div>
+<script type="text/javascript">var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));</script><script type="text/javascript">try {var pageTracker = _gat._getTracker("UA-15334730-1");pageTracker._trackPageview();} catch(err) {};</script>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+  {lang: 'pt-BR'}
+</script>
+
+</body>
+</html>

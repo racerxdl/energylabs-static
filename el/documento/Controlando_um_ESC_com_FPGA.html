@@ -1,0 +1,536 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Documentos do ProjectSource > Controlando um ESC com FPGA | EnergyLabs Brasil</title>
+	<meta name="title" content="Documentos do ProjectSource > Controlando um ESC com FPGA | EnergyLabs Brasil">
+	<meta name="url" content="http://www.energylabs.com.br/el">
+	<meta name="description" content="Este documento descreve como controlar um ESC com um FPGA. O documento foi feito em base ao kit da Avnet Xilinx Spartan 3A Evaluation. Descri&ccedil;&atilde;o desde o funcionamento do PPM at&eacute; a programa&ccedil;&atilde;o do FPGA.">
+	<meta name="keywords" content="{META_KEYWORDS}">
+	<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"><meta name="autor" content="Lucas Teske">
+	<meta name="company" content="Documentos do ProjectSource > Controlando um ESC com FPGA | EnergyLabs Brasil"><meta name="revisit-after" content="1">
+	
+	<meta property="og:title" content="Documentos do ProjectSource > Controlando um ESC com FPGA | EnergyLabs Brasil"/> 
+	<meta property="og:type" content="other:technology"/> 
+	<meta property="og:url" content="http://www.energylabs.com.br/el/documento/Controlando_um_ESC_com_FPGA"/> 
+	<meta property="og:site_name" content="EnergyLabs Brasil"/> 
+	<meta property="og:image" content="http://www.energylabs.com.br/el/images/logo.png"/> 
+	<meta property="og:description" content="Este documento descreve como controlar um ESC com um FPGA. O documento foi feito em base ao kit da Avnet Xilinx Spartan 3A Evaluation. Descri&ccedil;&atilde;o desde o funcionamento do PPM at&eacute; a programa&ccedil;&atilde;o do FPGA."/>
+	<meta property="fb:admins" content="1748067536"/>
+	
+	<link rev=made href="mailto:lucas@teske.com.br"><meta name="verify-v1" content="HbXsI9oX1d7u9sMh16F96hMhakEiH85q6n/RDndJB8s=" >
+	
+	<link rel="stylesheet" href="../css/energylabs.css" type="text/css" />
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/hoverIntent.js"></script>
+	<script type="text/javascript" src="../js/superfish.js"></script>
+	
+	<style type="text/css">.supertext{font-size:13px;text-shadow: 2px -2px 6px #ccc, 0px 0px 4px  #FFF;}</style>
+<style type="text/css">
+pre {
+width: 790px;
+font-family: .Consolas.,monospace;
+font-size: 9pt;
+text-align:left;
+background-color: #D9D4C9;
+color: #000000;
+overflow-x: auto; /* Use horizontal scroller if needed; for Firefox 2, not
+white-space: pre-wrap; /* css-3 */
+white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+word-wrap: break-word; /* Internet Explorer 5.5+ */
+margin: 0px 0px 0px 0px;
+padding:5px 5px 3px 5px;
+/*white-space : normal;  crucial for IE 6, maybe 7? */
+}
+</style>
+	
+	
+
+	<script type="text/javascript">
+	$(document).ready(function(){ 
+		$("ul.sf-menu").superfish({ 
+			animation: {height:'show'},   // slide-down effect without fade-in 
+			delay:     1200              // 1.2 second delay on mouseout 
+		}); 
+	}); 
+	// initialise plugins
+	jQuery(function(){
+		jQuery('ul.sf-menu').superfish();
+	});
+	</script>
+
+</head>
+<body onload"">
+
+<div id="topbar" class="topbar"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="1000" height="155">
+            <param name="movie" value="/el/images/topo.swf" />
+			<param name="wmode" value="transparent" />
+			<param name="bgcolor" value="#ffffff" />
+            <param name="quality" value="high" />
+            <embed src="../images/topo.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" wmode="transparent" type="application/x-shockwave-flash" width="1000" height="155"></embed>
+          </object></div>
+<div id="topbardown" class="topbardown"></div>
+<div id="menubar" class="menubar">
+	<div id="loginmenu" class="loginmenu"></div>
+	<div id="userphoto" class="userphoto"><img class="userpic" src="../images/no_user_image.png" width=100 height=100></div>
+	<div id="loginmenu" class="loginmenu"><a href="../secao/login.html">Login</a><BR><a href="../secao/registro.html">Registrar-se</a></div>
+					<ul class="sf-menu sf-vertical">
+					<li class="current">
+						<img src="../images/botoes/home.png" 		width="135" height="28" alt="Home" 			title="Se&ccedil;&otilde;es da P&aacute;gina"/>
+						<ul>
+							<li>
+								<a href="../../el.html" title="P&acute;gina inicial da EnergyLabs" class="menux">Home</a>
+							</li>
+							
+							<li>
+								<a href="../secao/chatroom/index.html" title="Chat da EnergyLabs" class="menux">ChatDC</a>
+							</li>
+							
+							<li>
+								<a href="http://forum.energylabs.com.br" title="F&oacute;m da EnergyLabs" class="menux">F&oacute;rum</a>
+							</li>
+							
+							<li>
+								<a href="http://blog.energylabs.com.br/" title="Blog Tumblr da EnergyLabs" class="menux">Blog Tumblr</a>
+							</li>
+							
+							<li>
+								<a href="../secao/contato/index.html" title="Formas de Contato com a EnergyLabs" class="menux">Contato</a>
+							</li>
+							
+							<li>
+								<a href="../secao/ajudeaenergylabs.html" title="Formas de ajudar a energylabs" class="menux">Ajude</a>
+							</li>
+							
+							<li>
+								<a href="../secao/sobre/index.html" title="Sobre a EnergyLabs e Autor" class="menux">Sobre</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/secao.png" 		width="135" height="28" alt="Se&ccedil;&otilde;es" 		title="Projetos"/>
+						<ul>
+							<li>
+								<a href="../secao/altatensao.html" title="Projetos relacionados a Alta Tens&atilde;o" class="menux">Alta Tens&atilde;o</a>
+							</li>
+							
+							<li>
+								<a href="../secao/bobina_de_tesla.html" title="Projetos relacionados a Bobina de Tesla" class="menux">Bobina de Tesla</a>
+							</li>
+							
+							<li>
+								<a href="../secao/eletronica.html" title="Projetos relacionados a Eletr&ocirc;nica" class="menux">Eletr&ocirc;nica</a>
+							</li>
+							
+							<li>
+								<a href="../secao/openhardware.html" title="Projetos relacionados a Open Hardware" class="menux">Open Hardware</a>
+							</li>
+							
+							<li>
+								<a href="../secao/outros.html" title="Projetos relacionados a Outros" class="menux">Outros</a>
+							</li>
+							
+							<li>
+								<a href="../secao/quimica.html" title="Projetos relacionados a Qu&iacute;mica" class="menux">Qu&iacute;mica</a>
+							</li>
+							
+							<li>
+								<a href="../secao/som.html" title="Projetos relacionados a Som" class="menux">Som</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/documentos.png" 	width="135" height="28" alt="Documentos" 	title="Documentos da EnergyLabs"/>
+						<ul>
+							<li>
+								<a href="../documentos/eletronica.html" title="Documentos relacionados à: Eletr&ocirc;nica" class="menux">Eletr&ocirc;nica</a>
+							</li>
+							
+							<li>
+								<a href="../documentos/fpga.html" title="Documentos relacionados à: FPGA" class="menux">FPGA</a>
+							</li>
+							
+							<li>
+								<a href="../documentos/index.html" title="Todos os documentos da EnergyLabs" class="menux">Todos Documentos</a>
+							</li>
+							
+							<li>
+								<a href="../documentos/tutorial.html" title="Documentos relacionados à: Tutorial" class="menux">Tutorial</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/calculadoras.png"width="135" height="28" alt="Calculadoras"	title="Calculadoras da EnergyLabs"/>
+						<ul>
+							<li>
+								<a href="../calculadora/mmc.html" title="Calculadora de Banco de Capacitores" class="menux">Banco de Capacitores</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/spiral.html" title="Calculadora de Bobina Plana (Espiral de Arquimedes)" class="menux">Bobina Plana</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/solenoide.html" title="Calculadora de Bobina Vertical (Solen&oacute;ide)" class="menux">Bobina Solen&oacute;ide</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/platecap.html" title="Calculadora de Capacitor de Vidro" class="menux">Capacitor de Vidro</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/lccalc.html" title="Calculadora de Circuito Resso&acirc;nte LC" class="menux">Circuito LC</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/boostconv.html" title="Calculadora de Conversor do tipo Boost" class="menux">Conversor Boost</a>
+							</li>
+							
+							<li>
+								<a href="../tcalc.html" title="Simulador de curvas de Trans&iacute;stores" class="menux">Curva do Trans&iacute;stor</a>
+							</li>
+							
+							<li>
+								<a href="../hwg.html" title="Gerador de Ondas Harm&ocirc;nicas" class="menux">Harmonic Wave Generator</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/ohmlaw.html" title="Calculadora da Lei de Ohm" class="menux">Lei de Ohm</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/capreac.html" title="Calculadora de Reat&acirc;ncia Capacitiva" class="menux">Reat&acirc;ncia Capacitiva</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/indreac.html" title="Calculadora de Reat&acirc;ncia Indutiva" class="menux">Reat&acirc;ncia Indutiva</a>
+							</li>
+							
+							<li>
+								<a href="../bggen.html" title="Simulador de fundo animado por f&oacute;mula" class="menux">Simulador de Fundo</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/terrometro.html" title="Calculadora de Imped&acirc;ncia do aterramento" class="menux">Terr&ocirc;metro</a>
+							</li>
+							
+							<li>
+								<a href="../calculadora/toroid.html" title="Calculadora de Tor&oacute;ide" class="menux">Tor&oacute;ide</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/sources.png" 	width="135" height="28" alt="Sources" 		title="Se&ccedil;&otilde;es Sources"/>
+						<ul>
+							<li>
+								<a href="../projetosdc/index.html" title="Projetos da DangerCenter" class="menux">Projetos DC</a>
+							</li>
+							
+							<li>
+								<a href="../soundsource.html" title="Projetos da &aacute;rea de Som" class="menux">SoundSource</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/sm/" title="Se&ccedil;&atilde;o de Stepmania/Pump da EnergyLabs" class="menux">Stepmania</a>
+							</li>
+							
+							<li>
+								<a href="../teslasource.html" title="Projetos da &aacute;rea de Qu&iacute;mica" class="menux">TeslaSource</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/reviews.png" 	width="135" height="28" alt="Reviews" 		title="Reviews de Produtos"/>
+						<ul>
+							<li>
+								<a href="../produtos/reviews/cat.1.html" title="Review de produtos: Produtos DX" class="menux">Produtos DX</a>
+							</li>
+							
+							<li>
+								<a href="../produtos/reviews.html" title="Review de todos os produtos EnergyLabs" class="menux">Todos Reviews</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/produtos.png" 	width="135" height="28" alt="Produtos" 		title="P&aacute;gina de produtos"/>
+						<ul>
+							<li>
+								<a href="../loja/index.html" title="Todos os produtos EnergyLabs" class="menux">Todos os Produtos</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/videos.png" 		width="135" height="28" alt="V&iacute;deos" 		title="Videos da EnergyLabs"/>
+						<ul>
+							<li>
+								<a href="../videos/altatensao.html" title="Videos Explicativos: Alta Tens&atilde;o" class="menux">Alta Tens&atilde;o</a>
+							</li>
+							
+							<li>
+								<a href="../videos/bobina_de_tesla.html" title="Videos Explicativos: Bobinas de Tesla" class="menux">Bobinas de Tesla</a>
+							</li>
+							
+							<li>
+								<a href="../videos/computador.html" title="Videos Explicativos: Computador" class="menux">Computador</a>
+							</li>
+							
+							<li>
+								<a href="../videos/eletronica.html" title="Videos Explicativos: Eletr&ocirc;nica" class="menux">Eletr&ocirc;nica</a>
+							</li>
+							
+							<li>
+								<a href="../videos/alleletronicsgr.html" title="Videos Explicativos: Eletr&ocirc;nica para Iniciante" class="menux">Eletr&ocirc;nica para Iniciante</a>
+							</li>
+							
+							<li>
+								<a href="../videos/eventos.html" title="Videos Explicativos: Eventos" class="menux">Eventos</a>
+							</li>
+							
+							<li>
+								<a href="../videos/palestras.html" title="Videos Explicativos: Palestras" class="menux">Palestras</a>
+							</li>
+							
+							<li>
+								<a href="../videos/quimica.html" title="Videos Explicativos: Qu&iacute;mica" class="menux">Qu&iacute;mica</a>
+							</li>
+							
+							<li>
+								<a href="../videos/index.html" title="Todos Videos Explicativos da EnergyLabs/TeslaBrasil" class="menux">Todos os Videos</a>
+							</li>
+							
+							<li>
+								<a href="../videosource.html" title="VideoSource da EnergyLabs" class="menux">VideoSource</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="../images/botoes/downloads.png"	width="135" height="28" alt="Downloads" 	title="Downloads" />
+						<ul>
+							<li>
+								<a href="../secao/downloads.html">Todos</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+	<center><a id="doit" href="javascript:var%20s%20=%20document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src='http://www.energylabs.com.br/el/js/asteroids.js';void(0);" title="Destrua!"><font color="red">Destrua a EnergyLabs!</font></a></center>
+</div>
+<center>
+<div id="headspace" class="headspace"></div>
+<div id="content" class="content">
+<center><h1 style="text-align: center;"><span style="font-size: x-large;">Controlando um ESC com FPGA</span></h1>
+<h2 style="text-align: center;"><span style="font-size: x-large;"><span style="font-size: medium;">Usando Kit da Avnet Xilinx Spartan 3A Evaluation Kit</span></span></h2>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3 style="text-align: justify;"><span style="font-size: x-large;"><span style="font-size: medium;">1 - Funcionamento do ESC</span></span></h3>
+<p style="text-align: justify;"><span style="font-size: x-large;"><span style="font-size: medium;">&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-size: small;">O funcionamento do ESC &eacute; relativamente simples. Ele usa o sistema de controle por <strong>PPM </strong>( Pulse Position Modulation&nbsp; ou Modula&ccedil;&atilde;o por Posi&ccedil;&atilde;o de Pulso), &eacute; um sistema semelhante ao <strong>PWM</strong> ( Pulse Width Modulation ou Modula&ccedil;&atilde;o por Largura de Pulso) por&eacute;m n&atilde;o necessita de uma precis&atilde;o grande.</span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; O funcionamento &eacute; basicamente o seguinte, voc&ecirc; tem um ciclo de 18 a 20 ms, onde 1 a 2 ms &eacute; <strong>tOn </strong>(Tempo Ligado, ou sinal L&oacute;gico 1) e 18 a 19 ms de <strong>tOff </strong>(Tempo Desligado, ou sinal l&oacute;gico 0), como representa o gr&aacute;fico abaixo:</span></span></span></p>
+<p style="text-align: center;"><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;"><img border=0 title="Onda PPM" src="../pr/get.php@arquivo=534"  alt="Forma de onda do PPM" width="600" height="198" /></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Sendo o <strong>m&iacute;nimo</strong> do sinal <strong>tOn</strong> 1ms e o <strong>m&aacute;ximo </strong>2ms, a velocidade do motor no ESC &eacute; feita atrav&eacute;s da dura&ccedil;&atilde;o do tOn acima de 1ms e abaixo de 2ms. Pode-se fazer uma associa&ccedil;&atilde;o assim:</span></span></span></p>
+<p style="text-align: center;"><strong><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;">1ms =&gt; 0%</span></span></span></strong></p>
+<p style="text-align: center;"><strong><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;">2ms =&gt; 100%</span></span></span></strong></p>
+<p style="text-align: center;"><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;">logo</span></span></span></p>
+<p style="text-align: center;"><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;"><strong>1.5ms =&gt; 50%</strong></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Entenderam? &Eacute; bem simples. O <strong>per&iacute;odo </strong>da onda pode ser qualquer coisa entre 18 e 20ms, o importante para o ESC &eacute; o <strong>tOn</strong>.</span></span></span></p>
+<p style="text-align: justify;">&nbsp;</p>
+<h3 style="text-align: justify;"><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;"><span style="font-size: medium;">2 - Idealizando a programa&ccedil;&atilde;o</span></span></span></span></h3>
+<p>&nbsp;</p>
+<p style="text-align: justify;"><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp; &nbsp;&nbsp; Vamos agora idealizar um programa que fa&ccedil;a essa varia&ccedil;&atilde;o. No FPGA teremos uma fonte de clock (No exemplo aqui 16MHz), dois bot&otilde;es para o controle (Um para aumentar a velocidade, e um para diminuir) e dois leds para refer&ecirc;ncias (Um ser&aacute; usado para detectar que o programa est&aacute; rodando e outro ser&aacute; a visualiza&ccedil;&atilde;o do PPM).</span></span></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Primeiro iremos dividir esse clock de 16MHz por 1000 para formar um de 16kHz que tem como per&iacute;odo 62.5us. Faremos agora outra divis&atilde;o para fazer um contador de milesegundos, para isso basta dividirmos o clock que conseguimos por 16. (16 * 62.5us = 1000us = 1ms)<br /></span></span></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Como o contador de milesegundos tem 16 posi&ccedil;&otilde;es, podemos usar essas 16 posi&ccedil;&otilde;es para controlar a velocidade, gerando assim 16 velocidades em teoria (na pratica n&atilde;o &eacute; bem 16). Armazenaremos o valor da velocidade no registrador de velocidade.<br /></span></span></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp; &nbsp; Temos tamb&eacute;m de fazer um rel&oacute;gio que conte at&eacute; 20, para contar o tempo do pulso.</span></span></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Feito isso, faremos compara&ccedil;&otilde;es:</span></span></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><strong>1&nbsp; -</strong> Se a posi&ccedil;&atilde;o do rel&oacute;gio for 0, a sa&iacute;da PPM ser&aacute; n&iacute;vel l&oacute;gico 1.</span></span></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><strong>2 - </strong>Se a posi&ccedil;&atilde;o do rel&oacute;gio for 1 e o contador de posi&ccedil;&otilde;es for igual ou menor que o valor do registrador de velocidade, a sa&iacute;da PPM ser&aacute; n&iacute;vel l&oacute;gico 1.</span></span></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: x-large;"><span style="font-size: medium;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><strong>3&nbsp; -</strong> Caso n&atilde;o seja nenhuma das duas acima, a sa&iacute;da PPM ser&aacute; n&iacute;vel l&oacute;gico 0.</span></span></span></span></span></p>
+<p style="text-align: justify;"><br /><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Com estas compara&ccedil;&otilde;es, j&aacute; fizemos a sa&iacute;da PPM funcionar de acordo com a velocidade. Por&eacute;m ainda falta o sistema para incrementar e decrementar o registrador de velocidade. Para isso iremos usar o bot&atilde;o 1 para incrementar, e bot&atilde;o 2 para decrementar. Por&eacute;m s&oacute; pode se incrementar/decrementar uma vez com o bot&atilde;o apertado, e para incrementar/decrementar novamente, &eacute; necess&aacute;rio soltar o bot&atilde;o novamente. Ent&atilde;o teremos que criar dois registradores para gravar o ultimo estado do bot&atilde;o. Adicionalmente, vamos fazer a verifica&ccedil;&atilde;o se o registrador de velocidade j&aacute; est&aacute; nos seus valores m&aacute;ximo (16) e m&iacute;nimo (0). Faremos as seguintes compara&ccedil;&otilde;es:</span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><strong>1 -</strong> Se o bot&atilde;o 1 estiver apertado, e o registrador de estado do bot&atilde;o 1 for n&iacute;vel l&oacute;gico 0,&nbsp; verificar se o registrador de velocidade n&atilde;o est&aacute; no m&aacute;ximo e incrementar o registrador de velocidade.</span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><strong>2 -</strong> Se o bot&atilde;o 2 estiver apertado, e o registrador de estado do bot&atilde;o 2 for n&iacute;vel l&oacute;gico 0,&nbsp; verificar se o registrador de velocidade n&atilde;o est&aacute; no m&iacute;nimo e decrementar o registador de velocidade.</span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><strong>3 -</strong> Se o bot&atilde;o 1 n&atilde;o estiver apertado, e o registrador de estado do bot&atilde;o 1 for n&iacute;vel l&oacute;gico 1, zerar o registrador de estado.</span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><strong>4 -</strong> Se o bot&atilde;o 2 n&atilde;o estiver aperto, e o registrador de estado do bot&atilde;o 2 for n&iacute;vel l&oacute;gico 1, zerar o registrador de estado.<br /></span></p>
+<p style="text-align: justify;">&nbsp;</p>
+<p style="text-align: justify;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp; Com tudo isso, estamos prontos para iniciar a programa&ccedil;&atilde;o!</span></p>
+<p style="text-align: justify;">&nbsp;</p>
+<h3 style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;">3 - Programando</span></span></h3>
+<p>&nbsp;</p>
+<p><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp; &nbsp; &nbsp; Abra o Xilinx ISE e v&aacute; em <strong>File -&gt; New Project</strong>, </span></span></span></p>
+<p style="text-align: center;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><img border=0 title="New Project Wizard" src="../pr/get.php@arquivo=512"  alt="Primeira Tela de Cria&ccedil;&atilde;o de Projeto no ISE" /></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Preencha o Nome do projeto e o local de trabalho como desejar. Clique em <strong>Next</strong></span></span></span></p>
+<p style="text-align: center;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><img border=0 title="Project Settings" src="../pr/get.php@arquivo=513"  alt="Configura&ccedil;&otilde;es do projeto" width="635" height="569" /></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Acerte as configura&ccedil;&otilde;es para o seu FPGA, se o teu kit for o mesmo do que o meu (Avnet Xilinx Spartan 3A EVL Kit) as configura&ccedil;&otilde;es est&atilde;o listadas na imagem. Clique em <strong>Next</strong>.</span></span></span></p>
+<p style="text-align: center;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><img border=0 title="Project Summary" src="../pr/get.php@arquivo=514"  alt="Resumo do Projeto" width="636" height="568" /></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Aqui estar&aacute; as configura&ccedil;&otilde;es para a cria&ccedil;&atilde;o do projeto, apenas clique em <strong>Finish</strong>.</span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Ap&oacute;s isso voc&ecirc; estar&aacute; no <strong>workspace </strong>do seu projeto rec&eacute;m criado. Precisamos criar um arquivo com o c&oacute;digo a ser compilado para o FPGA. Para isso v&aacute; em <strong>Hierarchy</strong> e clique com bot&atilde;o direito e v&aacute; em <strong>New Source</strong>.</span></span></span></p>
+<p style="text-align: center;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><img border=0 title="Hierarchy" src="../pr/get.php@arquivo=515"  alt="Painel Hierarchy" width="411" height="270" /></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Na janela que ir&aacute; abrir, em <strong>Select source type</strong>, selecione <strong>Verilog Module</strong>, e em <strong>File name</strong> coloque <strong>main</strong>. Clique em <strong>next</strong>.</span></span></span></p>
+<p style="text-align: center;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><img border=0 title="New Source Wizard" src="../pr/get.php@arquivo=516"  alt="Cria&ccedil;&atilde;o de um c&oacute;digo" width="683" height="625" /></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Agora iremos definir as entradas e sa&iacute;das do c&oacute;digo. Iremos criar 3 entradas e 3 sa&iacute;das, sendo elas:</span></span></span></p>
+<pre>Entradas:
+<strong>clk </strong>=&gt; Entrada do Clock de 16MHz
+<strong>button1 </strong>=&gt; Bot&atilde;o para aumentar a velocidade
+<strong>button2 </strong>=&gt; Bot&atilde;o para diminuir a velocidade
+Saidas:<p>&nbsp;</p>
+<strong>led1 </strong>=&gt; Led para amostragem visual do PPM
+<strong>led2 </strong>=&gt; Led para mostrar o programa rodando
+<strong>ppm</strong> =&gt; Sa&iacute;da PPM para o ESC
+</pre>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">Clique em <strong>Next</strong><br /></span></span></span></p>
+<p style="text-align: justify;">&nbsp;</p>
+<p style="text-align: justify;">&nbsp;</p>
+<p style="text-align: center;"><img border=0 title="Define Module" src="../pr/get.php@arquivo=517"  alt="Defini&ccedil;&atilde;o de Entradas e Sa&iacute;das" width="683" height="620" /></p>
+<p style="text-align: justify;"><span style="font-size: small;">&nbsp;</span>&nbsp;&nbsp;&nbsp;<span style="font-size: small;"> Ser&aacute; agora</span><span style="font-size: small;"> exibido o sum&aacute;rio do c&oacute;digo criado. Apenas clique em <strong>Finish</strong></span></p>
+<p style="text-align: center;"><span style="font-size: small;"><strong><img border=0 title="Summary" src="../pr/get.php@arquivo=518"  alt="Sum&aacute;rio do c&oacute;digo criado" width="682" height="620" /></strong></span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><strong>&nbsp;&nbsp;&nbsp;&nbsp; </strong>Ap&oacute;s isso voc&ecirc; estar&aacute; em uma tela semelhante a essa:</span></p>
+<p style="text-align: center;"><span style="font-size: small;"><a href="../pr/get.php@arquivo=519" target="_blank"><img border=0 title="Code View" src="../pr/get.php@arquivo=519"  alt="Tela Ap&oacute;s cria&ccedil;&atilde;o do c&oacute;digo" width="600" height="361" /></a></span></p>
+<p style="text-align: justify;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Agora vamos a programa&ccedil;&atilde;o do controlador. Iniciaremos definindo par&acirc;metros e registradores. Abaixo tudo que precisamos definir, com seus devidos coment&aacute;rios:</span></p>
+<p style="text-align: justify;">&nbsp;</p>
+<pre><span style="color: #0000ff;">parameter</span> clkdividermax = <span style="color: #ff6600;">1000</span>; 	<span style="color: #008000;">// 16MHz / 1000 = 16kHz = 62.5us</span>
+					<span style="color: #008000;">//Para 1ms&nbsp; = 16 clocks. 62.5 * 16 = 1000 us = 1ms</span>
+<span style="color: #0000ff;">parameter</span> clockpositionmax = <span style="color: #ff6600;">20</span>;	<span style="color: #008000;">//20ms maximos para o rel&oacute;gio</span>
+<span style="color: #0000ff;">reg</span> [<span style="color: #ff6600;">9</span>:<span style="color: #ff6600;">0</span>] clkdivider = <span style="color: #ff6600;">0</span>; 		<span style="color: #008000;">// Contador para dividir o clock, 2^10 = 1024</span>
+<span style="color: #0000ff;">reg</span> [<span style="color: #ff6600;">3</span>:<span style="color: #ff6600;">0</span>] position= <span style="color: #ff6600;">0</span>; 			<span style="color: #008000;">// Overflow com 1ms 4 bits 2^4 = 16&nbsp; clocks para 1 ms;</span>
+<span style="color: #0000ff;">reg</span> [<span style="color: #ff6600;">4</span>:<span style="color: #ff6600;">0</span>] clkpositioncounter= <span style="color: #ff6600;">0</span>; 	<span style="color: #008000;">// Posi&ccedil;&atilde;o do clock 2^5 = 32, por&eacute;m s&oacute; usamos at&eacute; 20.</span>
+<span style="color: #0000ff;">reg</span> [<span style="color: #ff6600;">3</span>:<span style="color: #ff6600;">0</span>] speed = <span style="color: #ff6600;">0</span>; 			<span style="color: #008000;">// Registrador para a velocidade, 2^4 = 16 velocidades em teoria</span>
+<span style="color: #0000ff;">wire</span> dividermax = (clkdivider == clkdividermax); <span style="color: #008000;">// Detec&ccedil;&atilde;o da posi&ccedil;&atilde;o maxima do contador</span>
+<span style="color: #0000ff;">wire</span> positionmax = (position == <span style="color: #ff6600;">15</span>); <span style="color: #008000;">// Detector de overflow</span>
+<span style="color: #0000ff;">wire</span> clkpositionmaxed = (clkpositioncounter == clockpositionmax); <span style="color: #008000;">//Detec&ccedil;&atilde;o da posi&ccedil;&atilde;o maxima do rel&oacute;gio </span><br /><span style="color: #0000ff;">reg</span> ppmtmp; <span style="color: #008000;">// Registrador para a saida PPM</span><br /><br />
+</pre>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Com isso, definimos tudo que vamos usar na rotina de contagem/divis&atilde;o de clock e tamb&eacute;m na gera&ccedil;&atilde;o do PPM. Vamos ent&atilde;o a programa&ccedil;&atilde;o da rotina para gerar o PPM.</span></span></span></p>
+<pre><span style="color: #008000;">//Rotina de contagem e gera&ccedil;&atilde;o do PPM</span>
+<span style="color: #0000ff;">always</span> @(<span style="color: #0000ff;">posedge</span> clk)
+<span style="color: #0000ff;">begin</span><br />&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">if</span>(dividermax) 
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;clkdivider &lt;= <span style="color: #ff6600;">0</span>;<span style="color: #008000;">// Se o contador de divis&atilde;o chegar o limite, ele ser&aacute; resetado</span>
+&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">else</span>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;clkdivider &lt;= clkdivider +<span style="color: #ff6600;">1</span>; <span style="color: #008000;">// Se n&atilde;o, incrementar.</span><br />&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">if</span>(dividermax) <span style="color: #008000;">//Incrementar um no contador de milesegundos quando o contador de divis&atilde;o chegar ao limite.</span>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;position &lt;= position+<span style="color: #ff6600;">1</span>;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">if</span>(position == <span style="color: #ff6600;">15</span>) <span style="color: #008000;">// Quando o contador de milesegundos marcar um milesegundo, come&ccedil;ar o processo do rel&oacute;gio</span>
+&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">begin</span>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">if</span>(clkpositionmaxed) <br />&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;clkpositioncounter &lt;= <span style="color: #ff6600;">0</span>; <span style="color: #008000;">//Se o contador do rel&oacute;gio chegar a 20ms ele ser&aacute; resetado.</span>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">else</span>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;clkpositioncounter &lt;= clkpositioncounter + <span style="color: #ff6600;">1</span>; <span style="color: #008000;">// Caso n&atilde;o, ser&aacute; incrementado</span>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;position &lt;= <span style="color: #ff6600;">0</span>; <span style="color: #008000;">// Resetar o contador de milesegundos</span><br />&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">end</span>
+<span style="color: #008000;">&nbsp;&nbsp; &nbsp;//Se o contador de milesegundos for igual ao registrador de velocidade E estiver no primeiro milesegundo do rel&oacute;gio
+&nbsp;&nbsp; &nbsp;//Ou a posi&ccedil;&atilde;o do rel&oacute;gio for 0, a saida do PPM ser&aacute; 1, caso n&atilde;o, ser&aacute; 0</span>
+&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">if</span>(((position &lt;= speed) &amp; clkpositioncounter == <span style="color: #ff6600;">1</span>) | clkpositioncounter == <span style="color: #ff6600;">0</span>)
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;ppmtmp &lt;= <span style="color: #ff6600;">1</span>;
+&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">else</span>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;ppmtmp &lt;= <span style="color: #ff6600;">0</span>;
+<span style="color: #0000ff;">end</span>
+</pre>
+<p style="text-align: justify;">&nbsp;</p>
+<p style="text-align: justify;"><span style="font-size: small;">&nbsp; &nbsp;&nbsp; Com isso temos o PPM gerado corretamente, mas ainda precisamos fazer a rotina que incremente e decremente o registrador de velocidade quando pressionado os bot&otilde;es. </span></p>
+<pre><span style="color: #008000;">//Rotina de incrementa&ccedil;&atilde;o e decrementa&ccedil;&atilde;o do registrador de velocidade.</span>
+<span style="color: #0000ff;">reg</span> button1pressed, button2pressed; <span style="color: #008000;">// Registradores para armazenar o estado do bot&atilde;o.</span>
+<span style="color: #0000ff;">wire</span> speedmax = (speed == <span style="color: #ff6600;">15</span>); <span style="color: #008000;">// Detec&ccedil;&atilde;o do valor m&aacute;ximo do registrador de velocidade</span>
+<span style="color: #0000ff;">wire</span> speedmin = (speed == <span style="color: #ff6600;">0</span>); <span style="color: #008000;">// Detec&ccedil;&atilde;o do valor m&iacute;nimo do registrador de velocidade</span>
+<span style="color: #0000ff;">always</span> @(posedge clk)
+<span style="color: #0000ff;">begin</span>
+
+&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">if</span>(button1 &amp; ~button1pressed) <span style="color: #008000;">//Se o bot&atilde;o 1 est&aacute; pressionado, e ele n&atilde;o estava no ciclo passado</span>
+&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">begin</span>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">if</span>(~speedmax) <span style="color: #008000;">//Se o registrador de velocidade n&atilde;o estiver no maximo, incremente</span>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;speed &lt;= speed + <span style="color: #ff6600;">1</span>;<br />&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;button1pressed &lt;= <span style="color: #ff6600;">1</span>; <span style="color: #008000;">//Marca que o bot&atilde;o 1 foi pressionado</span>
+&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">end</span>
+&nbsp;&nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">if</span>(button2 &amp; ~button2pressed) <span style="color: #008000;">//Se o bot&atilde;o 2 est&aacute; pressionado, e ele n&atilde;o estava no ciclo passado</span>
+&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">begin</span>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">if</span>(~speedmin) <span style="color: #008000;">//Se o registrador de velocidade n&atilde;o estiver no m&iacute;nimo, decremente</span>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;speed &lt;= speed - <span style="color: #ff6600;">1</span>;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;button2pressed &lt;= <span style="color: #ff6600;">1</span>; <span style="color: #008000;">//Marca que o bot&atilde;o 2 foi pressionado</span>
+&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">end</span>
+&nbsp;&nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">if</span>(~button1 &amp; button1pressed) <span style="color: #008000;">//Se o bot&atilde;o 1 n&atilde;o estiver pressionado, e no ciclo anterior ele estava, resetar o estado do bot&atilde;o</span>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;button1pressed &lt;= <span style="color: #ff6600;">0</span>;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />&nbsp;&nbsp; &nbsp;<span style="color: #0000ff;">if</span>(~button2 &amp; button2pressed)<span style="color: #008000;"> //Se o bot&atilde;o 2 n&atilde;o estiver pressionado, e no ciclo anterior ele estava, resetar o estado do bot&atilde;o</span>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;button2pressed &lt;= <span style="color: #ff6600;">0</span>;
+
+<span style="color: #0000ff;">end</span>
+</pre>
+<p style="text-align: justify;"><span style="font-size: small;">&nbsp; &nbsp;&nbsp; Agora temos um programa funcional, onde o PPM ser&aacute; gerado baseado no registrador de velocidade <strong>speed</strong> e a cada toque no bot&atilde;o <strong>button1</strong> o registrador ser&aacute; incrementado at&eacute; o seu valor m&aacute;ximo, e a cada toque no bot&atilde;o <strong>button2</strong> o registrador ser&aacute; decrementado at&eacute; seu valor m&iacute;nimo. Ap&oacute;s isso s&oacute; resta fazer as associa&ccedil;&otilde;es entre registradores e saidas.</span></p>
+<pre><span style="color: #0000ff;">assign</span> ppm = ppmtmp; <span style="color: #008000;">// Associar saida PPM ao registrador ppmtmp</span>
+<span style="color: #0000ff;">assign</span> led1 = ppmtmp; <span style="color: #008000;">// Associar o primeiro led ao registrador ppmtmp</span>
+<span style="color: #0000ff;">assign</span> led2 = 1; <span style="color: #008000;">//Associar o segundo led ao n&iacute;vel logico 1</span>
+</pre>
+<p style="text-align: justify;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Terminamos aqui o programa para gerar o PPM. Iremos agora compila-lo e gravar no FPGA.</span></p>
+<p style="text-align: justify;">&nbsp;</p>
+<h3 style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;">4 - Gerando associa&ccedil;&otilde;es de pinos e compilando programa</span></span></h3>
+<p>&nbsp;</p>
+<p><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp; &nbsp; Vamos agora associar os pinos virtuais aos pinos reais e compilar o programa. Em <strong>Processes: main </strong>, abrir a aba <strong>User Constrains</strong> e clicar em <strong>I/O Pin Planning (PlanAhead) Pre-Synthesis</strong>. Clique Sim no aviso que aparecer.</span></span></span></p>
+<p style="text-align: center;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><img border=0 title="Processes: main" src="../pr/get.php@arquivo=520"  alt="Janela de Processos" width="411" height="262" /></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp; Ap&oacute;s isso, ser&aacute; aberto o <strong>PlanAhead</strong> que dentre outras fun&ccedil;&otilde;es, faz a associa&ccedil;&atilde;o dos pinos virtuais com os reais.</span></span></span></p>
+<p style="text-align: center;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><a href="../pr/get.php@arquivo=521" target="_blank"><img border=0 title="PlanAhead" src="../pr/get.php@arquivo=521"  alt="PlanAhead aberto" width="600" height="443" /></a></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Clique em <strong>Scalar Ports (6)</strong> e ap&oacute;s estar selecionada todas as portas clique com o bot&atilde;o direito e v&aacute; em <strong>Configure I/O Ports</strong>. </span></span></span></p>
+<p style="text-align: center;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><img border=0 title="Scalar Ports" src="../pr/get.php@arquivo=522"  alt="Portas Selecionadas" width="600" height="126" /></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Ap&oacute;s ir em <strong>Configure I/O Ports </strong>mude o <strong>I/O Standard</strong> para <strong>LVCMOS33</strong> e clique em <strong>OK</strong>.</span></span></span></p>
+<p style="text-align: center;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><img border=0 title="Configure Ports" src="../pr/get.php@arquivo=523"  alt="Trocando I/O Standard para LVCMOS33" width="242" height="192" /></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp; Feito isso, as portas est&atilde;o configuradas para trabalhar a 3.3V e n&atilde;o 2.5V como pr&eacute;-definidas pelo programa. Apesar do ESC funcionar com 5V, 3.3V ainda &eacute; considerado n&iacute;vel l&oacute;gico 1 para um circuito TTL 5V. E como n&atilde;o h&aacute; comunica&ccedil;&atilde;o de volta do ESC, n&atilde;o h&aacute; problemas em se usar 3.3V.</span></span></span></p>
+<p style="text-align: center;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><img border=0 title="Scalar Ports 33" src="../pr/get.php@arquivo=524"  alt="Portas configuradas para LVCMOS33" width="600" height="123" /><br /></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp; Agora &eacute; necess&aacute;rio fazer as associa&ccedil;&otilde;es dos pinos. Este mapa colorido chego de bolas, quadrados e hexagonos &eacute; o FPGA visto por baixo. Ai est&atilde;o todos os pinos com coordenadas horizontais de <strong>1</strong> a <strong>16</strong> e verticais de <strong>A</strong> a <strong>T</strong>. Para associar o pino, basta seleciona-lo em <strong>Scalar Ports</strong> e arrasta-lo at&eacute; o pino determinado. Caso esteja usando o mesmo kit que eu, fa&ccedil;a as seguintes liga&ccedil;&otilde;es:</span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><strong>button1</strong> =&gt; K3<br /><strong>button2</strong> =&gt; H5<br /><strong>clk</strong> =&gt; C10<br /><strong>led1</strong> =&gt; D14<br /><strong>led2</strong> =&gt; C16<br /><strong>ppm</strong> =&gt; B4</span></p>
+<p style="text-align: justify;"><span style="font-size: small;">Feito isso, os pinos estar&atilde;o mapeados correntamente.</span></p>
+<p style="text-align: center;"><span style="font-size: small;"><img border=0 title="Scalar Ports Configuradas" src="../pr/get.php@arquivo=525"  alt="Portas mapeadas (Site)" width="600" height="157" /></span></p>
+<p style="text-align: center;"><span style="font-size: small;"><img border=0 title="Pin Map" src="../pr/get.php@arquivo=526"  alt="Mapa de Pinos" width="374" height="373" /><br /></span></p>
+<p style="text-align: justify;"><span style="font-size: small;">Ap&oacute;s isso, basta clicar em <strong>Salvar </strong>no canto esquerdo superior da tela.</span></p>
+<p style="text-align: center;"><span style="font-size: small;"><img border=0 title="Bot&atilde;o Salvar" src="../pr/get.php@arquivo=527"  alt="Bot&atilde;o Salvar" width="211" height="198" /></span></p>
+<p style="text-align: justify;"><span style="font-size: small;">Vamos agora descrever o <strong>clock principal</strong></span> <span style="font-size: small;">para</span> <span style="font-size: small;">o compilador. Para isso v&aacute; em <strong>Processes: main</strong> e clique em <strong>Create Timing Constrains</strong></span></p>
+<p style="text-align: center;"><span style="font-size: small;"><img border=0 title="Timing Constrains" src="../pr/get.php@arquivo=528"  alt="Dados do clock" width="600" height="321" /></span></p>
+<p style="text-align: justify;"><span style="font-size: small;">Altere os campos em branco a direita para:</span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><strong>TIMESPEC Name*</strong> =&gt; TS_CLK_16MHZ<br /><strong>Clock Net*</strong> =&gt; clk<br /><strong>Period</strong> =&gt; 62.5 ns<br /><strong>Duty Cycle</strong> =&gt; 50%<br /><strong>Edge</strong> =&gt; High</span></p>
+<p style="text-align: center;"><span style="font-size: small;"><img border=0 title="Clock Configuration" src="../pr/get.php@arquivo=529"  alt="Configura&ccedil;&atilde;o do Clock" width="600" height="83" /></span></p>
+<p style="text-align: justify;"><span style="font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp; Pronto! O clock est&aacute; configurado. Clique em <strong>main.v</strong> na aba inferior da direita e <strong>Design </strong>na aba inferior da esquerda. Vamos agora compilar o programa! Em <strong>Processes: main</strong> clique em <strong>Generate Programming File</strong>. Aguarde at&eacute; que o programa esteja compilado.</span></p>
+<p style="text-align: center;"><span style="font-size: small;"><img border=0 title="Compiled Program " src="../pr/get.php@arquivo=530"  alt="Programa Compilado" width="413" height="313" /></span></p>
+<p style="text-align: justify;"><span style="font-size: small;">Feito isso, terminamos a produ&ccedil;&atilde;o do programa! Agora &eacute; s&oacute; gravar no FPGA!</span></p>
+<p style="text-align: justify;">&nbsp;</p>
+<h3 style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;">5 - Gravando programa no FPGA</span></span></h3>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">&nbsp; &nbsp; Conecte o kit ao computador e abra o software de grava&ccedil;&atilde;o (caso seja o kit da Avnet, abra o <strong>Avnet Board Programming Utility</strong>). </span></span></span></p>
+<p style="text-align: center;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><img border=0 title="Avnet Board Programming Utility" src="../pr/get.php@arquivo=531"  alt="Programa de Grava&ccedil;&atilde;o do FPGA" width="600" height="374" /></span></span></span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;">Clique em <strong>Connect to COMX</strong>. Ap&oacute;s a conex&atilde;o, clique em browse e selecione o arquivo <strong>main.bit </strong>que est&aacute; na pasta do seu projeto.</span></span></span></p>
+<p style="text-align: center;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><img border=0 title="File main.bit" src="../pr/get.php@arquivo=532"  alt="Selecionando arquivo main.bit" width="600" height="371" /></span></span></span></p>
+<p style="text-align: justify;"><br /><span style="font-size: small;">Ap&oacute;s isso clique em <strong>Configure FPGA</strong> e se iniciar&aacute; o processo de grava&ccedil;&atilde;o. Ap&oacute;s gravado conecte o <strong>GND</strong> (Fio preto) do ESC no <strong>GND</strong> da placa e o <strong>Fio branco</strong> (Controle) no pino <strong>B4</strong>. Ligue a energia ao ESC e voc&ecirc; notar&aacute; um apito no motor. Isso &eacute; normal, demonstra que est&aacute; tudo funcionando correntamente. Clique no Bot&atilde;o <strong>PUSH_A</strong> para aumentar a velocidade e <strong>PUSH_B</strong> para reduzir a velocidade.</span></p>
+<p style="text-align: justify;"><span style="font-size: small;">Pronto! Tudo funcionando corretamente, agora use a sua criatividade e coloque mais recursos neste programa!</span></p>
+<h4 style="text-align: justify;"><span style="font-size: small;">Video:</span></h4>
+<p>&nbsp;</p>
+<p style="text-align: center;">
+<object width="640" height="385" data="http://www.youtube.com/v/r5QzSTWJbIA?fs=1&amp;hl=pt_BR" type="application/x-shockwave-flash">
+<param name="allowFullScreen" value="true" />
+<param name="allowscriptaccess" value="always" />
+<param name="src" value="http://www.youtube.com/v/r5QzSTWJbIA?fs=1&amp;hl=pt_BR" />
+<param name="allowfullscreen" value="true" />
+</object>
+</p>
+<h4 style="text-align: justify;"><span style="font-size: small;">Programa Completo:</span></h4>
+<p style="text-align: justify;"><span style="font-size: small;"><a href="../pr/get.php@arquivo=533" target="_blank">ESC.rar</a></span></p>
+<p style="text-align: justify;"><span style="font-size: small;">Por: Lucas Teske<br /></span></p>
+<p style="text-align: justify;"><span style="font-size: small;"><span style="font-size: medium;"><span style="font-size: small;"><br /></span></span></span></p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img border=0 style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png"  alt="Licen&ccedil;a Creative Commons" /></a><br />Esta <span>obra</span> de <a rel="cc:attributionURL" href="../ver-documento/832.html">EnergyLabs Brasil</a>, foi licenciada com uma Licen&ccedil;a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons - Atribui&ccedil;&atilde;o - Partilha nos Mesmos Termos 3.0 N&atilde;o Adaptada</a>.<br />Permiss&otilde;es adicionais ao &acirc;mbito desta licen&ccedil;a podem estar dispon&iacute;veis em <a rel="cc:morePermissions" href="../ver-documento/832.html">http://www.energylabs.com.br</a>.</p><BR><center> Comente este conte&uacute;do!</center><table width=650 bgcolor=white border=1 cellpadding="0" cellspacing="1"><tr><td><center><div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:comments href="http%3A%2F%2Fwww.energylabs.com.br%2Fel%2Fdocumento%2FControlando_um_ESC_com_FPGA" numposts="10" width="650" publish_feed="true"></fb:comments></centeR></td></tr></table></center>
+</div>
+</center>
+<div id="lateralbar" class="lateralbar">
+<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+<a class="addthis_button_preferred_1"></a><BR>
+<a class="addthis_button_preferred_2"></a><BR>
+<a class="addthis_button_preferred_3"></a><BR>
+<a class="addthis_button_preferred_4"></a><BR>
+<a class="addthis_button_compact"></a><BR>
+<a class="addthis_counter addthis_bubble_style"></a>
+</div>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4f5118946b269cb3"></script>
+</div>
+<div id="footspace" class="footspace"></div>
+<div id="footbar1" class="footbar1"><form method="post"  id="forms" name="google_translate" action="http://translate.google.com.br/translate"><td colspan="2" valign="top"><center>Voc&ecirc; est&aacute; em:  <a href="../documento.html">Documento</a> =&gt; <font color=darkgreen style="font-size: 14px"><B></B></font> - <input type="hidden" name="js" value="y" /><input type="hidden" name="hl" value="en-US" /><input type="hidden" name="sl" value="pt" /><input type="hidden" name="tl" value="en" /><input type="hidden" name="u" value="http://www.energylabs.com.br/el/documento/Controlando_um_ESC_com_FPGA" /><a href="javascript:void(0);" onclick="javascript:google_translate.submit();">Translate this page to English</a></center></td></form></div>
+<div id="footbar2" class="footbar2">
+	<a href="http://www.facebook.com/pages/Energylabs/165685600142934">	<img src="../images/facebook.png" 	width="32" height="32" 	border=0 title="Facebook da EnergyLabs"	/></a>
+	<a href="http://twitter.com/EnergyLabsBR">	<img src="../images/twitter.png" 	width="32" height="32"  border=0 title="Twitter da EnergyLabs"	/></a>
+	<a href="http://www.energylabs.com.br/el/rss/noticias.xml">		<img src="../images/rss.png"	 		width="32" height="32"  border=0 title="RSS da EnergyLabs"		/></a>
+</div>
+<script type="text/javascript">var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));</script><script type="text/javascript">try {var pageTracker = _gat._getTracker("UA-15334730-1");pageTracker._trackPageview();} catch(err) {};</script>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+  {lang: 'pt-BR'}
+</script>
+
+</body>
+</html>

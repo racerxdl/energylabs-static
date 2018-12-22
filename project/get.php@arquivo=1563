@@ -1,0 +1,26 @@
+[PROJECT]
+Target=C:\Program Files (x86)\PICC\Projects\MIDI INT\main.hex
+Development_Mode=
+Processor_Text=PIC16F628A
+ToolSuite=CCS
+Processor=0x628A
+[C:\Program Files (x86)\PICC\Projects\MIDI INT\main]
+Type=4
+Path=
+FileList=
+BuildTool=
+OptionString=
+AdditionalOptionString=
+[mru-list]
+1=C:\Program Files (x86)\PICC\Projects\MIDI INT\main.c
+[Windows]
+0=0000 %S 0 0 796 451 3 0
+[Units]
+Link=0
+Count=1
+1=C:\Program Files (x86)\PICC\Projects\MIDI INT\main
+[Opened Files]
+1=C:\Program Files (x86)\PICC\Projects\MIDI INT\main.c
+2=C:\Program Files (x86)\PICC\devices\16F628A.h
+3=main.h
+4=

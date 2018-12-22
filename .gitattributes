@@ -1,0 +1,2 @@
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+tesla/EnergyLabs/ZARC/Semana[[:space:]]da[[:space:]]GV[[:space:]]-[[:space:]]Eagle[[:space:]]Fly[[:space:]]Free[[:space:]]do[[:space:]]Helloween.mp4 filter=lfs diff=lfs merge=lfs -text

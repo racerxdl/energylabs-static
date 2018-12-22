@@ -1,0 +1,44 @@
+
+ROM used: 124 (12%)
+          124 (12%) including unused fragments
+
+          1 Average locations per line
+          6 Average locations per statement
+
+RAM used: 9 (7%) at main() level
+          9 (7%) worst case
+
+Stack used: 1 worst case (out of 8 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   37    22 100  main.c
+   12     0   0  main.h
+  147     0   0  ..\..\devices\12C671.h
+----- -----
+  196    22 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     19  15   1             @delay_us1
+0     95  77   1   543  5.7  main
+
+Program metrics:
+    Functions               1
+    Statements              22
+    Comments                44
+    Volume (V)              546
+    Difficilty (D)          5.6
+    Effort to implement (E) 3052
+    Time to implement (T)   3 minutes
+    Est Delivered Bugs (B)  0
+    Cyclomatic Complexity   3
+    Maintainability (MI)    50
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-003FF   120  900  
+
+
+

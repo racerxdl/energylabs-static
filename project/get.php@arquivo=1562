@@ -1,0 +1,523 @@
+CCS PCM C Compiler, Version 4.049, 63808               17-out-11 12:25
+
+               Filename: c:\program files (x86)\picc\projects\midi int\main.lst
+
+               ROM used: 896 words (44%)
+                         Largest free fragment is 1152
+               RAM used: 35 (16%) at main() level
+                         50 (22%) worst case
+               Stack:    2 worst case (1 in main + 1 for interrupts)
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   255
+0003:  NOP
+0004:  MOVWF  7F
+0005:  SWAPF  03,W
+0006:  CLRF   03
+0007:  MOVWF  21
+0008:  MOVF   7F,W
+0009:  MOVWF  20
+000A:  MOVF   0A,W
+000B:  MOVWF  28
+000C:  CLRF   0A
+000D:  SWAPF  20,F
+000E:  MOVF   04,W
+000F:  MOVWF  22
+0010:  MOVF   77,W
+0011:  MOVWF  23
+0012:  MOVF   78,W
+0013:  MOVWF  24
+0014:  MOVF   79,W
+0015:  MOVWF  25
+0016:  MOVF   7A,W
+0017:  MOVWF  26
+0018:  MOVF   7B,W
+0019:  MOVWF  27
+001A:  BCF    03.7
+001B:  BCF    03.5
+001C:  MOVLW  8C
+001D:  MOVWF  04
+001E:  BTFSS  00.5
+001F:  GOTO   022
+0020:  BTFSC  0C.5
+0021:  GOTO   142
+0022:  MOVLW  8C
+0023:  MOVWF  04
+0024:  BTFSS  00.0
+0025:  GOTO   028
+0026:  BTFSC  0C.0
+0027:  GOTO   15E
+0028:  MOVF   22,W
+0029:  MOVWF  04
+002A:  MOVF   23,W
+002B:  MOVWF  77
+002C:  MOVF   24,W
+002D:  MOVWF  78
+002E:  MOVF   25,W
+002F:  MOVWF  79
+0030:  MOVF   26,W
+0031:  MOVWF  7A
+0032:  MOVF   27,W
+0033:  MOVWF  7B
+0034:  MOVF   28,W
+0035:  MOVWF  0A
+0036:  SWAPF  21,W
+0037:  MOVWF  03
+0038:  SWAPF  7F,F
+0039:  SWAPF  7F,W
+003A:  RETFIE
+.................... #include "C:\Program Files (x86)\PICC\Projects\MIDI INT\main.h" 
+.................... #include <16F628A.h> 
+.................... //////// Standard Header file for the PIC16F628A device //////////////// 
+.................... #device PIC16F628A 
+.................... #list 
+....................  
+.................... #device *=16 
+....................  
+.................... #FUSES NOWDT                    //No Watch Dog Timer 
+.................... #FUSES XT                       //Crystal osc <= 4mhz 
+.................... #FUSES PUT                      //Power Up Timer 
+.................... #FUSES NOPROTECT                //Code not protected from reading 
+.................... #FUSES NOBROWNOUT               //No brownout reset 
+.................... #FUSES NOMCLR                   //Master Clear pin used for I/O 
+.................... #FUSES NOLVP                    //No low voltage prgming, B3(PIC16) or B5(PIC18) used for I/O 
+.................... #FUSES NOCPD                    //No EE protection 
+....................  
+.................... #use delay(clock=4000000) 
+.................... #use rs232(baud=31500,parity=N,xmit=PIN_B2,rcv=PIN_B1,bits=8) 
+....................  
+....................  
+....................  
+.................... const unsigned int16 notas[] = {29171,31212,33139,34957,36673,38293,39822,41265,42627,43913,45127,46272,47353,48374,49337,50246,51104,51914,52679,53400,54081,54724,55331,55904,56444,56954,57436,57890,58320,58725,59107,59468,59808,60130,60433,60719,60990,61245,61485,61713,61927,62130,62321,62501,62672,62832,62984,63127,63262,63390,63510,63624,63731,63832,63928,64018,64103,64184,64259,64331,64399,64462,64523,64579,64633,64684,64731,64777,64819,64859,64897,64933,64967,64999,65029,65057,65084,65109,65133,65156,65177,65197,65216,65234,65251,65267,65282,65296,65310,65322,65334,65345,65356,65366,65376,65385,65393,65401,65408,65416,65422,65429,65435,65440,65446,65451,65455,65460,65464,65468,65472,65475,65479,65482,65485,65488,65490,65493,65495,65497,65499,65501,65503,65505,65507,65508,65510,65511}; 
+....................  
+.................... static unsigned int16 tOn = 250;    //tOn 
+*
+0263:  MOVLW  FA
+0264:  MOVWF  29
+0265:  CLRF   2A
+.................... static unsigned int16 period = 0;   //Período 
+0266:  CLRF   2B
+0267:  CLRF   2C
+.................... static int1 noteOn = 0;             //Nota Ligada 
+0268:  BCF    2D.0
+.................... static int8 loadedNote = 0;         //Nota Carregada 
+0269:  CLRF   2E
+.................... static char buffer[3];              //Buffer de Bytes 
+026A:  CLRF   2F
+026B:  CLRF   30
+026C:  CLRF   31
+.................... static int1 buffer_loaded;          //Estado do Buffer 
+026D:  BCF    2D.1
+.................... static int  buffer_counter = 0;     //Contador do Buffer 
+026E:  CLRF   32
+....................  
+.................... #int_rda  
+.................... void serial_isr()  
+.................... {  
+....................    if(buffer_counter!=3) {             //Se ainda não leu 3 bytes 
+*
+0142:  MOVF   32,W
+0143:  SUBLW  03
+0144:  BTFSC  03.2
+0145:  GOTO   158
+....................       buffer[buffer_counter]=getc();   //Ler o byte e guardar no buffer 
+0146:  MOVLW  2F
+0147:  ADDWF  32,W
+0148:  MOVWF  04
+0149:  BCF    03.7
+014A:  BTFSS  0C.5
+014B:  GOTO   14A
+014C:  MOVF   1A,W
+014D:  MOVWF  00
+....................       buffer_counter++; 
+014E:  INCF   32,F
+....................       if(buffer_counter==3) {          //Se ler 3 bytes,  
+014F:  MOVF   32,W
+0150:  SUBLW  03
+0151:  BTFSS  03.2
+0152:  GOTO   156
+....................          buffer_counter = 0;           //Resetar o contador 
+0153:  CLRF   32
+....................          buffer_loaded = 1;            //Marcar o buffer como carregado 
+0154:  BSF    2D.1
+....................       }else{                           //Se não 
+0155:  GOTO   157
+....................          buffer_loaded = 0;            //Manter o status do buffer como 0 
+0156:  BCF    2D.1
+....................       } 
+....................    }else                               //Caso receber algum byte com o buffer 
+0157:  GOTO   15B
+....................       getc();                          //carregado, descartar o byte. 
+0158:  BTFSS  0C.5
+0159:  GOTO   158
+015A:  MOVF   1A,W
+.................... } 
+....................  
+015B:  BCF    0C.5
+015C:  BCF    0A.3
+015D:  GOTO   028
+.................... #INT_TIMER1 
+.................... void resetTimer1() { 
+....................    set_timer1(period); 
+015E:  MOVF   2C,W
+015F:  MOVWF  0F
+0160:  MOVF   2B,W
+0161:  MOVWF  0E
+.................... } 
+....................  
+0162:  BCF    0C.0
+0163:  BCF    0A.3
+0164:  GOTO   028
+.................... int16 TickGet(void) 
+.................... { 
+....................     int16 ret; 
+....................     disable_interrupts(INT_TIMER1); 
+....................     ret=get_timer1(); 
+....................     enable_interrupts(INT_TIMER1); 
+....................     return ret; 
+.................... } 
+....................  
+....................  
+.................... void main() 
+.................... { 
+*
+0255:  CLRF   04
+0256:  BCF    03.7
+0257:  MOVLW  1F
+0258:  ANDWF  03,F
+0259:  MOVLW  01
+025A:  BSF    03.5
+025B:  MOVWF  19
+025C:  MOVLW  A2
+025D:  MOVWF  18
+025E:  MOVLW  90
+025F:  BCF    03.5
+0260:  MOVWF  18
+0261:  MOVLW  07
+0262:  MOVWF  1F
+....................    int16 pos; 
+....................    setup_timer_0(RTCC_INTERNAL|RTCC_DIV_1); 
+*
+026F:  BSF    03.5
+0270:  MOVF   01,W
+0271:  ANDLW  C7
+0272:  IORLW  08
+0273:  MOVWF  01
+....................    setup_timer_1(T1_INTERNAL|T1_DIV_BY_2); 
+0274:  MOVLW  95
+0275:  BCF    03.5
+0276:  MOVWF  10
+....................    setup_timer_2(T2_DISABLED,0,1); 
+0277:  MOVLW  00
+0278:  MOVWF  78
+0279:  MOVWF  12
+027A:  MOVLW  00
+027B:  BSF    03.5
+027C:  MOVWF  12
+....................    setup_comparator(NC_NC_NC_NC); 
+027D:  MOVLW  07
+027E:  BCF    03.5
+027F:  MOVWF  1F
+0280:  BSF    03.5
+0281:  MOVF   05,W
+0282:  MOVLW  03
+0283:  MOVWF  77
+0284:  DECFSZ 77,F
+0285:  GOTO   284
+0286:  BCF    03.5
+0287:  MOVF   1F,W
+0288:  BCF    0C.6
+....................    setup_vref(FALSE); 
+0289:  BSF    03.5
+028A:  CLRF   1F
+....................    enable_interrupts(global); 
+028B:  MOVLW  C0
+028C:  BCF    03.5
+028D:  IORWF  0B,F
+....................    enable_interrupts(INT_TIMER1);  
+028E:  BSF    03.5
+028F:  BSF    0C.0
+....................    enable_interrupts(INT_RDA);  
+0290:  BSF    0C.5
+....................  
+....................    while(true) {                    //Loop para sempre 
+....................       pos=get_timer1()-period;      //Pega valor do timer, e subtrai do periodo 
+0291:  BCF    03.5
+0292:  MOVF   0F,W
+0293:  MOVWF  7A
+0294:  MOVF   0E,W
+0295:  MOVWF  77
+0296:  MOVF   0F,W
+0297:  SUBWF  7A,W
+0298:  BTFSS  03.2
+0299:  GOTO   292
+029A:  MOVF   77,W
+029B:  MOVWF  35
+029C:  MOVF   7A,W
+029D:  MOVWF  36
+029E:  MOVF   2B,W
+029F:  SUBWF  35,W
+02A0:  MOVWF  33
+02A1:  MOVF   36,W
+02A2:  MOVWF  34
+02A3:  MOVF   2C,W
+02A4:  BTFSS  03.0
+02A5:  INCFSZ 2C,W
+02A6:  SUBWF  34,F
+....................                                     //Iremos usar isso para o tOn 
+....................       if((pos<=tOn)&noteOn)         //Se a posição for menor que o tOn  
+02A7:  MOVF   34,W
+02A8:  SUBWF  2A,W
+02A9:  BTFSS  03.0
+02AA:  GOTO   2B1
+02AB:  BTFSS  03.2
+02AC:  GOTO   2B3
+02AD:  MOVF   33,W
+02AE:  SUBWF  29,W
+02AF:  BTFSC  03.0
+02B0:  GOTO   2B3
+02B1:  MOVLW  00
+02B2:  GOTO   2B4
+02B3:  MOVLW  01
+02B4:  MOVWF  35
+02B5:  MOVLW  00
+02B6:  BTFSC  2D.0
+02B7:  MOVLW  01
+02B8:  ANDWF  35,W
+02B9:  BTFSC  03.2
+02BA:  GOTO   2C0
+....................          OUTPUT_HIGH(PIN_A0);       //Liga saída A0 
+02BB:  BSF    03.5
+02BC:  BCF    05.0
+02BD:  BCF    03.5
+02BE:  BSF    05.0
+....................       else                          //Se não 
+02BF:  GOTO   2C4
+....................          OUTPUT_LOW(PIN_A0);        //Desliga saída A0 
+02C0:  BSF    03.5
+02C1:  BCF    05.0
+02C2:  BCF    03.5
+02C3:  BCF    05.0
+....................           
+....................     if(buffer_loaded) {             //Aqui iremos fazer o processo do buffer 
+02C4:  BTFSS  2D.1
+02C5:  GOTO   37E
+....................                                     //Se o valor no byte1 for 0x90, e não houver 
+....................                                     //nota ligada, e o pino A1 estiver ligado  
+....................        if((buffer[0] == 0x90) & !(noteOn) & INPUT(PIN_A1)) { 
+02C6:  MOVF   2F,W
+02C7:  SUBLW  90
+02C8:  BTFSC  03.2
+02C9:  GOTO   2CC
+02CA:  MOVLW  00
+02CB:  GOTO   2CD
+02CC:  MOVLW  01
+02CD:  MOVWF  35
+02CE:  MOVLW  00
+02CF:  BTFSS  2D.0
+02D0:  MOVLW  01
+02D1:  ANDWF  35,W
+02D2:  MOVWF  36
+02D3:  BSF    03.5
+02D4:  BSF    05.1
+02D5:  MOVLW  00
+02D6:  BCF    03.5
+02D7:  BTFSC  05.1
+02D8:  MOVLW  01
+02D9:  ANDWF  36,W
+02DA:  BTFSC  03.2
+02DB:  GOTO   35C
+....................          period = notas[buffer[1]]; //Carrega o valor da nota no periodo 
+02DC:  BCF    03.0
+02DD:  RLF    30,W
+02DE:  MOVWF  79
+02DF:  CLRF   7A
+02E0:  RLF    7A,F
+02E1:  MOVF   79,W
+02E2:  MOVWF  35
+02E3:  INCF   79,W
+02E4:  CALL   03B
+02E5:  MOVWF  7A
+02E6:  MOVF   35,W
+02E7:  CALL   03B
+02E8:  MOVWF  2B
+02E9:  MOVF   7A,W
+02EA:  MOVWF  2C
+....................          tON = ((0xFFFF-period)*0.1)>200?200:(0xFFFF-period)*0.1; //Faz o tOn ser 10% do periodo total 
+02EB:  MOVF   2B,W
+02EC:  SUBLW  FF
+02ED:  MOVWF  35
+02EE:  MOVLW  FF
+02EF:  MOVWF  36
+02F0:  MOVF   2C,W
+02F1:  BTFSS  03.0
+02F2:  INCFSZ 2C,W
+02F3:  SUBWF  36,F
+02F4:  MOVF   36,W
+02F5:  MOVWF  3E
+02F6:  MOVF   35,W
+02F7:  MOVWF  3D
+02F8:  CALL   165
+02F9:  MOVF   7A,W
+02FA:  MOVWF  40
+02FB:  MOVF   79,W
+02FC:  MOVWF  3F
+02FD:  MOVF   78,W
+02FE:  MOVWF  3E
+02FF:  MOVF   77,W
+0300:  MOVWF  3D
+0301:  MOVLW  CD
+0302:  MOVWF  44
+0303:  MOVLW  CC
+0304:  MOVWF  43
+0305:  MOVLW  4C
+0306:  MOVWF  42
+0307:  MOVLW  7B
+0308:  MOVWF  41
+0309:  CALL   182
+030A:  MOVF   77,W
+030B:  MOVWF  37
+030C:  MOVF   78,W
+030D:  MOVWF  38
+030E:  MOVF   79,W
+030F:  MOVWF  39
+0310:  MOVF   7A,W
+0311:  MOVWF  3A
+0312:  CLRF   3E
+0313:  CLRF   3D
+0314:  MOVLW  48
+0315:  MOVWF  3C
+0316:  MOVLW  86
+0317:  MOVWF  3B
+0318:  MOVF   7A,W
+0319:  MOVWF  42
+031A:  MOVF   79,W
+031B:  MOVWF  41
+031C:  MOVF   78,W
+031D:  MOVWF  40
+031E:  MOVF   77,W
+031F:  MOVWF  3F
+0320:  GOTO   1F7
+0321:  BTFSS  03.0
+0322:  GOTO   326
+0323:  CLRF   7A
+0324:  MOVLW  C8
+0325:  GOTO   351
+0326:  MOVF   2B,W
+0327:  SUBLW  FF
+0328:  MOVWF  3B
+0329:  MOVLW  FF
+032A:  MOVWF  3C
+032B:  MOVF   2C,W
+032C:  BTFSS  03.0
+032D:  INCFSZ 2C,W
+032E:  SUBWF  3C,F
+032F:  MOVF   3C,W
+0330:  MOVWF  3E
+0331:  MOVF   3B,W
+0332:  MOVWF  3D
+0333:  CALL   165
+0334:  MOVF   7A,W
+0335:  MOVWF  40
+0336:  MOVF   79,W
+0337:  MOVWF  3F
+0338:  MOVF   78,W
+0339:  MOVWF  3E
+033A:  MOVF   77,W
+033B:  MOVWF  3D
+033C:  MOVLW  CD
+033D:  MOVWF  44
+033E:  MOVLW  CC
+033F:  MOVWF  43
+0340:  MOVLW  4C
+0341:  MOVWF  42
+0342:  MOVLW  7B
+0343:  MOVWF  41
+0344:  CALL   182
+0345:  MOVF   7A,W
+0346:  MOVWF  40
+0347:  MOVF   79,W
+0348:  MOVWF  3F
+0349:  MOVF   78,W
+034A:  MOVWF  3E
+034B:  MOVF   77,W
+034C:  MOVWF  3D
+034D:  GOTO   236
+034E:  MOVF   79,W
+034F:  MOVWF  7A
+0350:  MOVF   78,W
+0351:  MOVWF  29
+0352:  MOVF   7A,W
+0353:  MOVWF  2A
+....................          noteOn = 1;                //Fala que a nota está ligada 
+0354:  BSF    2D.0
+....................          OUTPUT_HIGH(PIN_A2);       //Coloca saída A2 em alta, PIC ocupado 
+0355:  BSF    03.5
+0356:  BCF    05.2
+0357:  BCF    03.5
+0358:  BSF    05.2
+....................          loadedNote = buffer[1];    //Guarda o número da nota carregada 
+0359:  MOVF   30,W
+035A:  MOVWF  2E
+....................        }else if(buffer[0] == 0x80) {//Se for 0x80, é para desligar a nota 
+035B:  GOTO   37D
+035C:  MOVF   2F,W
+035D:  SUBLW  80
+035E:  BTFSS  03.2
+035F:  GOTO   36E
+....................        if(buffer[1] == loadedNote) {//Verifica se a nota que esta tocando é a 
+0360:  MOVF   2E,W
+0361:  SUBWF  30,W
+0362:  BTFSS  03.2
+0363:  GOTO   36D
+....................                                     //mesma que está pedindo para desligar 
+....................             period = 0xFFFF;        //Reseta periodo 
+0364:  MOVLW  FF
+0365:  MOVWF  2C
+0366:  MOVWF  2B
+....................             noteOn = 0;             //Desliga nota 
+0367:  BCF    2D.0
+....................             OUTPUT_LOW(PIN_A2);     //Desliga saida A2, PIC Disponível 
+0368:  BSF    03.5
+0369:  BCF    05.2
+036A:  BCF    03.5
+036B:  BCF    05.2
+....................             loadedNote = 0x00;      //Zera nota carregada 
+036C:  CLRF   2E
+....................        } 
+....................        }else if(buffer[0] == 0xB0) { 
+036D:  GOTO   37D
+036E:  MOVF   2F,W
+036F:  SUBLW  B0
+0370:  BTFSS  03.2
+0371:  GOTO   37D
+....................          period = 0xFFFF;            
+0372:  MOVLW  FF
+0373:  MOVWF  2C
+0374:  MOVWF  2B
+....................          noteOn = 0;                 
+0375:  BCF    2D.0
+....................          OUTPUT_LOW(PIN_A2);         
+0376:  BSF    03.5
+0377:  BCF    05.2
+0378:  BCF    03.5
+0379:  BCF    05.2
+....................          loadedNote = 0x00; 
+037A:  CLRF   2E
+....................          buffer_counter = 0; 
+037B:  CLRF   32
+....................          buffer_loaded = 0; 
+037C:  BCF    2D.1
+....................        } 
+....................        buffer_loaded = 0;           //Libera o buffer para recarregamento 
+037D:  BCF    2D.1
+....................     } 
+....................    } 
+037E:  GOTO   292
+.................... } 
+037F:  SLEEP
+
+Configuration Fuses:
+   Word  1: 3F01   XT NOWDT PUT NOPROTECT NOBROWNOUT NOMCLR NOLVP NOCPD

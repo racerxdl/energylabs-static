@@ -1,0 +1,41 @@
+<title>intro_fpga.html</title><h1 style="text-align: center;"><span style="font-size: xx-large;">Introdu&ccedil;&atilde;o ao FPGA</span></h1>
+<p>&nbsp;</p>
+<h2><span style="font-size: xx-large;"><span style="font-size: large;">- O que s&atilde;o FPGA's?</span></span></h2>
+<p style="text-align: justify;"><br />&nbsp;&nbsp;&nbsp; <strong>FPGA's</strong> s&atilde;o Chips Digitais de L&oacute;gica Program&aacute;vel. Seu nome &eacute; uma abreviatura para <strong>Field Programmable Gate Array</strong>, que traduzindo significa Matriz de Portas Program&aacute;veis em Campo. O que significa que voc&ecirc; pode programa-lo para executar praticamente qualquer fun&ccedil;&atilde;o l&oacute;gica.</p>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp; Abaixo vai um diagrama b&aacute;sico de como se trabalha com FPGA's:</p>
+<ol style="text-align: justify;">
+<li>Voc&ecirc; usa um computador para descrever a "fun&ccedil;&atilde;o l&oacute;gica" que deseja. Voc&ecirc; pode desenhar um esquem&aacute;tico digital ou criar um arquivo de texto que represente-o.</li>
+<li>Voc&ecirc; compila a "fun&ccedil;&atilde;o l&oacute;gica" no seu computador, usando o programa disponibilizado pelo vendedor do FPGA. Isso cria um arquivo bin&aacute;rio para ser enviado ao FPGA.</li>
+<li>Voc&ecirc; conecta o cabo de seu computador ao FPGA, e envia o arquivo bin&aacute;rio para ele.</li>
+<li>Pronto, seu FPGA agora executa a "fun&ccedil;&atilde;o l&oacute;gica" descrita</li>
+</ol>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; E lembre-se:</p>
+<ul style="text-align: justify;">
+<li>Voc&ecirc; pode enviar para o FPGA quantas vezes voc&ecirc; quiser. N&atilde;o h&aacute; limite. Se voc&ecirc; errar na hora de fazer sua fun&ccedil;&atilde;o l&oacute;gica, voc&ecirc; pode apenas corrigir no seu computador e re-enviar para o FPGA. N&atilde;o &eacute; necess&aacute;rio soldagem nem mudan&ccedil;a na placa.</li>
+<li>A fun&ccedil;&atilde;o l&oacute;gica funciona bem mais rapidamente em um FPGA do que em um mesmo circuito montado em uma placa com v&aacute;rios componentes. Isso se deve ao fato de tudo rodar dentro do pr&oacute;prio chip.</li>
+<li style="text-align: justify;">FPGA perdem sua funcionalidade quando s&atilde;o desligados, isso &eacute; devido ao fato de eles serem baseados em RAM. Ent&atilde;o toda vez que voc&ecirc; religa-lo dever&aacute; enviar denovo sua fun&ccedil;&atilde;o l&oacute;gica.</li>
+</ul>
+<p style="text-align: justify;">&nbsp;</p>
+<h2 style="text-align: justify;"><span style="font-size: large;">- Quem faz FPGA's?</span></h2>
+<p style="text-align: justify;">&nbsp;</p>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; H&aacute; pelo menos 5 empresas que fabricam FPGA's, dentre elas a <strong>Xilinx </strong>e <strong>Altera</strong> &eacute; que detem a maior parte do mercado.</p>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; A Xilinx foi quem inventou o FPGA, e &eacute; o maior nome de FPGA no mundo.</p>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; A Altera &eacute; a segunda maior empresa de FPGA, com um nome tamb&eacute;m muito conceituado.</p>
+<h3 style="text-align: justify;">Xilinx</h3>
+<p style="text-align: justify;"><img border=0 title="Xilinx Logo" src="get.php@arquivo=812"  alt="Logo da Xilinx" width="160" height="66" /></p>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; A Xilinx tem sido l&iacute;der de vendas em quantidade e tamb&eacute;m em tecnologia. A filosofia deles &eacute; prover todos os recursos poss&iacute;veis ao custo de uma complexidade extra.</p>
+<p style="text-align: justify;">&nbsp;</p>
+<h3 style="text-align: justify;">Altera</h3>
+<p style="text-align: justify;"><img border=0 title="Altera Logo" src="get.php@arquivo=811"  alt="Logo da Altera" width="163" height="59" /></p>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; A filosofia da Altera &eacute; prover recursos que a maioria das pessoas querem, enquanto mant&eacute;m facil o seu uso.</p>
+<p style="text-align: justify;">&nbsp;</p>
+<h2 style="text-align: justify;"><span style="font-size: large;">- FPGA vs Microcontroladores</span></h2>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; FPGA &eacute; a mesma coisa que um Microcontrolador? Definitivamente n&atilde;o.</p>
+<ul style="text-align: justify;">
+<li>FPGA's s&atilde;o implementados com elementos de l&oacute;gica programavel, podendo rodar v&aacute;rios circuitos em paralelo.</li>
+<li>Microcontroladores s&atilde;o baseados na arquitetura de um CPU, ou seja executam um conjunto de instru&ccedil;&otilde;es linha a linha.</li>
+<li>Microcontroladores tem perif&eacute;ricos internos que tamb&eacute;m executam paralelamente com o CPU, por&eacute;m ainda sim s&atilde;o menos configur&aacute;veis que um FPGA.</li>
+</ul>
+<p>&nbsp;</p>
+<p>Este texto &eacute; baseado no conte&uacute;do da <a href="http://www.fpga4fun.com" target="_blank">FPGA4FUN</a></p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img border=0 style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png"  alt="Licen&ccedil;a Creative Commons" /></a><br />Esta <span>obra</span> de <a rel="cc:attributionURL" href="../ver-documento/832.html">EnergyLabs Brasil</a>, foi licenciada com uma Licen&ccedil;a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons - Atribui&ccedil;&atilde;o - Partilha nos Mesmos Termos 3.0 N&atilde;o Adaptada</a>.<br />Permiss&otilde;es adicionais ao &acirc;mbito desta licen&ccedil;a podem estar dispon&iacute;veis em <a rel="cc:morePermissions" href="../ver-documento/832.html">http://www.energylabs.com.br</a>.</p>

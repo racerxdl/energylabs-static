@@ -1,0 +1,285 @@
+<html>
+<head>
+<title>EnergyLabs > FPGA > TFT LCD | Project Source</title>
+<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
+<meta name="title" content="EnergyLabs > FPGA > TFT LCD | Project Source">
+<meta name="url" content="http://www.energylabs.com.br/project/">
+<meta name="description" content="Sua fonte de experi&ecirc;ncias! Bobinas de tesla, geradores de alta tens&atilde;o, flyback, turbo compressor, explos&otilde;es e etc...">
+<meta name="keywords" content="project source, energylabs, tesla, documento, projetos, tesla brasil, laser, violet, blue, green, high power, radio, bobina de tesla, bobina de tesla de estado sólido, solid state tesla coil">
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1">
+<meta name="autor" content="Lucas Teske">
+<meta name="company" content="EnergyLabs Brasil"><meta name="revisit-after" content="1">
+</head>
+<script type="text/javascript">
+ function openWindow(url,w,h,tb,stb,l,mb,sb,rs,x,y){ 
+var t=(document.layers)? ',screenX='+x+',screenY='+y: ',left='+x+',top='+y; //A LITTLE CROSS-BROWSER CODE FOR WINDOW POSITIONING
+tb=(tb)?'yes':'no'; stb=(stb)?'yes':'no'; l=(l)?'yes':'no'; mb=(mb)?'yes':'no'; sb=(sb)?'yes':'no'; rs=(rs)?'yes':'no';
+var x=window.open(url, 'newWin'+new Date().getTime(), 'scrollbars='+sb+',width='+w+',height='+h+',toolbar='+tb+',status='+stb+',menubar='+mb+',links='+l+',resizable='+rs+t);
+x.focus();
+}
+
+</script>
+<body bgcolor=#939393>
+<font color=#FFFFFF>
+<script src="js/onlyone.js@load=effects" type="text/javascript"></script>
+
+<script language="javascript">
+window.onresize = resize_function;
+
+function resize_function() {
+		state = document.getElementById('formdelogin').style.display;
+		if ( state == 'block' ) { 
+			openloginmenu();
+		}
+		
+}
+
+function closeloginmenu()  {
+	document.getElementById('formdelogin').style.display="none";
+}
+
+function openloginmenu(){
+var el = document.getElementById('divforlogin');
+var x=0,y=0;
+if (el.offsetParent)
+{
+	do
+	{
+		x+=el.offsetLeft;
+		y+=el.offsetTop;
+	}
+	while(el=el.offsetParent);
+}
+	y-=10;
+	x+=220;
+	document.getElementById('formdelogin').style.display="block";
+	document.getElementById('formdelogin').style.left=x+'px';
+	document.getElementById('formdelogin').style.top=y+'px';
+}
+</script>
+
+  
+<div id="formdelogin" style="display:none;position:absolute; left:0px; top:0px;">
+<form action="http://www.energylabs.com.br/project/?" method="post" name="login_form" id="login_form">
+  Usuario:
+  <input type="text" name="usuario_login"> 
+  Senha: 
+  <input type="password" name="senha_login">
+  <input name="submit_login" type="submit" id="submit_login" value="Login" onClick="javascript:closeloginmenu();submit();">
+</form>
+</div>
+<center><table width="900" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="900" height="120" valign="top" background="images/allbg/allbg_01.gif"><center><BR>
+<script type="text/javascript">
+<!--
+descrColor="000000";titleColor="0000FF";urlColor="008000";borderColor="FFFFFF";bgColor="FFFFFF";altColor="FFFFFF";coddisplaysupplier="74247c5688484685972f91a9ebb89392";formatId="1";numads="4";deslabel="Project";type="1";
+-->
+</script>
+<script type="text/javascript" src="http://adrequisitor-af.lp.uol.com.br/uolaf.js"></script>
+</center></td>
+  </tr>
+  <tr>
+    <td height="37" valign="top" background="images/allbg/allbg_02.png">
+<center><font size=5 color="#FFFFFF"> Project Source - <B>/EnergyLabs/FPGA/TFT LCD</B> -  <a href="index.html@dir=EnergyLabs%252FFPGA.html">Voltar</a></font></center>
+<center>
+</td>
+  </tr>
+  <tr><td height="406" valign="top" background="images/allbg/allbg_03.png">
+<center>
+<table width="" border="0" cellpadding="2" cellspacing="2" bordercolordark="#003366" bordercolorlight="#00FF00">
+<tr>
+    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=835" rel="lightbox" title=""><img src="get.php@arquivo=835&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=835" rel="lightbox" title=""><font color="FFFFFF">1.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 68.30 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=843" rel="lightbox" title=""><img src="get.php@arquivo=843&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=843" rel="lightbox" title=""><font color="FFFFFF">10.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 63.40 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=844" rel="lightbox" title=""><img src="get.php@arquivo=844&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=844" rel="lightbox" title=""><font color="FFFFFF">11.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">21-12 23:33 - 67.75 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=845" rel="lightbox" title=""><img src="get.php@arquivo=845&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=845" rel="lightbox" title=""><font color="FFFFFF">12.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 57.84 kB</font></div>
+				</td>  </tr>	<tr>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=846" rel="lightbox" title=""><img src="get.php@arquivo=846&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=846" rel="lightbox" title=""><font color="FFFFFF">13.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 60.56 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=847" rel="lightbox" title=""><img src="get.php@arquivo=847&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=847" rel="lightbox" title=""><font color="FFFFFF">14.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 54.25 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=848" rel="lightbox" title=""><img src="get.php@arquivo=848&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=848" rel="lightbox" title=""><font color="FFFFFF">15.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 59.46 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=849" rel="lightbox" title=""><img src="get.php@arquivo=849&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=849" rel="lightbox" title=""><font color="FFFFFF">16.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 78.78 kB</font></div>
+				</td>  </tr>	<tr>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=850" rel="lightbox" title=""><img src="get.php@arquivo=850&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=850" rel="lightbox" title=""><font color="FFFFFF">17.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 74.79 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=851" rel="lightbox" title=""><img src="get.php@arquivo=851&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=851" rel="lightbox" title=""><font color="FFFFFF">18.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 01:00 - 74.79 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=852" rel="lightbox" title=""><img src="get.php@arquivo=852&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=852" rel="lightbox" title=""><font color="FFFFFF">19.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 87.05 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=836" rel="lightbox" title=""><img src="get.php@arquivo=836&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=836" rel="lightbox" title=""><font color="FFFFFF">2.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 80.14 kB</font></div>
+				</td>  </tr>	<tr>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=853" rel="lightbox" title=""><img src="get.php@arquivo=853&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=853" rel="lightbox" title=""><font color="FFFFFF">20.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 70.01 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=837" rel="lightbox" title=""><img src="get.php@arquivo=837&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=837" rel="lightbox" title=""><font color="FFFFFF">3.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 79.10 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=838" rel="lightbox" title=""><img src="get.php@arquivo=838&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=838" rel="lightbox" title=""><font color="FFFFFF">4.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 65.79 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=839" rel="lightbox" title=""><img src="get.php@arquivo=839&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=839" rel="lightbox" title=""><font color="FFFFFF">5.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 82.30 kB</font></div>
+				</td>  </tr>	<tr>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=840" rel="lightbox" title=""><img src="get.php@arquivo=840&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=840" rel="lightbox" title=""><font color="FFFFFF">6.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 85.42 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=841" rel="lightbox" title=""><img src="get.php@arquivo=841&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=841" rel="lightbox" title=""><font color="FFFFFF">7.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 81.31 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=842" rel="lightbox" title=""><img src="get.php@arquivo=842&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=842" rel="lightbox" title=""><font color="FFFFFF">9.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 66.64 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=880" rel="lightbox" title=""><img src="get.php@arquivo=880&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=880" rel="lightbox" title=""><font color="FFFFFF">image.jpg</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 2.88 kB</font></div>
+				</td>  </tr>	<tr>
+    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center" title=""><a href="get.php@arquivo=855">
+	<object width="160" height="92">
+	<param name="movie" value="http://www.energylabs.com.br/project/get.php?arquivo=855&thumb=1">
+	<embed src="get.php@arquivo=855&amp;thumb=1" width="160" height="92">
+	</embed>
+	</object></a></div>
+		<div align="center"><a href="get.php@arquivo=855" title=""><font color="FFFFFF">PIC_0428.AVI</font></a></div>
+		<div align="center"><font color="FFFFFF">22-12 02:52 - 18.21 MB</font></div>
+		</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=867" rel="lightbox" title=""><img src="get.php@arquivo=867&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=867" rel="lightbox" title=""><font color="FFFFFF">PIC_0452.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 80.60 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=868" rel="lightbox" title=""><img src="get.php@arquivo=868&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=868" rel="lightbox" title=""><font color="FFFFFF">PIC_0453.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 74.31 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=869" rel="lightbox" title=""><img src="get.php@arquivo=869&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=869" rel="lightbox" title=""><font color="FFFFFF">PIC_0454.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 59.73 kB</font></div>
+				</td>  </tr>	<tr>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=870" rel="lightbox" title=""><img src="get.php@arquivo=870&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=870" rel="lightbox" title=""><font color="FFFFFF">PIC_0455.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 94.36 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=871" rel="lightbox" title=""><img src="get.php@arquivo=871&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=871" rel="lightbox" title=""><font color="FFFFFF">PIC_0456.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 92.18 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=872" rel="lightbox" title=""><img src="get.php@arquivo=872&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=872" rel="lightbox" title=""><font color="FFFFFF">PIC_0457.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 102.76 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=873" rel="lightbox" title=""><img src="get.php@arquivo=873&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=873" rel="lightbox" title=""><font color="FFFFFF">PIC_0459.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 100.60 kB</font></div>
+				</td>  </tr>	<tr>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=874" rel="lightbox" title=""><img src="get.php@arquivo=874&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=874" rel="lightbox" title=""><font color="FFFFFF">PIC_0460.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 130.46 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=875" rel="lightbox" title=""><img src="get.php@arquivo=875&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=875" rel="lightbox" title=""><font color="FFFFFF">PIC_0461.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 98.92 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=876" rel="lightbox" title=""><img src="get.php@arquivo=876&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=876" rel="lightbox" title=""><font color="FFFFFF">PIC_0471.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 133.85 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=877" rel="lightbox" title=""><img src="get.php@arquivo=877&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=877" rel="lightbox" title=""><font color="FFFFFF">PIC_0472.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 135.24 kB</font></div>
+				</td>  </tr>	<tr>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=878" rel="lightbox" title=""><img src="get.php@arquivo=878&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=878" rel="lightbox" title=""><font color="FFFFFF">PIC_0473.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 132.48 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=881" rel="lightbox" title=""><img src="get.php@arquivo=881&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=881" rel="lightbox" title=""><font color="FFFFFF">PIC_0475.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 44.51 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=882" rel="lightbox" title=""><img src="get.php@arquivo=882&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=882" rel="lightbox" title=""><font color="FFFFFF">PIC_0488.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 13:18 - 88.48 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=883" rel="lightbox" title=""><img src="get.php@arquivo=883&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=883" rel="lightbox" title=""><font color="FFFFFF">PIC_0491.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 71.80 kB</font></div>
+				</td>  </tr>	<tr>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=884" rel="lightbox" title=""><img src="get.php@arquivo=884&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=884" rel="lightbox" title=""><font color="FFFFFF">PIC_0492.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 95.65 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=885" rel="lightbox" title=""><img src="get.php@arquivo=885&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=885" rel="lightbox" title=""><font color="FFFFFF">PIC_0493.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 74.33 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=886" rel="lightbox" title=""><img src="get.php@arquivo=886&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=886" rel="lightbox" title=""><font color="FFFFFF">PIC_0501.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">21-12 17:00 - 96.25 kB</font></div>
+				</td>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=887" rel="lightbox" title=""><img src="get.php@arquivo=887&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=887" rel="lightbox" title=""><font color="FFFFFF">PIC_0508.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 99.18 kB</font></div>
+				</td>  </tr>	<tr>    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><font size=1>&nbsp;</font><div align="center"><a href="get.php@arquivo=854" rel="lightbox" title=""><img src="get.php@arquivo=854&amp;thumb=1" border=0 width="160" height="92"></a></div>
+				<div align="center"><a href="get.php@arquivo=854" rel="lightbox" title=""><font color="FFFFFF">wave.JPG</font></a></font></div>
+				<div align="center"><font color="FFFFFF">22-12 02:52 - 55.92 kB</font></div>
+				</td></table><p>
+
+<BR>
+<BR><center></center><BR><BR>
+<div id="divforlogin"></div>
+<BR><a href="javascript:void(0);" onClick="javascript:openloginmenu();"><font color=white>Efetuar Login</font></a>
+
+
+	<form action="../project.html" id="cse-search-box">
+	  <div>
+	    <input type="hidden" name="mode" value="google" />
+		<input type="hidden" name="cx" value="partner-pub-2005397300950648:1a1vh9ea3sn" />
+		<input type="hidden" name="cof" value="FORID:10" />
+		<input type="hidden" name="ie" value="ISO-8859-1" />
+		<input type="text" name="q" size="20" />
+		<input type="submit" name="sa" value="Pesquisar" />
+	  </div>
+	</form>
+	<script type="text/javascript" src="http://www.google.com.br/cse/brand?form=cse-search-box&amp;lang=pt"></script> 
+	<table width="700" border="0" cellpadding="0" cellspacing="0">
+    <tr><td width="256" rowspan="3" valign="top"></td>
+    <td width="278" height="20" valign="top"><center></center></td>
+    <td width="166" valign="top"></td>
+  </tr>
+    <tr>
+      <td height="24" valign="top"></td>
+    <td>&nbsp;</td>
+    </tr>
+  
+  <tr>
+    <td height="66" valign="top"></td>
+	    <td><center><font color=white><a href="../el/produtos.html"><font color=white>EnergyLabs Brasil</font></a><BR><a href="http://www.teslabrasil.com.br/"><font color=white>Tesla Brasil</font></a></font></center></td>
+  </tr>
+		<tr>
+		    <td height="0"></td>
+			<td></td>
+		    <td><div align="center"><font color="#FFFFFF">Por: <a href="../cdn-cgi/l/email-protection.html#bdd1c8dedccefdc9d8ced6d893ded2d093dfcf"><font 
+color=white>Lucas Teske</font></a></font>
+        </div></td>
+        </tr>
+<tr><td colspan=3>
+<font color=white>
+<center>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="Licença Creative Commons" 
+style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br />Esta <span 
+xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" rel="dct:type">obra</span> de <a 
+xmlns:cc="http://creativecommons.org/ns#" href="../index.html" property="cc:attributionName" 
+rel="cc:attributionURL">EnergyLabs Brasil</a>, foi licenciada com uma Licença <a rel="license" 
+href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons - Atribuição - Partilha nos Mesmos Termos 3.0 Não 
+Adaptada</a>.<br />Permissões adicionais ao âmbito desta licença podem estar disponíveis em <a 
+xmlns:cc="http://creativecommons.org/ns#" href="../index.html" 
+rel="cc:morePermissions">http://www.energylabs.com.br</a>.</center></font>
+</tr></td>
+</table>
+	</td>
+  </tr>
+  <tr>
+    <td height="37" valign="top" background="images/allbg/allbg_04.png">&nbsp;</td>
+  </tr>
+</table>
+</center>
+<script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>
+
+

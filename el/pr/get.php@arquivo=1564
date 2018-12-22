@@ -1,0 +1,51 @@
+
+ROM used: 896 (44%)
+          896 (44%) including unused fragments
+
+          3 Average locations per line
+          16 Average locations per statement
+
+RAM used: 35 (16%) at main() level
+          50 (22%) worst case
+
+Stack used: 2 worst case (out of 7 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   93    56 100  main.c
+   16     0   0  main.h
+  207     0   0  ..\..\devices\16F628A.h
+----- -----
+  316    56 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0    263  29   0             @const46
+0     28   3   2   200  4.4  serial_isr
+0      7   1   0    16  1.0  resetTimer1
+0    299  33  10  1412  9.2  MAIN
+0     29   3   2             @ITOF
+0    117  13  13             @MULFF
+0     63   7  10             @FLT
+0     31   3   4             @SFTOI
+
+Program metrics:
+    Functions               3
+    Statements              56
+    Comments                101
+    Volume (V)              1846
+    Difficilty (D)          14.5
+    Effort to implement (E) 26803
+    Time to implement (T)   25 minutes
+    Est Delivered Bugs (B)  0
+    Cyclomatic Complexity   8
+    Maintainability (MI)    111
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-0003A    55  0  
+0003B-007FF   837  1152  
+
+
+

@@ -1,0 +1,47 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+020     @SCRATCH
+021     @SCRATCH
+021     _RETURN_
+022     @SCRATCH
+023     @SCRATCH
+024     @SCRATCH
+025     tOn
+026     tmpint
+027     lock
+028     @delay_us1.P1
+028     main.@SCRATCH
+10D-10E @READ_PROGRAM_MEMORY8.P1
+
+000A  @delay_us1
+001D  main
+001D  @cinit
+
+Project Directory:
+    D:\Program Files (x86)\PICC\Projects\AudioINT\
+
+Project Files:
+    main.c
+    main.h
+    ..\..\devices\12C671.h
+
+Units:
+    D:\Program Files (x86)\PICC\Projects\AudioINT\main.c (main)
+
+Compiler Settings:
+    Processor:      PIC12C671
+    Pointer Size:   8
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    Errors:      main.err
+    Ext Symbols: main.esym
+    INHX8:       main.hex
+    Symbols:     main.sym
+    List:        main.lst
+    Debug/COFF:  main.cof
+    Project:     main.PJT
+    Call Tree:   main.tre
+    Statistics:  main.sta

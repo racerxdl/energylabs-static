@@ -1,0 +1,291 @@
+#include <iostream>
+#include <cstdlib>
+#include <signal.h>
+#include <math.h>
+#include "RtMidi.h"
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
+
+
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
+
+#include "rs232.h"
+
+bool done;
+static void finish(int ignore){ done = true; }
+
+int serialport = 0;
+using namespace std;
+
+#ifndef _WIN_32
+static void Sleep(unsigned short ms)	{
+	sleep(ms);
+}
+#endif
+
+const float df	=	100.0 / 8192.0 / 1200.0;
+#define PITCH_SENSITIVE	1	//Semi-tones
+#define MAX_NOTES 4
+class Note	{
+	unsigned short period, tOn, note;
+	float	freq;
+	public:
+		Note	();
+		Note	(unsigned short, unsigned short);
+		float			GetFreq()							{	return 		freq; 		};
+		unsigned short	GetPeriod()							{	return 		period; 	};
+		unsigned short	GettOn()							{	return 		tOn;		};
+		unsigned short	GettOn(unsigned short volume)		{	return	round((tOn/127.0)*volume);}
+		unsigned short	GetNote()							{	return 		note;		};
+		void			SetFreq(float freqin)				{	freq 	= 	freqin; 	};
+		void			SetPeriod(unsigned short periodin)	{ 	period 	= 	periodin;	};
+		void			SettOn(unsigned short tOnIn)		{	tOn		=	tOnIn;		};
+		void			SetNote(unsigned short	noteIn)		{	note	=	noteIn;		};
+		void			ResetNote();
+};
+
+Note::Note	()	{
+	freq = 0;
+	period = 0;
+	tOn = 0;
+	note = 0;
+}
+Note::Note	(unsigned short note_in, unsigned short velocity)	{
+	freq	=	round(27.5 * pow(2.0, (note_in-21)/12.0) * 10000) / 10000.0 ;
+	period	=	round(1.0 / freq * 1e6);
+	tOn		=	velocity * 2;
+	note	=	note_in;
+}
+void	Note::ResetNote()	{
+	freq	=	round(27.5 * pow(2.0, (note-21)/12.0) * 10000) / 10000.0 ;
+	period	=	round(1.0 / freq * 1e6);
+}
+
+void SendSlaveData(int address, unsigned short period, unsigned short tOn, bool state)	{
+	unsigned char cmd[5];
+	unsigned short tmpperiod = period;
+	if(state)	{	//	Ligar Nota
+		cmd[0]	=	(unsigned char) (address+1);			//	Endereço
+		cmd[1]	=	0x01;								//	Ligar Nota
+		cmd[2]	=	(unsigned char)	((tmpperiod >> 8)	& 0xFF);	//	Period MSB
+		cmd[3]	=	(unsigned char)	(tmpperiod & 0xFF);	//	Period LSB
+		cmd[4]	=	(unsigned char)	(tOn & 0xFF);				//	tOn
+	}else{
+		cmd[0]	=	(unsigned char) (address+1);
+		cmd[1]	=	0x02;
+		cmd[2]	=	(unsigned char)	((tmpperiod >> 8)	& 0xFF);
+		cmd[3]	=	(unsigned char)	(tmpperiod & 0xFF);
+		cmd[4]	=	(unsigned char)	(tOn & 0xFF);
+	}
+	SendBuf(serialport, cmd, 5);
+}
+
+class SoundManager	{
+	Note channel[MAX_NOTES];
+	bool busy[MAX_NOTES];
+	unsigned short playing;
+	unsigned short volume;
+	short pitch;
+	public:	
+		SoundManager	();
+		void PlayNote(unsigned short,unsigned short);
+		void StopNote(unsigned short,unsigned short);
+		void PitchNote(unsigned short,unsigned short);
+		void ChannelControl(unsigned short, unsigned short);
+		void UpdateNotes();
+		void ShutNotesOff();
+		unsigned short GetPlaying()	{	return playing; };
+	
+};
+
+SoundManager::SoundManager	()	{
+	for(int i=0;i<MAX_NOTES;i++)	
+		busy[i] = false;
+	playing = 0;
+	volume = 127;
+	pitch = 8192;
+}
+void SoundManager::PlayNote(unsigned short note, unsigned short velocity)	{
+	for(int i=0;i<MAX_NOTES;i++)	{
+		if(!busy[i])	{
+			channel[i] = Note(note,velocity);
+			channel[i].SetFreq( round(27.5 * pow(2.0, ((channel[i].GetNote()-21)/12.0) + (PITCH_SENSITIVE*df*pitch)) * 10000)/10000);
+			channel[i].SetPeriod(1.0 / channel[i].GetFreq() * 1e6);
+			cout << "Nota ligada ["<<i<<"] - Freq: " << channel[i].GetFreq() << "Hz - Periodo: " << channel[i].GetPeriod() << "us tOn: " << channel[i].GettOn(volume) << "us" << endl;
+			busy[i] = true;
+			SendSlaveData(i, channel[i].GetPeriod(), channel[i].GettOn(volume), true);
+			playing++;
+			break;
+		}
+	}
+}
+
+void SoundManager::StopNote(unsigned short note, unsigned short velocity)	{
+	for(int i=0;i<MAX_NOTES;i++)	{
+		if(channel[i].GetNote() == note && busy[i])	{
+			cout << "Nota desligada ["<<i<<"]" << endl;
+			busy[i] = false;
+			playing--;
+			SendSlaveData(i, channel[i].GetPeriod(), channel[i].GettOn(volume), false);
+			break;
+		}
+	}
+}
+
+void SoundManager::PitchNote(unsigned short byte0, unsigned short byte1)	{
+	pitch	=	(byte1 * 128 + byte0) - 8192;
+	for(int i=0;i<MAX_NOTES;i++)	{
+		if(busy[i])	{
+			channel[i].SetFreq( round(27.5 * pow(2.0, ((channel[i].GetNote()-21)/12.0) + (PITCH_SENSITIVE*df*pitch)) * 10000)/10000);
+			channel[i].SetPeriod(1.0 / channel[i].GetFreq() * 1e6);
+			//cout << "Pitch bending ["<<i<<"] - Freq: " << channel[i].GetFreq() << "Hz - Periodo: " << channel[i].GetPeriod() << "us tOn: " << channel[i].GettOn(volume) << "us" << endl; 
+			SendSlaveData( i, channel[i].GetPeriod(), channel[i].GettOn(volume), true);
+		}
+	}
+}
+void SoundManager::UpdateNotes()	{
+	for(int i=0;i<MAX_NOTES;i++)	{
+		if(busy[i])	{
+			channel[i].SetFreq( round(27.5 * pow(2.0, ((channel[i].GetNote()-21)/12.0) + (PITCH_SENSITIVE*df*pitch)) * 10000)/10000);
+			channel[i].SetPeriod(1.0 / channel[i].GetFreq() * 1e6);
+			//cout << "UpdateNotes ["<<i<<"] - Freq: " << channel[i].GetFreq() << "Hz - Periodo: " << channel[i].GetPeriod() << "us tOn: " << channel[i].GettOn(volume) << "us" << endl; 
+			SendSlaveData( i, channel[i].GetPeriod(), channel[i].GettOn(volume), true);
+		}
+	}
+}
+void SoundManager::ChannelControl(unsigned short byte0, unsigned short byte1)	{
+	switch(byte0)	{
+		case 0x07:	//Main Volume
+			volume = byte1;
+			cout << "Novo Volume: " << volume << endl;
+			UpdateNotes();
+			break;
+		case 0x7B:
+			cout << "Todas as notas desligadas!" <<endl;
+			ShutNotesOff();
+			break;
+	}
+}
+void SoundManager::ShutNotesOff()	{
+	unsigned char cmd[] = { 0x01,0x00,0x00,0x00,0x00 };
+	SendBuf(serialport, cmd, 5);
+}
+static int midiport_number;
+bool InitMIDI(RtMidiIn	*midi)	{
+		unsigned int nPorts = midi->getPortCount();
+		if ( nPorts == 0 ) {
+			std::cout << "Nenhuma porta disponivel!\n";
+			return false;
+		}
+		
+		midi->openPort( midiport_number );
+		midi->ignoreTypes( false, false, false );
+		done = false;
+		return true;
+}
+void CheckMidi(RtMidiIn *midi, SoundManager *sm)	{
+	std::vector<unsigned char> message;
+	int nBytes, i;
+	double stamp;
+	stamp = midi->getMessage( &message );
+	nBytes = message.size();
+	if(nBytes >	0)	{
+		int m = (int) message[0];
+		switch(m)	{
+			case 0x90:
+				sm->PlayNote( 	(unsigned short)message[1], (unsigned short)message[2] 	);
+				break;
+			case 0x80:
+				sm->StopNote( 	(unsigned short)message[1], (unsigned short)message[2] 	);
+				break;
+			case 0xE0:
+				sm->PitchNote(	(unsigned short)message[1], (unsigned short)message[2]	);
+				break;
+			case 0xB0:
+				sm->ChannelControl( (unsigned short)message[1], (unsigned short)message[2] );
+				break;
+			default:
+				for ( i=0; i<nBytes; i++ )
+					std::cout << "Byte " << i << " = " << (int)message[i] << endl;			
+		}
+	}
+}
+
+void BurstMode(unsigned short freqpulse, unsigned short periodon, unsigned short periodoff, unsigned short tOn, unsigned short repeat)	{
+	unsigned short repeated = 0;
+	while(repeated != repeat)	{
+		SendSlaveData( 0, (unsigned short)((1.0/freqpulse)*1e6), tOn, true);
+		Sleep(periodon);
+		SendSlaveData( 0, (unsigned short)((1.0/freqpulse)*1e6), tOn, false);
+		Sleep(periodoff);
+		repeated++;
+	}
+}
+
+void tOnRamp(unsigned short freqpulse, unsigned short interval, unsigned short starttOn, unsigned short endtOn)	{
+	unsigned short tOn 	=	starttOn;
+	while(tOn != endtOn)	{
+		SendSlaveData( 0, (unsigned short)((1.0/freqpulse)*1e6), tOn, true);
+		Sleep(interval);
+		tOn++;
+	}
+	SendSlaveData( 0, (unsigned short)((1.0/freqpulse)*1e6), tOn, false);
+}
+
+int main(int argc, char* argv[])
+{
+	RtMidiIn *midiin = new RtMidiIn();
+	SoundManager *sm	=	new SoundManager();
+
+	cout	<<	argc << endl;
+	if(argc == 3)	{
+		midiport_number =	atoi(argv[1]);
+		serialport		=	atoi(argv[2]);
+	}else{	
+		unsigned int nPorts = midiin->getPortCount();
+		std::cout << "Existem " << nPorts << " portas MIDI disponiveis\nSelecione uma:\n";
+		std::string portName;
+		for ( unsigned int i=0; i<nPorts; i++ ) {
+			try {
+				portName = midiin->getPortName(i);
+			}
+			catch ( RtError &error ) {
+				error.printMessage();
+			}
+			std::cout << "	" << i << ": " << portName << '\n';
+		}
+		cout << "Digite o numero da porta MIDI a ser usada" << endl;
+		string input = "";
+		getline(cin,input);
+		midiport_number = atoi(input.c_str());
+		cout << "Digite o numero da porta Serial a ser usada" << endl;
+		cout << "0: COM1 - /dev/ttyS0" << endl;
+		input = "";
+		getline(cin,input);
+		serialport = atoi(input.c_str());
+	}
+	if(OpenComport(serialport ,115200))	{
+		cout << "Erro ao abrir a porta " << serialport << endl;
+		return 1;
+	}else{
+		cout << "Porta " << serialport << " aberta" << endl; 
+	}
+
+	(void) signal(SIGINT, finish);
+	if(!InitMIDI(midiin))	{
+		delete midiin;
+		delete sm;
+		return 1;
+	}
+	while ( !done ) {
+		CheckMidi(midiin,sm);
+		Sleep( 1 );
+	}
+	delete midiin;	
+	delete sm;
+	return 0;
+}

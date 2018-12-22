@@ -1,0 +1,36 @@
+#include "D:\Program Files (x86)\PICC\Projects\AudioINT\main.h"
+
+#use fast_io(a)
+
+int tOn = 150;
+int tmpint = 0;
+int lock = 0;
+void main()
+{
+
+   setup_adc_ports(AN0);
+   setup_adc(ADC_CLOCK_DIV_8);
+   setup_timer_0(RTCC_INTERNAL|RTCC_DIV_1);
+   set_adc_channel(0);
+   output_low(PIN_A1);
+   while(true) {
+      set_adc_channel(0);
+      tmpint = (read_adc(7) < 2);
+      
+      if( tmpint & ~lock ) {
+         OUTPUT_HIGH(PIN_A1);
+         delay_us(tOn);
+         OUTPUT_LOW(PIN_A1);
+         lock = 1;
+      }
+      if(!tmpint)
+         lock = 0;
+      delay_us(100);
+      if(INPUT(PIN_A2))
+         tOn = 150;
+      else
+         tOn = 75;
+      delay_us(200);
+   }
+
+}

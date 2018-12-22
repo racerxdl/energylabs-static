@@ -1,0 +1,11 @@
+#include <12C671.h>
+#device adc=8
+
+#FUSES NOWDT                 	//No Watch Dog Timer
+#FUSES INTRC_IO              	//Internal RC Osc, no CLKOUT
+#FUSES NOPUT                 	//No Power Up Timer
+#FUSES NOPROTECT             	//Code not protected from reading
+#FUSES NOMCLR                	//Master Clear pin used for I/O
+
+#use delay(clock=4000000)
+

@@ -1,0 +1,523 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Documentos do ProjectSource > PIC: Interruptor MIDI Polif&ocirc;nico | EnergyLabs Brasil</title>
+	<meta name="title" content="Documentos do ProjectSource > PIC: Interruptor MIDI Polif&ocirc;nico | EnergyLabs Brasil">
+	<meta name="url" content="http://www.energylabs.com.br/el">
+	<meta name="description" content="Um documento de como fazer um Interruptor MIDI Polif&ocirc;nico com PCI 16F628A">
+	<meta name="keywords" content="{META_KEYWORDS}">
+	<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"><meta name="autor" content="Lucas Teske">
+	<meta name="company" content="Documentos do ProjectSource > PIC: Interruptor MIDI Polif&ocirc;nico | EnergyLabs Brasil"><meta name="revisit-after" content="1">
+	
+	<meta property="og:title" content="Documentos do ProjectSource > PIC: Interruptor MIDI Polif&ocirc;nico | EnergyLabs Brasil"/> 
+	<meta property="og:type" content="other:technology"/> 
+	<meta property="og:url" content="http://www.energylabs.com.br/el/documento/PIC:_Interruptor_MIDI_Polifonico?dir=Meus%20Documentos/PIC%20Interruptor%20MIDI%20Polifonico/src"/> 
+	<meta property="og:site_name" content="EnergyLabs Brasil"/> 
+	<meta property="og:image" content="http://www.energylabs.com.br/el/images/logo.png"/> 
+	<meta property="og:description" content="Um documento de como fazer um Interruptor MIDI Polif&ocirc;nico com PCI 16F628A"/>
+	<meta property="fb:admins" content="1748067536"/>
+	
+	<link rev=made href="mailto:lucas@teske.com.br"><meta name="verify-v1" content="HbXsI9oX1d7u9sMh16F96hMhakEiH85q6n/RDndJB8s=" >
+	
+	<link rel="stylesheet" href="/el/css/energylabs.css" type="text/css" />
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="http://www.energylabs.com.br/el/js/hoverIntent.js"></script>
+	<script type="text/javascript" src="http://www.energylabs.com.br/el/js/superfish.js"></script>
+	
+	<style type="text/css">.supertext{font-size:13px;text-shadow: 2px -2px 6px #ccc, 0px 0px 4px  #FFF;}</style>
+<style type="text/css">
+pre {
+width: 790px;
+font-family: .Consolas.,monospace;
+font-size: 9pt;
+text-align:left;
+background-color: #D9D4C9;
+color: #000000;
+overflow-x: auto; /* Use horizontal scroller if needed; for Firefox 2, not
+white-space: pre-wrap; /* css-3 */
+white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+word-wrap: break-word; /* Internet Explorer 5.5+ */
+margin: 0px 0px 0px 0px;
+padding:5px 5px 3px 5px;
+/*white-space : normal;  crucial for IE 6, maybe 7? */
+}
+</style>
+	
+	
+
+	<script type="text/javascript">
+	$(document).ready(function(){ 
+		$("ul.sf-menu").superfish({ 
+			animation: {height:'show'},   // slide-down effect without fade-in 
+			delay:     1200              // 1.2 second delay on mouseout 
+		}); 
+	}); 
+	// initialise plugins
+	jQuery(function(){
+		jQuery('ul.sf-menu').superfish();
+	});
+	</script>
+
+</head>
+<body onload"">
+
+<div id="topbar" class="topbar"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="1000" height="155">
+            <param name="movie" value="/el/images/topo.swf" />
+			<param name="wmode" value="transparent" />
+			<param name="bgcolor" value="#ffffff" />
+            <param name="quality" value="high" />
+            <embed src="/el/images/topo.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" wmode="transparent" type="application/x-shockwave-flash" width="1000" height="155"></embed>
+          </object></div>
+<div id="topbardown" class="topbardown"></div>
+<div id="menubar" class="menubar">
+	<div id="loginmenu" class="loginmenu"></div>
+	<div id="userphoto" class="userphoto"><img class="userpic" src="http://www.energylabs.com.br/el/images/no_user_image.png" width=100 height=100></div>
+	<div id="loginmenu" class="loginmenu"><a href="http://www.energylabs.com.br/el/secao/login">Login</a><BR><a href="http://www.energylabs.com.br/el/secao/registro">Registrar-se</a></div>
+					<ul class="sf-menu sf-vertical">
+					<li class="current">
+						<img src="/el/images/botoes/home.png" 		width="135" height="28" alt="Home" 			title="Se&ccedil;&otilde;es da P&aacute;gina"/>
+						<ul>
+							<li>
+								<a href="http://www.energylabs.com.br/el" title="P&acute;gina inicial da EnergyLabs" class="menux">Home</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/secao/chatroom/" title="Chat da EnergyLabs" class="menux">ChatDC</a>
+							</li>
+							
+							<li>
+								<a href="http://forum.energylabs.com.br" title="F&oacute;m da EnergyLabs" class="menux">F&oacute;rum</a>
+							</li>
+							
+							<li>
+								<a href="http://blog.energylabs.com.br/" title="Blog Tumblr da EnergyLabs" class="menux">Blog Tumblr</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/secao/contato/" title="Formas de Contato com a EnergyLabs" class="menux">Contato</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/secao/ajudeaenergylabs" title="Formas de ajudar a energylabs" class="menux">Ajude</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/secao/sobre/" title="Sobre a EnergyLabs e Autor" class="menux">Sobre</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="/el/images/botoes/secao.png" 		width="135" height="28" alt="Se&ccedil;&otilde;es" 		title="Projetos"/>
+						<ul>
+							<li>
+								<a href="http://www.energylabs.com.br/el/secao/altatensao" title="Projetos relacionados a Alta Tens&atilde;o" class="menux">Alta Tens&atilde;o</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/secao/bobina_de_tesla" title="Projetos relacionados a Bobina de Tesla" class="menux">Bobina de Tesla</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/secao/eletronica" title="Projetos relacionados a Eletr&ocirc;nica" class="menux">Eletr&ocirc;nica</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/secao/openhardware" title="Projetos relacionados a Open Hardware" class="menux">Open Hardware</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/secao/outros" title="Projetos relacionados a Outros" class="menux">Outros</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/secao/quimica" title="Projetos relacionados a Qu&iacute;mica" class="menux">Qu&iacute;mica</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/secao/som" title="Projetos relacionados a Som" class="menux">Som</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="/el/images/botoes/documentos.png" 	width="135" height="28" alt="Documentos" 	title="Documentos da EnergyLabs"/>
+						<ul>
+							<li>
+								<a href="http://www.energylabs.com.br/el/documentos/eletronica" title="Documentos relacionados à: Eletr&ocirc;nica" class="menux">Eletr&ocirc;nica</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/documentos/fpga" title="Documentos relacionados à: FPGA" class="menux">FPGA</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/documentos" title="Todos os documentos da EnergyLabs" class="menux">Todos Documentos</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/documentos/tutorial" title="Documentos relacionados à: Tutorial" class="menux">Tutorial</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="/el/images/botoes/calculadoras.png"width="135" height="28" alt="Calculadoras"	title="Calculadoras da EnergyLabs"/>
+						<ul>
+							<li>
+								<a href="http://www.energylabs.com.br/el/calculadora/mmc" title="Calculadora de Banco de Capacitores" class="menux">Banco de Capacitores</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/calculadora/spiral" title="Calculadora de Bobina Plana (Espiral de Arquimedes)" class="menux">Bobina Plana</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/calculadora/solenoide" title="Calculadora de Bobina Vertical (Solen&oacute;ide)" class="menux">Bobina Solen&oacute;ide</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/calculadora/platecap" title="Calculadora de Capacitor de Vidro" class="menux">Capacitor de Vidro</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/calculadora/lccalc" title="Calculadora de Circuito Resso&acirc;nte LC" class="menux">Circuito LC</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/calculadora/boostconv" title="Calculadora de Conversor do tipo Boost" class="menux">Conversor Boost</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/tcalc" title="Simulador de curvas de Trans&iacute;stores" class="menux">Curva do Trans&iacute;stor</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/hwg" title="Gerador de Ondas Harm&ocirc;nicas" class="menux">Harmonic Wave Generator</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/calculadora/ohmlaw" title="Calculadora da Lei de Ohm" class="menux">Lei de Ohm</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/calculadora/capreac" title="Calculadora de Reat&acirc;ncia Capacitiva" class="menux">Reat&acirc;ncia Capacitiva</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/calculadora/indreac" title="Calculadora de Reat&acirc;ncia Indutiva" class="menux">Reat&acirc;ncia Indutiva</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/bggen" title="Simulador de fundo animado por f&oacute;mula" class="menux">Simulador de Fundo</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/calculadora/terrometro" title="Calculadora de Imped&acirc;ncia do aterramento" class="menux">Terr&ocirc;metro</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/calculadora/toroid" title="Calculadora de Tor&oacute;ide" class="menux">Tor&oacute;ide</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="/el/images/botoes/sources.png" 	width="135" height="28" alt="Sources" 		title="Se&ccedil;&otilde;es Sources"/>
+						<ul>
+							<li>
+								<a href="http://www.energylabs.com.br/el/projetosdc" title="Projetos da DangerCenter" class="menux">Projetos DC</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/soundsource" title="Projetos da &aacute;rea de Som" class="menux">SoundSource</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/sm/" title="Se&ccedil;&atilde;o de Stepmania/Pump da EnergyLabs" class="menux">Stepmania</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/teslasource" title="Projetos da &aacute;rea de Qu&iacute;mica" class="menux">TeslaSource</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="/el/images/botoes/reviews.png" 	width="135" height="28" alt="Reviews" 		title="Reviews de Produtos"/>
+						<ul>
+							<li>
+								<a href="http://www.energylabs.com.br/el/produtos/reviews/cat.1" title="Review de produtos: Produtos DX" class="menux">Produtos DX</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/produtos/reviews" title="Review de todos os produtos EnergyLabs" class="menux">Todos Reviews</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="/el/images/botoes/produtos.png" 	width="135" height="28" alt="Produtos" 		title="P&aacute;gina de produtos"/>
+						<ul>
+							<li>
+								<a href="http://www.energylabs.com.br/el/loja/" title="Todos os produtos EnergyLabs" class="menux">Todos os Produtos</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="/el/images/botoes/videos.png" 		width="135" height="28" alt="V&iacute;deos" 		title="Videos da EnergyLabs"/>
+						<ul>
+							<li>
+								<a href="http://www.energylabs.com.br/el/videos/altatensao" title="Videos Explicativos: Alta Tens&atilde;o" class="menux">Alta Tens&atilde;o</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/videos/bobina_de_tesla" title="Videos Explicativos: Bobinas de Tesla" class="menux">Bobinas de Tesla</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/videos/computador" title="Videos Explicativos: Computador" class="menux">Computador</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/videos/eletronica" title="Videos Explicativos: Eletr&ocirc;nica" class="menux">Eletr&ocirc;nica</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/videos/alleletronicsgr" title="Videos Explicativos: Eletr&ocirc;nica para Iniciante" class="menux">Eletr&ocirc;nica para Iniciante</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/videos/eventos" title="Videos Explicativos: Eventos" class="menux">Eventos</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/videos/palestras" title="Videos Explicativos: Palestras" class="menux">Palestras</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/videos/quimica" title="Videos Explicativos: Qu&iacute;mica" class="menux">Qu&iacute;mica</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/videos" title="Todos Videos Explicativos da EnergyLabs/TeslaBrasil" class="menux">Todos os Videos</a>
+							</li>
+							
+							<li>
+								<a href="http://www.energylabs.com.br/el/videosource" title="VideoSource da EnergyLabs" class="menux">VideoSource</a>
+							</li>
+							</ul>
+					</li>
+					<li class="current">
+						<img src="/el/images/botoes/downloads.png"	width="135" height="28" alt="Downloads" 	title="Downloads" />
+						<ul>
+							<li>
+								<a href="/el/secao/downloads">Todos</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+	<center><a id="doit" href="javascript:var%20s%20=%20document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src='http://www.energylabs.com.br/el/js/asteroids.js';void(0);" title="Destrua!"><font color="red">Destrua a EnergyLabs!</font></a></center>
+</div>
+<center>
+<div id="headspace" class="headspace"></div>
+<div id="content" class="content">
+<center><h1>- Introdu&ccedil;&atilde;o</h1>
+<p>Bom, muitos sabem que eu fiz um Interruptor MIDI (ou sintetizador como preferir) com um FPGA. Por&eacute;m poucos tem acesso a um FPGA principalmente para fazer algo t&atilde;o *simples*, ent&atilde;o resolvi fazer um com PIC 16F628A.</p>
+<p>No come&ccedil;o queria fazer com um PIC menor, mas os menores n&atilde;o tem Receptor Serial via <strong><em>hardware</em></strong>, ent&atilde;o ficaria mais complicado implementar. Outro ponto, &eacute; que o pre&ccedil;o dos PIC's menores s&atilde;o praticamente os mesmos, ent&atilde;o era s&oacute; uma quest&atilde;o de espa&ccedil;o mesmo. Usando um PIC maior, fica mais espa&ccedil;o livre para futuras modifica&ccedil;&otilde;es caso seja necess&aacute;rio.</p>
+<p>O PIC 16F628A tem 2KB de memoria flash, 224 Bytes de RAM, 128 Bytes de EEPROM, um Comparador, 3 Timers, e um Receptor Serial Universal. Est&aacute; no pacote DIP de 18 Pinos, e ele tem 2 portas de 8 bits (dependendo da configura&ccedil;&atilde;o, a porta A pode *perder* 3 bits.</p>
+<p>Datasheet dele:&nbsp;<a href="http://ww1.microchip.com/downloads/en/DeviceDoc/40044F.pdf">http://ww1.microchip.com/downloads/en/DeviceDoc/40044F.pdf</a></p>
+<p>Ele tem um oscilador RC Interno de 4MHz calibrado de f&aacute;brica para +/- 1%, ent&atilde;o podemos fazer uso dele tranquilamente.</p>
+<h1>- Protocolo MIDI</h1>
+<p>Vamos falar um pouco antes do protocolo MIDI. O Sinal MIDI &eacute; basicamente um sinal Serial parecido com padr&atilde;o RS232. S&atilde;o 10 bits enviados, um bit para identificar o inicio (<em>start bit</em>), 8 bits de dados, e um bit para identificar o fim (<em>stop bit</em>). Ele s&oacute; n&atilde;o se encaixa na RS232 por causa de sua <em>Baud Rate </em>(velocidade com que os bits s&atilde;o transmitidos), que &eacute; 31250 Hz (ou 31.25 kBits por segundo). Por apenas sua <em>Baud Rate</em>&nbsp;ser fora de padr&atilde;o, podemos usar a porta serial universal do PIC, apenas usando 31250 como <em>Baud Rate</em>.</p>
+<p>Outro ponto do Protocolo MIDI, &eacute; que todo dado MIDI &eacute; composto por 3 Bytes (24 bits), sendo o primeiro deles o byte de <strong>Opera&ccedil;&atilde;o</strong>, e os outros dois bytes de <strong>Dados</strong>. Para uma identifica&ccedil;&atilde;o mais&nbsp;f&aacute;cil de qual &eacute; qual, foi padronizado que se o primeiro bit (MSB) do byte for 1, &eacute; uma <strong>Opera&ccedil;&atilde;o</strong>, se for 0 &eacute; <strong>Dado</strong>. Assim caso a transmiss&atilde;o de algum byte falhe (principalmente o primeiro) &eacute; poss&iacute;vel saber.</p>
+<p>A tabela simplificada abaixo associa os modos de opera&ccedil;&atilde;o e a fun&ccedil;&atilde;o de seus dados:</p>
+<p style="text-align: center;"><img border=0 style="border: 0pt none;" title="Tabela do Protocolo MIDI" src="http://www.energylabs.com.br/el/pr/get.php?arquivo=1531"  alt="Tabela do Protocolo MIDI" width="558" height="127" /></p>
+<p>Na tabela s&oacute; est&aacute; os mais comuns e tirando o <em>Pitch Bend, os que vamos usar.</em></p>
+<p>Iremos ent&atilde;o fazer o PIC ler 3 bytes, e depois efetuar as opera&ccedil;&otilde;es necess&aacute;rias de acordo com o primeiro byte.</p>
+<h1>- Notas musicais e Timer do PIC</h1>
+<p>Outro detalhe importante s&atilde;o as notas musicais. O MIDI apenas envia o numero da nota, que varia de 0 a 127. Precisamos ent&atilde;o calcular o per&iacute;odo das notas.</p>
+<p>A frequ&ecirc;ncia de uma dada nota musical, tem que dobrar a cada 12 notas. Para isso &eacute; dada a f&oacute;rmula:</p>
+<blockquote>
+<p><strong>Frequ&ecirc;ncia = FreqBase * 2^(n/12)</strong></p>
+</blockquote>
+<p>Onde <strong>Frequ&ecirc;ncia</strong>&nbsp;&eacute; a frequ&ecirc;ncia da nota que queremos, <strong>FreqBase</strong>&nbsp;&eacute; a frequ&ecirc;ncia da nota base, <strong>n </strong>&eacute; o numero da nota relativa a nota base. A nota que usaremos como base &eacute; a 10&ordf; nota, que tem sua frequ&ecirc;ncia em 27.5Hz. Para calcularmos o per&iacute;odo de uma nota &eacute; s&oacute; pegarmos o inverso da frequ&ecirc;ncia:</p>
+<blockquote>
+<p><strong>Per&iacute;odo = 1 / ( FreqBase * 2^(n/12) )</strong></p>
+</blockquote>
+<p>At&eacute; podemos calcular isso em tempo real no PIC, por&eacute;m podem haver atrasos muito grandes, ent&atilde;o faremos uma tabela com os per&iacute;odos das notas para usarmos.</p>
+<p>Podemos usar o seguinte c&oacute;digo em PHP para calcularmos as frequ&ecirc;ncias:</p>
+<pre><span class="cp" style="line-height: 13px; color: #cc3333;"><!--?</span-->
+
+<span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">for</span><span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="m" style="line-height: 13px; color: #000000;">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="m" style="line-height: 13px; color: #000000;">128</span><span class="p">;</span><span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$freq</span> <span class="o">=</span> <span class="m" style="line-height: 13px; color: #000000;">27.5</span> <span class="o">*</span> <span class="nb" style="line-height: 13px; color: #00aaaa;">pow</span><span class="p">(</span><span class="m" style="line-height: 13px; color: #000000;">2</span><span class="p">,(</span><span class="nv">$i</span><span class="o">-</span><span class="m" style="line-height: 13px; color: #000000;">9</span><span class="p">)</span><span class="o">/</span><span class="m" style="line-height: 13px; color: #000000;">12</span><span class="p">);</span>
+    <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">echo</span><span class="p">(</span><span class="s2" style="line-height: 13px; color: #cc9933; font-weight: bold;">"Nota: </span><span class="si" style="line-height: 13px; color: #cc9933; font-weight: bold;">$i</span><span class="s2" style="line-height: 13px; color: #cc9933; font-weight: bold;"> Frequ&ecirc;ncia: </span><span class="si" style="line-height: 13px; color: #cc9933; font-weight: bold;">$freq</span><span class="se" style="line-height: 13px; color: #cc9933; font-weight: bold;">\r\n</span><span class="s2" style="line-height: 13px; color: #cc9933; font-weight: bold;">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cp" style="line-height: 13px; color: #cc3333;">?&gt;</span></span></pre>
+<p>Link do Codepad:&nbsp;<a href="http://codepad.org/4GloHc3b">http://codepad.org/4GloHc3b</a></p>
+<p>De maneira semelhante podemos fazer para o per&iacute;odo:</p>
+<p><span style="font-family: 'Times New Roman'; line-height: 17px; background-color: #f6f6f6; font-size: medium;"> </span></p>
+<pre><span class="cp" style="line-height: 13px; color: #cc3333;"><!--?</span-->
+
+<span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">for</span><span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="m" style="line-height: 13px; color: #000000;">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="m" style="line-height: 13px; color: #000000;">128</span><span class="p">;</span><span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$period</span> <span class="o">=</span> <span class="m" style="line-height: 13px; color: #000000;">1</span><span class="o">/</span> <span class="p">(</span><span class="m" style="line-height: 13px; color: #000000;">27.5</span> <span class="o">*</span> <span class="nb" style="line-height: 13px; color: #00aaaa;">pow</span><span class="p">(</span><span class="m" style="line-height: 13px; color: #000000;">2</span><span class="p">,(</span><span class="nv">$i</span><span class="o">-</span><span class="m" style="line-height: 13px; color: #000000;">9</span><span class="p">)</span><span class="o">/</span><span class="m" style="line-height: 13px; color: #000000;">12</span><span class="p">));</span>
+    <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">echo</span><span class="p">(</span><span class="s2" style="line-height: 13px; color: #cc9933; font-weight: bold;">"Nota: </span><span class="si" style="line-height: 13px; color: #cc9933; font-weight: bold;">$i</span><span class="s2" style="line-height: 13px; color: #cc9933; font-weight: bold;"> Periodo: </span><span class="si" style="line-height: 13px; color: #cc9933; font-weight: bold;">$period</span><span class="se" style="line-height: 13px; color: #cc9933; font-weight: bold;">\r\n</span><span class="s2" style="line-height: 13px; color: #cc9933; font-weight: bold;">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cp" style="line-height: 13px; color: #cc3333;">?&gt;</span></span></pre>
+<p>Link do Codepad:&nbsp;<a href="http://codepad.org/yqXDTXQZ">http://codepad.org/yqXDTXQZ</a></p>
+<p>No PIC, usaremos o <strong>TIMER1</strong> como refer&ecirc;ncia, ele &eacute; um timer de <strong>16 bits</strong>, ou seja conta de <strong>0</strong> a <strong>65535</strong>. Faremos ele incrementar de 1 em 1 micro segundo, ent&atilde;o colocaremos o&nbsp;per&iacute;odo&nbsp;em micro segundos. Outro detalhe &eacute; que depois que o timer est&aacute; rodando, n&atilde;o podemos para-lo. Precisamos esperar ele chegar at&eacute; o fim, ent&atilde;o faremos ele contar apenas o necess&aacute;rio (o per&iacute;odo). Sendo o m&aacute;ximo dele de <strong>65535</strong>, ao iniciar uma nota, colocaremos <strong>65535-per&iacute;odo</strong>&nbsp;em seu valor inicial, assim ele contar&aacute; apenas o tempo do&nbsp;per&iacute;odo. Faremos ent&atilde;o um script que j&aacute; gere um <em>array</em>&nbsp;com os valores que precisamos de cada nota:</p>
+<p><span style="font-family: 'Times New Roman'; line-height: 17px; background-color: #f6f6f6; font-size: medium;"> </span></p>
+<pre><span style="font-family: 'Times New Roman'; line-height: 17px; white-space: normal; background-color: #f6f6f6; font-size: medium;"><pre><span class="cp" style="line-height: 13px; color: #cc3333;"><!--?</span-->
+<span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">echo</span> <span class="s2" style="line-height: 13px; color: #cc9933; font-weight: bold;">" const unsigned int16 notas[] = {"</span><span class="p">;</span>
+<span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">for</span><span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="m" style="line-height: 13px; color: #000000;">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="m" style="line-height: 13px; color: #000000;">128</span><span class="p">;</span><span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$period</span> <span class="o">=</span> <span class="m" style="line-height: 13px; color: #000000;">65535</span><span class="o">-</span><span class="nb" style="line-height: 13px; color: #00aaaa;">round</span><span class="p">(</span><span class="m" style="line-height: 13px; color: #000000;">1000000</span> <span class="o">/</span> <span class="p">(</span><span class="m" style="line-height: 13px; color: #000000;">27.5</span> <span class="o">*</span> <span class="nb" style="line-height: 13px; color: #00aaaa;">pow</span><span class="p">(</span><span class="m" style="line-height: 13px; color: #000000;">2</span><span class="p">,(</span><span class="nv">$i</span><span class="o">-</span><span class="m" style="line-height: 13px; color: #000000;">9</span><span class="p">)</span><span class="o">/</span><span class="m" style="line-height: 13px; color: #000000;">12</span><span class="p">)));</span>
+    <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">if</span><span class="p">(</span><span class="nv">$i</span><span class="o">==</span><span class="m" style="line-height: 13px; color: #000000;">0</span><span class="p">)</span> <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">echo</span><span class="p">(</span><span class="nv">$period</span><span class="p">);</span> <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">else</span> <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">echo</span><span class="p">(</span><span class="s2" style="line-height: 13px; color: #cc9933; font-weight: bold;">",</span><span class="si" style="line-height: 13px; color: #cc9933; font-weight: bold;">$period</span><span class="s2" style="line-height: 13px; color: #cc9933; font-weight: bold;">"</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">echo</span> <span class="s2" style="line-height: 13px; color: #cc9933; font-weight: bold;">"};"</span><span class="p">;</span>
+<span class="cp" style="line-height: 13px; color: #cc3333;">?&gt;</span></span></pre>
+</span></pre>
+<p>Link do codepad:&nbsp;<a href="http://codepad.org/yUNkOm7V">http://codepad.org/yUNkOm7V</a></p>
+<pre>const unsigned int16 notas[] = {4379,
+7811,11051,14109,16995,19720,22291,24718,27009,29171,31212,33139,34957,
+36673,38293,39822,41265,42627,43913,45127,46272,47353,48374,49337,50246,
+51104,51914,52679,53400,54081,54724,55331,55904,56444,56954,57436,57890,
+58320,58725,59107,59468,59808,60130,60433,60719,60990,61245,61485,61713,
+61927,62130,62321,62501,62672,62832,62984,63127,63262,63390,63510,63624,
+63731,63832,63928,64018,64103,64184,64259,64331,64399,64462,64523,64579,
+64633,64684,64731,64777,64819,64859,64897,64933,64967,64999,65029,65057,
+65084,65109,65133,65156,65177,65197,65216,65234,65251,65267,65282,65296,
+65310,65322,65334,65345,65356,65366,65376,65385,65393,65401,65408,65416,
+65422,65429,65435,65440,65446,65451,65455,65460,65464,65468,65472,65475,
+65479,65482,65485,65488,65490,65493,65495};
+</pre>
+<p><br /> Isso j&aacute; nos da o array com os valores que teremos que colocar no <strong>TIMER1</strong>. Assim podemos facilmente agora come&ccedil;ar a programar :D</p>
+<h1>- Programa do PIC</h1>
+<p>O programa do PIC n&atilde;o &eacute; t&atilde;o complexo assim. Usaremos o <em>CCS C</em>&nbsp;como compilador C, mas o programa pode ser facilmente adaptado a qualquer outro compilador. Usaremos a Interrup&ccedil;&atilde;o da <em>USART</em>&nbsp;para receber os bytes e armazena-los numa array de 3 bytes. Ap&oacute;s completar os 3 bytes, ele vai marcar uma vari&aacute;vel como 1 para sabermos que recebemos os 3 bytes.</p>
+<p>Definiremos duas vari&aacute;veis do tipo <em>int16</em>&nbsp;para&nbsp;per&iacute;odo&nbsp;e tOn (tempo ligado), uma <em>array de char</em>&nbsp;de tamanho 3 para os bytes, duas <em>int1</em>&nbsp;para identificar se h&aacute; alguma nota ligada&nbsp;e para marcar o buffer de 3 bytes como carregado, duas vari&aacute;veis do tipo <em>int</em>&nbsp;para fazer a contagem dos bytes recebidos e para guardar o numero da nota carregada.</p>
+<p><span style="font-family: 'Times New Roman'; line-height: 17px; background-color: #f6f6f6; font-size: medium;"> </span></p>
+<pre><span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">static</span> <span class="kt" style="line-height: 13px; color: #9966cc; font-weight: bold;">unsigned</span> <span class="n">int16</span> <span class="n">tOn</span> <span class="o">=</span> <span class="mi" style="line-height: 13px; color: #000000;">250</span><span class="p">;</span>    <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//tOn</span>
+<span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">static</span> <span class="kt" style="line-height: 13px; color: #9966cc; font-weight: bold;">unsigned</span> <span class="n">int16</span> <span class="n">period</span> <span class="o">=</span> <span class="mi" style="line-height: 13px; color: #000000;">0</span><span class="p">;</span>   <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Per&iacute;odo</span>
+<span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">static</span> <span class="n">int1</span> <span class="n">noteOn</span> <span class="o">=</span> <span class="mi" style="line-height: 13px; color: #000000;">0</span><span class="p">;</span>             <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Nota Ligada</span>
+<span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">static</span> <span class="n">int8</span> <span class="n">loadedNote</span> <span class="o">=</span> <span class="mi" style="line-height: 13px; color: #000000;">0</span><span class="p">;</span>         <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Nota Carregada</span>
+<span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">static</span> <span class="kt" style="line-height: 13px; color: #9966cc; font-weight: bold;">char</span> <span class="n">buffer</span><span class="p">[</span><span class="mi" style="line-height: 13px; color: #000000;">3</span><span class="p">];</span>              <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Buffer de Bytes</span>
+<span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">static</span> <span class="n">int1</span> <span class="n">buffer_loaded</span><span class="p">;</span>          <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Estado do Buffer</span>
+<span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">static</span> <span class="kt" style="line-height: 13px; color: #9966cc; font-weight: bold;">int</span>  <span class="n">buffer_counter</span> <span class="o">=</span> <span class="mi" style="line-height: 13px; color: #000000;">0</span><span class="p">;</span>     <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Contador do Buffer</span></pre>
+<p>Assim definimos as vari&aacute;veis que iremos usar no c&oacute;digo. Agora iremos a fun&ccedil;&atilde;o da interrup&ccedil;&atilde;o da porta serial. O <em>CCS C</em>&nbsp;identifica a interrup&ccedil;&atilde;o serial do PIC como <strong>INT_RDA</strong>, ent&atilde;o iremos colocar uma fun&ccedil;&atilde;o para ela:</p>
+<p><span style="font-family: 'Times New Roman'; line-height: 17px; background-color: #f6f6f6; font-size: medium;"> </span></p>
+<pre><span class="cp" style="line-height: 13px; color: #cc3333;">#int_rda </span>
+<span class="kt" style="line-height: 13px; color: #9966cc; font-weight: bold;">void</span> <span class="nf">serial_isr</span><span class="p">()</span> 
+<span class="p">{</span> 
+   <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">if</span><span class="p">(</span><span class="n">buffer_counter</span><span class="o">!=</span><span class="mi" style="line-height: 13px; color: #000000;">3</span><span class="p">)</span> <span class="p">{</span>             <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Se ainda n&atilde;o leu 3 bytes</span>
+      <span class="n">buffer</span><span class="p">[</span><span class="n">buffer_counter</span><span class="p">]</span><span class="o">=</span><span class="n">getc</span><span class="p">();</span>   <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Ler o byte e guardar no buffer</span>
+      <span class="n">buffer_counter</span><span class="o">++</span><span class="p">;</span>
+      <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">if</span><span class="p">(</span><span class="n">buffer_counter</span><span class="o">==</span><span class="mi" style="line-height: 13px; color: #000000;">3</span><span class="p">)</span> <span class="p">{</span>          <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Se ler 3 bytes, </span>
+         <span class="n">buffer_counter</span> <span class="o">=</span> <span class="mi" style="line-height: 13px; color: #000000;">0</span><span class="p">;</span>           <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Resetar o contador</span>
+         <span class="n">buffer_loaded</span> <span class="o">=</span> <span class="mi" style="line-height: 13px; color: #000000;">1</span><span class="p">;</span>            <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Marcar o buffer como carregado</span>
+      <span class="p">}</span><span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">else</span><span class="p">{</span>                           <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Se n&atilde;o</span>
+         <span class="n">buffer_loaded</span> <span class="o">=</span> <span class="mi" style="line-height: 13px; color: #000000;">0</span><span class="p">;</span>            <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Manter o status do buffer como 0</span>
+      <span class="p">}</span>
+   <span class="p">}</span><span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">else</span>                               <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Caso receber algum byte com o buffer</span>
+      <span class="n">getc</span><span class="p">();</span>                          <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//carregado, descartar o byte.</span>
+<span class="p">}</span></pre>
+<p>Com isso, estaremos recebendo os bytes e armazenando no buffer. Iremos agora ent&atilde;o fazer a interrup&ccedil;&atilde;o do <strong>TIMER1</strong>&nbsp;que ir&aacute; fazer a contagem. Nessa interrup&ccedil;&atilde;o iremos apenas fazer ele setar o valor correto em si mesmo cada vez que sua contagem chegar ao fim. A interrup&ccedil;&atilde;o &eacute; acionada toda vez que o <strong>TIMER1</strong>&nbsp;termina de contar. Ou seja, ap&oacute;s 65535 us no nosso caso.</p>
+<p><span style="font-family: 'Times New Roman'; line-height: 17px; background-color: #f6f6f6; font-size: medium;"> </span></p>
+<pre><span class="cp" style="line-height: 13px; color: #cc3333;">#INT_TIMER1</span>
+<span class="kt" style="line-height: 13px; color: #9966cc; font-weight: bold;">void</span> <span class="nf">resetTimer1</span><span class="p">()</span> <span class="p">{</span>
+   <span class="n">set_timer1</span><span class="p">(</span><span class="n">period</span><span class="p">);</span>
+<span class="p">}</span></pre>
+<p>&nbsp;</p>
+<p>Iremos agora para a rotina principal, onde iremos fazer todo trabalho <span style="text-decoration: line-through;">pesado</span>.</p>
+<p>Precisamos fazer a inicializa&ccedil;&atilde;o do PIC, faremos tudo isso dentro da <em>void main()</em>.</p>
+<p>Iremos definir uma vari&aacute;vel do tipo <em>int16</em>&nbsp;para podermos guardar temporariamente a posi&ccedil;&atilde;o do <strong>TIMER1</strong>&nbsp;no c&oacute;digo.</p>
+<p><span style="font-family: 'Times New Roman'; line-height: 17px; background-color: #f6f6f6; font-size: medium;"> </span></p>
+<pre><span class="kt" style="line-height: 13px; color: #9966cc; font-weight: bold;">void</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+   <span class="n">int16</span> <span class="n">pos</span><span class="p">;</span>
+   <span class="n">setup_timer_0</span><span class="p">(</span><span class="n">RTCC_INTERNAL</span><span class="o">|</span><span class="n">RTCC_DIV_1</span><span class="p">);</span>
+   <span class="n">setup_timer_1</span><span class="p">(</span><span class="n">T1_INTERNAL</span><span class="o">|</span><span class="n">T1_DIV_BY_1</span><span class="p">);</span>
+   <span class="n">setup_timer_2</span><span class="p">(</span><span class="n">T2_DISABLED</span><span class="p">,</span><span class="mi" style="line-height: 13px; color: #000000;">0</span><span class="p">,</span><span class="mi" style="line-height: 13px; color: #000000;">1</span><span class="p">);</span>
+   <span class="n">setup_comparator</span><span class="p">(</span><span class="n">NC_NC_NC_NC</span><span class="p">);</span>
+   <span class="n">setup_vref</span><span class="p">(</span><span class="n">FALSE</span><span class="p">);</span>
+   <span class="n">enable_interrupts</span><span class="p">(</span><span class="n">global</span><span class="p">);</span>
+   <span class="n">enable_interrupts</span><span class="p">(</span><span class="n">INT_TIMER1</span><span class="p">);</span> 
+   <span class="n">enable_interrupts</span><span class="p">(</span><span class="n">INT_RDA</span><span class="p">);</span> </pre>
+<p>&nbsp;</p>
+<p>Com isso iremos ter inicializado tudo que precisamos. Agora vamos aos "<em>checks</em>". Usaremos o pino A0 para sa&iacute;da do interruptor, e A1 como <em>Enable</em>, A2 como sa&iacute;da para representar o PIC como "ocupado".</p>
+<p><span style="font-family: 'Times New Roman'; line-height: 17px; background-color: #f6f6f6; font-size: medium;"> </span></p>
+<pre>   <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">while</span><span class="p">(</span><span class="nb" style="line-height: 13px; color: #00aaaa;">true</span><span class="p">)</span> <span class="p">{</span>                    <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Loop para sempre</span>
+      <span class="n">pos</span><span class="o">=</span><span class="n">get_timer1</span><span class="p">()</span><span class="o">-</span><span class="n">period</span><span class="p">;</span>      <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Pega valor do timer, e subtrai do periodo</span>
+                                    <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Iremos usar isso para o tOn</span>
+      <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">if</span><span class="p">((</span><span class="n">pos</span><span class="o">&lt;=</span><span class="n">tOn</span><span class="p">)</span><span class="o">&amp;</span><span class="n">noteOn</span><span class="p">)</span>         <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Se a posi&ccedil;&atilde;o for menor que o tOn </span>
+         <span class="n">OUTPUT_HIGH</span><span class="p">(</span><span class="n">PIN_A0</span><span class="p">);</span>       <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Liga sa&iacute;da A0</span>
+      <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">else</span>                          <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Se n&atilde;o</span>
+         <span class="n">OUTPUT_LOW</span><span class="p">(</span><span class="n">PIN_A0</span><span class="p">);</span>        <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Desliga sa&iacute;da A0</span>
+         
+    <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">if</span><span class="p">(</span><span class="n">buffer_loaded</span><span class="p">)</span> <span class="p">{</span>             <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Aqui iremos fazer o processo do buffer</span>
+                                    <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Se o valor no byte1 for 0x90, e n&atilde;o houver</span>
+                                    <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//nota ligada, e o pino A1 estiver ligado </span>
+       <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">if</span><span class="p">((</span><span class="n">buffer</span><span class="p">[</span><span class="mi" style="line-height: 13px; color: #000000;">0</span><span class="p">]</span> <span class="o">==</span> <span class="mh" style="line-height: 13px; color: #000000;">0x90</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">!</span><span class="p">(</span><span class="n">noteOn</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">INPUT</span><span class="p">(</span><span class="n">PIN_A1</span><span class="p">))</span> <span class="p">{</span>
+         <span class="n">period</span> <span class="o">=</span> <span class="n">notas</span><span class="p">[</span><span class="n">buffer</span><span class="p">[</span><span class="mi" style="line-height: 13px; color: #000000;">1</span><span class="p">]];</span> <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Carrega o valor da nota no periodo</span>
+         <span class="n">tON</span> <span class="o">=</span> <span class="p">(</span><span class="mh" style="line-height: 13px; color: #000000;">0xFFFF</span><span class="o">-</span><span class="n">period</span><span class="p">)</span><span class="o">*</span><span class="mf" style="line-height: 13px; color: #000000;">0.1</span><span class="p">;</span> <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Faz o tOn ser 10% do periodo total</span>
+         <span class="n">noteOn</span> <span class="o">=</span> <span class="mi" style="line-height: 13px; color: #000000;">1</span><span class="p">;</span>                <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Fala que a nota est&aacute; ligada</span>
+         <span class="n">OUTPUT_HIGH</span><span class="p">(</span><span class="n">PIN_A2</span><span class="p">);</span>       <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Coloca sa&iacute;da A2 em alta, PIC ocupado</span>
+         <span class="n">loadedNote</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">[</span><span class="mi" style="line-height: 13px; color: #000000;">1</span><span class="p">];</span>    <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Guarda o n&uacute;mero da nota carregada</span>
+       <span class="p">}</span><span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">else</span> <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">if</span><span class="p">(</span><span class="n">buffer</span><span class="p">[</span><span class="mi" style="line-height: 13px; color: #000000;">0</span><span class="p">]</span> <span class="o">==</span> <span class="mh" style="line-height: 13px; color: #000000;">0x80</span><span class="p">)</span> <span class="p">{</span><span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Se for 0x80, &eacute; para desligar a nota</span>
+       <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">if</span><span class="p">(</span><span class="n">buffer</span><span class="p">[</span><span class="mi" style="line-height: 13px; color: #000000;">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">loadedNote</span><span class="p">)</span> <span class="p">{</span><span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Verifica se a nota que esta tocando &eacute; a</span>
+                                    <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//mesma que est&aacute; pedindo para desligar</span>
+            <span class="n">period</span> <span class="o">=</span> <span class="mh" style="line-height: 13px; color: #000000;">0xFFFF</span><span class="p">;</span>        <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Reseta periodo</span>
+            <span class="n">noteOn</span> <span class="o">=</span> <span class="mi" style="line-height: 13px; color: #000000;">0</span><span class="p">;</span>             <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Desliga nota</span>
+            <span class="n">OUTPUT_LOW</span><span class="p">(</span><span class="n">PIN_A2</span><span class="p">);</span>     <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Desliga saida A2, PIC Dispon&iacute;vel</span>
+            <span class="n">loadedNote</span> <span class="o">=</span> <span class="mh" style="line-height: 13px; color: #000000;">0x00</span><span class="p">;</span>      <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Zera nota carregada</span>
+       <span class="p">}</span>
+       <span class="p">}</span><span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">else</span> <span class="k" style="line-height: 13px; color: #0033cc; font-weight: bold;">if</span><span class="p">(</span><span class="n">buffer</span><span class="p">[</span><span class="mi" style="line-height: 13px; color: #000000;">0</span><span class="p">]</span> <span class="o">==</span> <span class="mh" style="line-height: 13px; color: #000000;">0xB0</span><span class="p">)</span> <span class="p">{</span>
+         <span class="n">period</span> <span class="o">=</span> <span class="mh" style="line-height: 13px; color: #000000;">0xFFFF</span><span class="p">;</span>           
+         <span class="n">noteOn</span> <span class="o">=</span> <span class="mi" style="line-height: 13px; color: #000000;">0</span><span class="p">;</span>                
+         <span class="n">OUTPUT_LOW</span><span class="p">(</span><span class="n">PIN_A2</span><span class="p">);</span>        
+         <span class="n">loadedNote</span> <span class="o">=</span> <span class="mh" style="line-height: 13px; color: #000000;">0x00</span><span class="p">;</span>
+         <span class="n">buffer_counter</span> <span class="o">=</span> <span class="mi" style="line-height: 13px; color: #000000;">0</span><span class="p">;</span>
+         <span class="n">buffer_loaded</span> <span class="o">=</span> <span class="mi" style="line-height: 13px; color: #000000;">0</span><span class="p">;</span>
+       <span class="p">}</span>
+       <span class="n">buffer_loaded</span> <span class="o">=</span> <span class="mi" style="line-height: 13px; color: #000000;">0</span><span class="p">;</span>           <span class="c1" style="line-height: 13px; color: #669933; font-style: italic;">//Libera o buffer para recarregamento</span>
+    <span class="p">}</span>
+   <span class="p">}</span>
+<span class="p">}</span></pre>
+<p>&nbsp;</p>
+<p>Com isso temos nosso c&oacute;digo completo!</p>
+<p>A interface no PIC &eacute; bem simples como podemos ver abaixo:</p>
+<p><a href="PIC Interface para MIDI" target="_blank"></a></p>
+<p style="text-align: center;"><img border=0 title="PIC Interface para MIDI" src="http://www.energylabs.com.br/el/pr/get.php?arquivo=1533"  alt="PIC Interface para MIDI" width="600" height="398" /></p>
+<p>Para um interruptor monofonico, podemos ligar o <em>Enable</em> no Vcc e ignorar o <em>BUSY</em>. Para um interruptor polifonico, podemos cascatear v&aacute;rios PIC's, ligando o <em>Enable</em> do primeiro no Vcc, e nos outros no <em>BUSY</em> do anterior. As entradas MIDI ficam todas em paralelo, e as sa&iacute;das s&atilde;o ligadas em gate OR:</p>
+<p style="text-align: center;"><img border=0 title="PIC Interface para MIDI Polifonica" src="http://www.energylabs.com.br/el/pr/get.php?arquivo=1534"  alt="PIC Interface para MIDI Polifonica" width="592" height="709" /></p>
+<p>A porta OR, pode ser simplificada com diodos sem problemas para este uso:</p>
+<p style="text-align: center;"><img border=0 title="OR Gate with Diodes" src="http://www.energylabs.com.br/el/pr/get.php?arquivo=1532"  alt="OR Gate com Diodos" width="216" height="477" /></p>
+<p>&nbsp;</p>
+<p>&Eacute; isso ai! Qualquer d&uacute;vida use o f&oacute;rum!</p>
+<p>C&oacute;digo fonte completo: <a href="http://www.energylabs.com.br/el/pr/get.php?arquivo=1536" target="_blank">MIDI INT.rar</a> ou <a href="?dir=Meus%20Documentos/PIC%20Interruptor%20MIDI%20Polifonico/src" target="_blank">Project Source</a></p>
+<p>Cr&eacute;ditos pela id&eacute;ia de serializar microcontroladores para polifonia: uzzors2k - <a href="http://uzzors2k.4hv.org/index.php?page=midiinterrupter">http://uzzors2k.4hv.org/index.php?page=midiinterrupter</a></p><BR><center> Comente este conte&uacute;do!</center><table width=650 bgcolor=white border=1 cellpadding="0" cellspacing="1"><tr><td><center><div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:comments href="http%3A%2F%2Fwww.energylabs.com.br%2Fel%2Fdocumento%2FPIC%3A_Interruptor_MIDI_Polifonico%3Fdir%3DMeus%2520Documentos%2FPIC%2520Interruptor%2520MIDI%2520Polifonico%2Fsrc" numposts="10" width="650" publish_feed="true"></fb:comments></centeR></td></tr></table></center>
+</div>
+</center>
+<div id="lateralbar" class="lateralbar">
+<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+<a class="addthis_button_preferred_1"></a><BR>
+<a class="addthis_button_preferred_2"></a><BR>
+<a class="addthis_button_preferred_3"></a><BR>
+<a class="addthis_button_preferred_4"></a><BR>
+<a class="addthis_button_compact"></a><BR>
+<a class="addthis_counter addthis_bubble_style"></a>
+</div>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4f5118946b269cb3"></script>
+</div>
+<div id="footspace" class="footspace"></div>
+<div id="footbar1" class="footbar1"><form method="post"  id="forms" name="google_translate" action="http://translate.google.com.br/translate"><td colspan="2" valign="top"><center>Voc&ecirc; est&aacute; em:  <a href="http://www.energylabs.com.br/el/documento">Documento</a> =&gt; <a href="http://www.energylabs.com.br/el/documento/PIC:_Interruptor_MIDI_Polifonico?dir=Meus%20Documentos">PIC:_Interruptor_MIDI_Polifonico?dir=Meus Documentos</a> =&gt; <a href="http://www.energylabs.com.br/el/documento/PIC:_Interruptor_MIDI_Polifonico?dir=Meus%20Documentos/PIC%20Interruptor%20MIDI%20Polifonico">PIC Interruptor MIDI Polifonico</a> =&gt; <font color=darkgreen style="font-size: 14px"><B></B></font> - <input type="hidden" name="js" value="y" /><input type="hidden" name="hl" value="en-US" /><input type="hidden" name="sl" value="pt" /><input type="hidden" name="tl" value="en" /><input type="hidden" name="u" value="http://www.energylabs.com.br/el/documento/PIC:_Interruptor_MIDI_Polifonico?dir=Meus%20Documentos/PIC%20Interruptor%20MIDI%20Polifonico/src" /><a href="javascript:void(0);" onclick="javascript:google_translate.submit();">Translate this page to English</a></center></td></form></div>
+<div id="footbar2" class="footbar2">
+	<a href="http://www.facebook.com/pages/Energylabs/165685600142934">	<img src="/el/images/facebook.png" 	width="32" height="32" 	border=0 title="Facebook da EnergyLabs"	/></a>
+	<a href="http://twitter.com/EnergyLabsBR">	<img src="/el/images/twitter.png" 	width="32" height="32"  border=0 title="Twitter da EnergyLabs"	/></a>
+	<a href="http://www.energylabs.com.br/el/rss/noticias.xml">		<img src="/el/images/rss.png"	 		width="32" height="32"  border=0 title="RSS da EnergyLabs"		/></a>
+</div>
+<script type="text/javascript">var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));</script><script type="text/javascript">try {var pageTracker = _gat._getTracker("UA-15334730-1");pageTracker._trackPageview();} catch(err) {};</script>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+  {lang: 'pt-BR'}
+</script>
+
+</body>
+</html>

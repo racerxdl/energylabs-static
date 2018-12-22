@@ -1,0 +1,14 @@
+#echo "Compilando serialib"
+#g++ -c serialib.cpp
+
+#echo "Criando libs"
+#ar rcs libserialib.a serialib.o
+
+echo "Compilando rs232"
+gcc -c rs232.c -Wall -O2 
+
+ar rcs librs232.a rs232.o
+
+g++ teste.cpp -o teste.exe -L. -lrtmidi -lwinmm -lrs232 -lsfml-graphics -lsfml-window -lsfml-system
+
+g++ software.cpp -o software.exe  -L. -lrtmidi -lwinmm -lrs232 -lsfml-graphics -lsfml-window -lsfml-system

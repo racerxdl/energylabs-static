@@ -1,0 +1,165 @@
+<html>
+<head>
+<title>Meus Documentos > EL > Oscilador com PLL | Project Source</title>
+<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
+<meta name="title" content="Meus Documentos > EL > Oscilador com PLL | Project Source">
+<meta name="url" content="http://www.energylabs.com.br/project/">
+<meta name="description" content="Sua fonte de experi&ecirc;ncias! Bobinas de tesla, geradores de alta tens&atilde;o, flyback, turbo compressor, explos&otilde;es e etc...">
+<meta name="keywords" content="project source, energylabs, tesla, documento, projetos, tesla brasil, laser, violet, blue, green, high power, radio, bobina de tesla, bobina de tesla de estado sólido, solid state tesla coil">
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1">
+<meta name="autor" content="Lucas Teske">
+<meta name="company" content="EnergyLabs Brasil"><meta name="revisit-after" content="1">
+</head>
+<script type="text/javascript">
+ function openWindow(url,w,h,tb,stb,l,mb,sb,rs,x,y){ 
+var t=(document.layers)? ',screenX='+x+',screenY='+y: ',left='+x+',top='+y; //A LITTLE CROSS-BROWSER CODE FOR WINDOW POSITIONING
+tb=(tb)?'yes':'no'; stb=(stb)?'yes':'no'; l=(l)?'yes':'no'; mb=(mb)?'yes':'no'; sb=(sb)?'yes':'no'; rs=(rs)?'yes':'no';
+var x=window.open(url, 'newWin'+new Date().getTime(), 'scrollbars='+sb+',width='+w+',height='+h+',toolbar='+tb+',status='+stb+',menubar='+mb+',links='+l+',resizable='+rs+t);
+x.focus();
+}
+
+</script>
+<body bgcolor=#939393>
+<font color=#FFFFFF>
+<script src="js/onlyone.js@load=effects" type="text/javascript"></script>
+
+<script language="javascript">
+window.onresize = resize_function;
+
+function resize_function() {
+		state = document.getElementById('formdelogin').style.display;
+		if ( state == 'block' ) { 
+			openloginmenu();
+		}
+		
+}
+
+function closeloginmenu()  {
+	document.getElementById('formdelogin').style.display="none";
+}
+
+function openloginmenu(){
+var el = document.getElementById('divforlogin');
+var x=0,y=0;
+if (el.offsetParent)
+{
+	do
+	{
+		x+=el.offsetLeft;
+		y+=el.offsetTop;
+	}
+	while(el=el.offsetParent);
+}
+	y-=10;
+	x+=220;
+	document.getElementById('formdelogin').style.display="block";
+	document.getElementById('formdelogin').style.left=x+'px';
+	document.getElementById('formdelogin').style.top=y+'px';
+}
+</script>
+
+  
+<div id="formdelogin" style="display:none;position:absolute; left:0px; top:0px;">
+<form action="http://www.energylabs.com.br/project/?" method="post" name="login_form" id="login_form">
+  Usuario:
+  <input type="text" name="usuario_login"> 
+  Senha: 
+  <input type="password" name="senha_login">
+  <input name="submit_login" type="submit" id="submit_login" value="Login" onClick="javascript:closeloginmenu();submit();">
+</form>
+</div>
+<center><table width="900" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="900" height="120" valign="top" background="images/allbg/allbg_01.gif"><center><BR>
+<script type="text/javascript">
+<!--
+descrColor="000000";titleColor="0000FF";urlColor="008000";borderColor="FFFFFF";bgColor="FFFFFF";altColor="FFFFFF";coddisplaysupplier="74247c5688484685972f91a9ebb89392";formatId="1";numads="4";deslabel="Project";type="1";
+-->
+</script>
+<script type="text/javascript" src="http://adrequisitor-af.lp.uol.com.br/uolaf.js"></script>
+</center></td>
+  </tr>
+  <tr>
+    <td height="37" valign="top" background="images/allbg/allbg_02.png">
+<center><font size=5 color="#FFFFFF"> Project Source - <B>/Meus Documentos/EL/Oscilador com PLL</B> -  <a href="index.html@dir=Meus&#32;Documentos%252FEL.html">Voltar</a></font></center>
+<center>
+</td>
+  </tr>
+  <tr><td height="406" valign="top" background="images/allbg/allbg_03.png">
+<center>
+<table width="" border="0" cellpadding="2" cellspacing="2" bordercolordark="#003366" bordercolorlight="#00FF00">
+<tr>
+    <td width="199" height="200" valign="top" background="images/bg1.png"><BR><BR><div align="center"><a href="index.html@dir=Meus&#32;Documentos%252FEL%252FOscilador&#32;com&#32;PLL%252Fimagens.html"><img src="../mime/high/folder.png" border=0 width=64 height=64></a></div>
+									<div align="center"><a href="index.html@dir=Meus&#32;Documentos%252FEL%252FOscilador&#32;com&#32;PLL%252Fimagens.html"><B><font color=white>imagens</font></b></a></div>
+									<div align="center"><font color="#FFFFFF"> DIR </font></div>
+								<div align="center"></div>
+								   </td>    <td width="199" height="200" valign="top" background="images/bg1.png">
+			<BR><font size=1>&nbsp;</font><div align="center"><a href="javascript:void(0);" onClick="javascript:window.open('http://www.energylabs.com.br/project/file.php?ident=719&mode=see&session=i0vu8ie07fm09te58fqqbeh4h3','newWin','width=940,height=640,scrollbars=1,toolbar=0,status=1,menubar=0,links=0,resizable=1');" title="Documento de Texto criado por: racerxdl"><img src="../mime2/html.gif" border=0 width="64" height="64" title="Documento de Texto criado por: racerxdl"></a>
+			</div>
+											<div align="center"><font color="#FFFFFF"><a href="javascript:void(0);" onClick="javascript:window.open('http://www.energylabs.com.br/project/file.php?ident=719&mode=see&session=i0vu8ie07fm09te58fqqbeh4h3','newWin','width=940,height=640,scrollbars=1,toolbar=0,status=1,menubar=0,links=0,resizable=1');" title="Documento de Texto criado por: racerxdl"><B><font color=white>pll.html</font></b></a></font></div>
+											<div align="center"><font color="#FFFFFF">22-12 01:43</font></div>    <div align="center"><font color="#FFFFFF">5.78 kB</font></div>
+										   </td></table><p>
+
+<BR>
+<BR><center></center><BR><BR>
+<div id="divforlogin"></div>
+<BR><a href="javascript:void(0);" onClick="javascript:openloginmenu();"><font color=white>Efetuar Login</font></a>
+
+
+	<form action="../project.html" id="cse-search-box">
+	  <div>
+	    <input type="hidden" name="mode" value="google" />
+		<input type="hidden" name="cx" value="partner-pub-2005397300950648:1a1vh9ea3sn" />
+		<input type="hidden" name="cof" value="FORID:10" />
+		<input type="hidden" name="ie" value="ISO-8859-1" />
+		<input type="text" name="q" size="20" />
+		<input type="submit" name="sa" value="Pesquisar" />
+	  </div>
+	</form>
+	<script type="text/javascript" src="http://www.google.com.br/cse/brand?form=cse-search-box&amp;lang=pt"></script> 
+	<table width="700" border="0" cellpadding="0" cellspacing="0">
+    <tr><td width="256" rowspan="3" valign="top"><img width=240 height=120 src="sitedata/Meus&#32;Documentos/EL/Oscilador&#32;com&#32;PLL/logo_t.jpg"></td>
+    <td width="278" height="20" valign="top"><center></center></td>
+    <td width="166" valign="top"></td>
+  </tr>
+    <tr>
+      <td height="24" valign="top"></td>
+    <td>&nbsp;</td>
+    </tr>
+  
+  <tr>
+    <td height="66" valign="top"></td>
+	    <td><center><font color=white><a href="../el/produtos.html"><font color=white>EnergyLabs Brasil</font></a><BR><a href="http://www.teslabrasil.com.br/"><font color=white>Tesla Brasil</font></a></font></center></td>
+  </tr>
+		<tr>
+		    <td height="0"></td>
+			<td></td>
+		    <td><div align="center"><font color="#FFFFFF">Por: <a href="../cdn-cgi/l/email-protection.html#1a766f797b695a6e7f69717f34797577347868"><font 
+color=white>Lucas Teske</font></a></font>
+        </div></td>
+        </tr>
+<tr><td colspan=3>
+<font color=white>
+<center>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="Licença Creative Commons" 
+style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br />Esta <span 
+xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" rel="dct:type">obra</span> de <a 
+xmlns:cc="http://creativecommons.org/ns#" href="../index.html" property="cc:attributionName" 
+rel="cc:attributionURL">EnergyLabs Brasil</a>, foi licenciada com uma Licença <a rel="license" 
+href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons - Atribuição - Partilha nos Mesmos Termos 3.0 Não 
+Adaptada</a>.<br />Permissões adicionais ao âmbito desta licença podem estar disponíveis em <a 
+xmlns:cc="http://creativecommons.org/ns#" href="../index.html" 
+rel="cc:morePermissions">http://www.energylabs.com.br</a>.</center></font>
+</tr></td>
+</table>
+	</td>
+  </tr>
+  <tr>
+    <td height="37" valign="top" background="images/allbg/allbg_04.png">&nbsp;</td>
+  </tr>
+</table>
+</center>
+<script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>
+
+

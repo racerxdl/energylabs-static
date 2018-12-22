@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <stdlib.h>
+/*
+Autor: Phelipe Cesar Moraes Lima
+Data:14/01/2012
+Descrição: Calculadora de antena dipolo
+versão 2
+*/
+
+float comprimento_de_onda (float hz) {
+
+  // calculo do comprimento de onda
+   float resp=299792458/hz;
+   return resp;
+   }
+
+int antena (float entrada) {
+
+
+   float antena;
+   antena=entrada/2;
+   antena=(antena/2)-0.05;
+   return antena;
+
+   }
+
+
+int conver_de_m_para_cm(float dadosin){
+   float dadosout;
+      if (dadosin<=100) {
+               //convertendo Metros para Centimetros               
+                dadosout=dadosin*100;
+             printf("Unidade cm\n");
+             return dadosout; //saida de dados
+           }
+           
+      else {
+         printf("Unidade m\n");
+            dadosout=dadosin;
+            return dadosout;
+         }
+
+   }
+
+void linha (int num) {
+   int i;
+   for (i=1; i<=num; i++)
+      putchar('*');
+      //putchar('\n');
+   }
+
+int main(){
+#if defined (__WIN32__) 
+   system("cls");
+#else
+   system("clear"); // se o sistema que executar for Windows mude o conteudo de clear para cls
+#endif
+   float hz, compr, m, saida ;
+        printf("\n\n\n");
+   linha(83);
+   printf("\n\n\t\tEntre com a frequencia em hertz:");
+   scanf("%f",&hz);
+   linha(83);
+
+       if (hz==0){
+            
+               printf("\nA frequencia e de 0 \n"); printf("\n");
+               printf("ERRO!\n"); 
+               linha(83);
+               printf("\n");
+         }
+      else {
+
+         compr=comprimento_de_onda(hz);
+
+         printf("\n O comprimento da onda é de: %f m\n",compr);
+         
+         m=antena(compr);
+         saida=conver_de_m_para_cm(m);
+           printf("\nO tamanho da antena é de: %f \n",saida);
+         linha(83);printf("\n");
+
+         }
+   }

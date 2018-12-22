@@ -1,0 +1,51 @@
+<title>ressonancia2.html</title><h1 style="text-align: center;">Resson&acirc;ncia 2</h1>
+<h2 style="text-align: center;">Achando a frequ&ecirc;ncia de resson&acirc;ncia</h2>
+<p>&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp; Neste documento irei explicar em como achar a frequ&ecirc;ncia de resson&acirc;ncia de um capacitor e um indutor colocados em paralelo ou em s&eacute;rie, formando um <strong>Tanque LC</strong>.</p>
+<p>&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp; Quando o tanque LC est&aacute; com seus componentes associados em s&eacute;rie, quando em resson&acirc;ncia sua <strong>Imped&acirc;ncia </strong>(Resistencia em corrente alternada) &eacute; idealmente 0 Ohms. Quando seus componentes est&atilde;o associados em paralelo, sua imped&acirc;ncia &eacute; idealmente infinita. Podemos observar esse efeito nos gr&aacute;ficos simulados abaixo:</p>
+<p style="text-align: center;">(Simula&ccedil;&atilde;o R=1k L=1mH C=10nF Fres=50.3kHz)</p>
+<p style="text-align: center;"><a href="../images/other/result.jpg" target="_blank"><img border=0 style="vertical-align: middle;" title="Indutor e Capacitor em Paralelo" src="../images/other/result.jpg"  alt="Indutor e Capacitor em Paralelo" width="500" height="258" /></a></p>
+<p style="text-align: center;">Indutor e capacitor colocados em paralelo, a imped&acirc;ncia &eacute; idealmente infinita logo a tens&atilde;o sobe e a corrente cai no ponto de medi&ccedil;&atilde;o</p>
+<p style="text-align: center;">&nbsp;</p>
+<p style="text-align: center;"><a href="../images/other/result2.jpg"><img border=0 style="vertical-align: middle;" title="Indutor e Capacitor em S&eacute;rie" src="../images/other/result2.jpg"  alt="Indutor e Capacitor em S&eacute;rie" width="500" height="258" /></a></p>
+<p style="text-align: center;">&nbsp;Indutor e capacitor colocados em s&eacute;rie, a imped&acirc;ncia &eacute; idealmente zero logo a tens&atilde;o cai e a corrente sobe no ponto de medi&ccedil;&atilde;o.</p>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp; Agora, como podemos usar essa informa&ccedil;&atilde;o para achar a frequ&ecirc;ncia de resson&acirc;ncia? H&aacute; varios meios, mas vou citar dois meios simples que uso para medir as frequ&ecirc;ncias de resson&acirc;ncia.</p>
+<p style="text-align: justify;">&nbsp;</p>
+<h3 style="text-align: center;">Medindo frequ&ecirc;ncia de resson&acirc;ncia atrav&eacute;s de um oscilosc&oacute;pio e um gerador de fun&ccedil;&atilde;o</h3>
+<p>&nbsp;&nbsp;&nbsp; Com um osciloscopio e um gerador de fun&ccedil;&atilde;o, qualquer um que saiba usar estes dois equipamentos conseguir&atilde;o achar a frequ&ecirc;ncia de resson&acirc;ncia de um Tanque LC. Ligue o tanque LC e os equipamentos como no esquema abaixo:</p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><a href="get.php@arquivo=330" target="_blank"><img border=0 style="vertical-align: middle;" title="Gerador de Fun&ccedil;&atilde;o ligado ao Oscilosc&oacute;pio e ao tanque LC" src="get.php@arquivo=330"  alt="Como ligar o Oscilosc&oacute;pio e o Gerador de Fun&ccedil;&atilde;o" width="500" height="209" /></a></p>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp; Repare que h&aacute; um resistor em serie, ele &eacute; absolutamente nescess&aacute;rio, pois forma um divisor de tens&atilde;o com o tanque LC. Eu geralmente uso o valor de 470R, mas qualquer coisa entre 270R e 10k pode ser usado.</p>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp; Ligado tudo conforme o esquema, &eacute; hora de testar. Acerte o gerador de fun&ccedil;&atilde;o para uma tens&atilde;o entre 5V e 12V e acerte o osciloscopio para medir algo em torno do mesmo. V&aacute; variando a frequ&ecirc;ncia no gerador de fun&ccedil;&atilde;o e ao mesmo tempo conforme for ficando invisivel a onda no oscilosc&oacute;pio, v&aacute; diminuindo o periodo da medi&ccedil;&atilde;o dele. Voc&ecirc; poder&aacute; observar que quando estiver se aproximando da resson&acirc;ncia a tens&atilde;o come&ccedil;ara a subir at&eacute; o seu ponto m&aacute;ximo na frequ&ecirc;ncia de resson&acirc;ncia. Ap&oacute;s isso a&nbsp; tens&atilde;o come&ccedil;ara a cair da mesma maneira. Darei um exemplo:</p>
+<p style="text-align: justify;">&nbsp;&nbsp; Fiz um teste com um tanque LC de frequ&ecirc;ncia de resson&acirc;ncia conhecida 160khz e fui fazendo o que eu falei, os meus resultados foram estes:</p>
+<p style="text-align: center;"><img border=0 title="Onda a 60khz" src="get.php@arquivo=324"  alt="Resultado a 60khz" width="204" height="165" /></p>
+<p style="text-align: center;">Resultado &aacute; 60kHz</p>
+<p style="text-align: center;"><img border=0 title="Onda a 100kHz" src="get.php@arquivo=325"  alt="Resultado a 100kHz" width="201" height="163" /></p>
+<p style="text-align: center;">Resultado &aacute; 100kHz</p>
+<p style="text-align: center;"><img border=0 title="Onda a 140kHz" src="get.php@arquivo=326"  alt="Resultado a 140kHz" width="201" height="161" /></p>
+<p style="text-align: center;">Resultado &aacute; 140kHz</p>
+<p style="text-align: center;"><img border=0 title="Onda a 160kHz" src="get.php@arquivo=327"  alt="Resultado a 160kHz" width="202" height="162" /></p>
+<p style="text-align: center;">Resultado &aacute; 160kHz</p>
+<p style="text-align: center;"><img border=0 title="Onda a 180kHz" src="get.php@arquivo=328"  alt="Resultado a 180kHz" width="201" height="162" /></p>
+<p style="text-align: center;">Resultado &aacute; 180kHz</p>
+<p style="text-align: center;">&nbsp;</p>
+<p style="text-align: justify;">&nbsp;&nbsp; Como podem reparar, conforme fui aproximando dos 160kHz a amplitude da sen&oacute;ide foi aumentando at&eacute; seu ponto maximo em 160kHz. Ap&oacute;s isso come&ccedil;ou a cair novamente, assim como mostra o resultado &aacute; 180kHz. Assim quando a tens&atilde;o parar de subir e come&ccedil;ar a&nbsp; descer, voc&ecirc; sabe que chegou na frequ&ecirc;ncia de resson&acirc;ncia. Ent&atilde;o &eacute; s&oacute; olhar o valor no gerador de fun&ccedil;&atilde;o e anotar :D</p>
+<p style="text-align: justify;">&nbsp;</p>
+<h3 style="text-align: center;">Medindo frequ&ecirc;ncia de resson&acirc;ncia sem oscilosc&oacute;pio e sem gerador de fun&ccedil;&atilde;o</h3>
+<p>&nbsp;&nbsp;&nbsp; Ok, com oscilosc&oacute;pio &eacute; facil... Mas e se eu n&atilde;o tenho acesso a um oscilosc&oacute;pio (&eacute; um equipamento caro e nem todos tem acesso a um) e a um gerador de fun&ccedil;&atilde;o?</p>
+<p>&nbsp;&nbsp; Voc&ecirc; tamb&eacute;m pode descobrir a frequ&ecirc;ncia de resson&acirc;ncia sem eles, mas para isso ter&aacute; de montar um pequeno circuito:</p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><a href="get.php@arquivo=329" target="_blank"><img border=0 style="vertical-align: middle;" title="Fres Finder" src="get.php@arquivo=329"  alt="Fres Finder" width="500" height="295" /></a></p>
+<p style="text-align: justify;">&nbsp;&nbsp;&nbsp; Este circuito &eacute; basicamente um oscilador RC atuando como um gerador de fun&ccedil;&atilde;o, e dois <strong>LEDs </strong>em antiparalelo para a medi&ccedil;&atilde;o da frequ&ecirc;ncia de resson&acirc;ncia.</p>
+<p style="text-align: justify;"><strong>&nbsp;&nbsp; Como funciona ent&atilde;o? Simples!</strong></p>
+<p style="text-align: justify;">&nbsp;&nbsp; Quando o circuito LC entra em resson&acirc;ncia, sua impedancia &eacute; idealmente infinita certo? Logo n&atilde;o flui corrente e os LEDs ficaram apagados. Quando ele estiver <strong>fora </strong>da frequ&ecirc;ncia de resson&acirc;ncia os LEDs estar&atilde;o acesos. Na pratica, os LEDS n&atilde;o apagar&atilde;o completamente pois a imped&acirc;ncia n&atilde;o vai ser estavel. Por&eacute;m certamente haver&aacute; uma queda drastica no brilho do LED e voc&ecirc; saber&aacute; quando estiver em resson&acirc;ncia.</p>
+<p style="text-align: justify;">&nbsp;&nbsp; <strong>Ok, est&aacute; em resson&acirc;ncia, como fa&ccedil;o para saber em que frequ&ecirc;ncia est&aacute;?</strong></p>
+<p style="text-align: justify;"><strong>&nbsp;&nbsp;&nbsp; </strong>H&aacute; dois m&eacute;todos para se descobrir. Um &eacute; ligar um multimetro ou frequ&ecirc;ncimetro no ponto marcado como <strong>Frequency Counter </strong>para a medi&ccedil;&atilde;o da frequ&ecirc;ncia <strong>(m&eacute;todo recomendado)</strong>. O outro &eacute; calcular a frequ&ecirc;ncia do oscilador RC. A f&oacute;rmula &eacute; simples e da para fazer no papel rapidamente.</p>
+<p style="text-align: justify;">&nbsp;&nbsp; Idealmente a constante de tempo de um oscilador RC &eacute; f = 1 / RC - Por&eacute;m o datasheet do <strong>74HC14</strong> diz uma formula parecida com uma constante a mais para melhor precis&atilde;o dos dados reais. Ent&atilde;o a formula usada ser&aacute;:</p>
+<p style="text-align: center;"><strong>F = 1 / 0.8 * R * C </strong></p>
+<p style="text-align: justify;">&nbsp;&nbsp; Onde <strong>R</strong> ser&aacute; em Ohms, <strong>C </strong>em Farads, <strong>F </strong>em Hertz.</p>
+<p style="text-align: justify;">&nbsp;</p>
+<h3 style="text-align: justify;">Conclus&atilde;o:</h3>
+<p style="text-align: justify;">&nbsp;&nbsp; Medir a frequ&ecirc;ncia de resson&acirc;ncia n&atilde;o &eacute; t&atilde;o dificil quanto parece, por&eacute;m h&aacute; varios m&eacute;todos que podem ser usados, e os vi&aacute;veis v&atilde;o depender muito do que voc&ecirc; vai dispor para fazer a medi&ccedil;&atilde;o. Antes de fazer a medi&ccedil;&atilde;o veja tudo que voc&ecirc; disp&otilde;e para depois ver qual o melhor jeito. Boa sorte!</p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img border=0 style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" alt="Licen&ccedil;a Creative Commons" /></a><br />Esta <span>obra</span> de <a rel="cc:attributionURL" href="../ver-documento/832.html">EnergyLabs Brasil</a>, foi licenciada com uma Licen&ccedil;a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons - Atribui&ccedil;&atilde;o - Partilha nos Mesmos Termos 3.0 N&atilde;o Adaptada</a>.<br />Permiss&otilde;es adicionais ao &acirc;mbito desta licen&ccedil;a podem estar dispon&iacute;veis em <a rel="cc:morePermissions" href="../ver-documento/832.html">http://www.energylabs.com.br</a>.</p>

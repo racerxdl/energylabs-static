@@ -1,0 +1,107 @@
+<title>pictuto2.html</title><!-- 		@page { margin: 2cm } 		P { margin-bottom: 0.21cm } -->
+<p align="CENTER"><span style="font-size: large;">Medindo Temperatura com PIC e LM35</span></p>
+<p align="JUSTIFY">&nbsp;</p>
+<p align="JUSTIFY">Bom, estarei explicando aqui como medir temperatura com um PIC 16F877A e um LM35, um sensor de temperatura anal&oacute;gico.</p>
+<p align="JUSTIFY">Estaremos usando um PIC16F877A, um sensor de temperatura LM35 e um console serial virtual. Iniciaremos configurando o PIC no <strong>CCS C</strong><span style="font-weight: normal;">.</span></p>
+<p style="text-align: center;" align="JUSTIFY"><span style="font-weight: normal;"><img border=0 src="get.php@arquivo=191" alt="" width="704" height="617" /><br /></span></p>
+<p lang="pt-BR" align="JUSTIFY">Configuramos o PIC para rodar a 4MHz e usar Ponteiros de 16Bit, isto &eacute; necess&aacute;rio para que possamos usar toda memoria <span lang="en-US">ram</span> dispon&iacute;vel. Neste projeto n&atilde;o usaremos nada da memoria <span lang="en-US">ram</span>, mas costumo deixar ativado para usar. Pr&oacute;ximo passo configurar o <strong>Conversor Anal&oacute;gico Digital</strong> do PIC:</p>
+<p lang="pt-BR" align="JUSTIFY">&nbsp;</p>
+<p lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="text-align: center;"><img border=0 src="get.php@arquivo=192" alt="" width="711" height="623" /></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;">Configuramos ele para usar a porta anal&oacute;gica </span><strong>A0,</strong><span style="font-weight: normal;"> para ter uma resolu&ccedil;&atilde;o de </span><strong>1024 </strong><span lang="en-US"><strong>bits</strong></span><strong> </strong><span style="font-weight: normal;">e para usar o </span><span lang="en-US"><span style="font-weight: normal;">clock</span></span><span style="font-weight: normal;"> interno do ADC. Configurado tudo, podemos clicar </span><strong>Ok</strong><span style="font-weight: normal;"> e veremos o c&oacute;digo do programa j&aacute;.</span></p>
+<p lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="text-align: center;"><img border=0 src="get.php@arquivo=189" alt="" width="600" height="547" /></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"> Feito isso podemos come&ccedil;ar o circuito no simulador. Abrindo o simulador e colocando o </span><strong>LM35 </strong><span style="font-weight: normal;">podemos reparar na tens&atilde;o que ele fornece para determinada temperatura:</span></p>
+<p lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="text-align: center;"><img border=0 src="get.php@arquivo=197" alt="" width="300" height="368" /></p>
+<p style="text-align: center;"><img border=0 src="get.php@arquivo=198" alt="" width="300" height="363" /></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"> Podemos reparar, que o LM35 fornece 1mV por grau c&eacute;lsius. Esta informa&ccedil;&atilde;o pode ser conferida no </span><span lang="en-US"><span style="font-weight: normal;">data sheet</span></span><span style="font-weight: normal;"> do LM35. Teremos ent&atilde;o de fazer o PIC contar 1&ordm;C para cada milivolt. Adicionaremos ent&atilde;o o PIC e o </span><strong>Console Virtual</strong><span style="font-weight: normal;">.</span></p>
+<p style="text-align: center;" lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"><img border=0 src="get.php@arquivo=190" alt="" width="600" height="334" /><br /></span></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"> Ligaremos todo circuito conforme a figura. N&atilde;o estamos considerando partes essenciais para o funcionamento real do PIC, como o cristal e a alimenta&ccedil;&atilde;o, pois isto &eacute; apenas uma simula&ccedil;&atilde;o.</span></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"> Configure o PIC16F877A para rodar a 4MHz e selecione o arquivo do programa (main.hex) que estamos usando (entre no compilador e aperte </span><strong>F9 </strong><span style="font-weight: normal;">para compilar o c&oacute;digo).</span></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"> Definiremos ent&atilde;o agora as vari&aacute;veis que iremos usar no programa.</span></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"> Usaremos tr&ecirc;s variaveis:</span></p>
+<p lang="en-US" align="JUSTIFY"><span style="font-weight: normal;"> </span><span lang="pt-BR"><strong>tensao</strong></span><span style="font-weight: normal;"> =&gt; </span><strong>Long Integer</strong></p>
+<p lang="en-US" align="JUSTIFY"><strong> temperatura =&gt; Long Integer</strong></p>
+<p lang="en-US" align="JUSTIFY"><strong> temporario =&gt; Float</strong></p>
+<p lang="en-US" align="JUSTIFY"><br /><br /></p>
+<p lang="pt-BR" align="JUSTIFY"><strong> </strong><span style="font-weight: normal;">Essas tr&ecirc;s vari&aacute;veis ser&atilde;o usadas no decorrer do programa, onde </span><strong>tensao</strong><span style="font-weight: normal;"> armazenara o valor o qual obteremos do ADC (tens&atilde;o em bin&aacute;rio), </span><strong>temporario </strong><span style="font-weight: normal;">iremos usar para armazenar o resultado do c&aacute;lculo que faremos para descobrir a tens&atilde;o em volts, e </span><strong>temperatura</strong><span style="font-weight: normal;"> onde iremos armazenar o valor da temperatura.</span></p>
+<p lang="pt-BR" align="JUSTIFY"><span style="font-weight: normal;"> Para definirmos essas variaveis, teremos de colocar o seguinte trecho de c&oacute;digo </span><strong>antes </strong><span style="font-weight: normal;">da se&ccedil;&atilde;o </span><strong>void main()</strong></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em> long int tensao,temperatura;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em> float temporario;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em> </em><span style="font-style: normal;">Ap&oacute;s isso teremos de criar o </span><span style="font-style: normal;"><strong>loop</strong></span><span style="font-style: normal;"> que ir&aacute; ler o valor do ADC, fazer os c&aacute;lculos e mandar para o console serial. Primeiro faremos a leitura do seguinte modo:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>while(true) {</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>SET_ADC_CHANNEL(0); // Acertar o canal do ADC para o A0</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>delay_ms(10); // Esperar 10ms</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>tensao = READ_ADC(7); // Iniciar ADC e ler o conte&uacute;do para vari&aacute;vel tensao</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>printf("Tensao %u &ldquo;, tensao); // Mandar conteudo da var&iacute;avel para o console.</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>delay_ms(1000); // Esperar 1 segundo.</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>}</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em> </em><span style="font-style: normal;">Compilando este programa, iremos obter o seguinte resultado:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> Para 30&ordm;C:</span></p>
+<p style="font-weight: normal; text-align: center;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"><img border=0 src="get.php@arquivo=199" alt="" width="451" height="250" /><br /></span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> </span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> </span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> Para 35&ordm;C:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="text-align: center;"><img border=0 src="get.php@arquivo=200" alt="" width="453" height="251" /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> Como pudemos observar, conseguimos o valor em </span><span style="font-style: normal;"><strong>bin&aacute;rio</strong></span><span style="font-style: normal;"> da tens&atilde;o. Logo precisamos converter isso. Isto &eacute; bem simples:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> Configuramos o ADC para uma resolu&ccedil;&atilde;o de 1024 bits, e a tens&atilde;o do ADC &eacute; a mesma do que o PIC, logo 5V. Para sabermos quantos </span><span style="font-style: normal;"><strong>volts por bit </strong></span><span style="font-style: normal;"> o ADC l&ecirc;, basta dividirmos 5 por 1024.</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> 5 / 1024 = </span><span style="font-style: normal;"><strong>0,0048828125</strong></span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"><strong> </strong></span><span style="font-style: normal;">Ou seja, 0,0048828125 volts por bit. Numero quebrado n&atilde;o? N&atilde;o tem problema, para isso criamos a vari&aacute;vel </span><span style="font-style: normal;"><strong>temporario</strong></span><span style="font-style: normal;"> com tipo </span><span style="font-style: normal;"><strong>float</strong></span><span style="font-style: normal;">. Float significa que a vari&aacute;vel ter&aacute; uma virgula e n&uacute;meros ap&oacute;s ela. </span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> Bom j&aacute; sabemos agora quantos Volts por Bit, e agora para sabermos a temperatura? Bem &eacute; simples. Basta dividir a tens&atilde;o por 0,01 (1mV por &ordm;C) e teremos a temperatura:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> 62 * 0,0048828125 = 0,302734375 / 0,01 = 30,2734375 &ordm;C arrendondando 30&ordm;C</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> 72 * 0,0048828125 = 0,3515625 / 0,001 = 35,15625 &ordm;C arredondando 35&ordm;C</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> Tudo certo? Ent&atilde;o vamos a programa&ccedil;&atilde;o! Parece complicado, mas &eacute; realmente simples, aqui vai como fica nosso trecho de c&oacute;digo:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>while(true) {</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>SET_ADC_CHANNEL(0); // Acertar o canal do ADC para o A0</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>delay_ms(10); // Esperar 10ms</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>tensao = READ_ADC(7); // Iniciar ADC e ler o conte&uacute;do para vari&aacute;vel tensao</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>temporario = tensao * 0.0048828125; // Calculo para descobrir quantos volts o pic mediu.</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>temperatura = temporario / 0.01; // Calculo para descobrir a temperatura.</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>printf("\fTemperatura: %Lu \n", temperatura); // Mostrar a temperatura no console.</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>delay_ms(1000); // Esperar 1 segundo</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>}</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em> </em><span style="font-style: normal;">Simples n&atilde;o? Poderiamos simplificar e fazer tudo junto:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> t</span><em>emperatura = tensao * 0.0048828125 / 0.01;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em> </em><span style="font-style: normal;">ou at&eacute; mesmo:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> t</span><em>emperatura = tensao * 0.48828125;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em> </em><span style="font-style: normal;">Vejamos o resultado ent&atilde;o:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><img border=0 src="get.php@arquivo=193" alt="" width="400" height="203" /><img border=0 src="get.php@arquivo=194" alt="" width="400" height="191" /><img border=0 src="get.php@arquivo=195" alt="" width="400" height="190" /><img border=0 src="get.php@arquivo=196" alt="" width="400" height="195" /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><span style="font-style: normal;"> Viu como &eacute; simples? Aqui est&aacute; o c&oacute;digo completo para caso voc&ecirc; n&atilde;o tenha conseguido fazer funcionar:</span></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>#include "D:\Program Files (x86)\PICC\Projects\temp\main.h"</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>long int tensao,temperatura;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>float temporario;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>void main()</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>{</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_adc_ports(AN0);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_adc(ADC_CLOCK_INTERNAL);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_psp(PSP_DISABLED);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_spi(SPI_SS_DISABLED);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_timer_0(RTCC_INTERNAL|RTCC_DIV_1);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_timer_1(T1_DISABLED);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_timer_2(T2_DISABLED,0,1);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_comparator(NC_NC_NC_NC);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>setup_vref(FALSE);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><br /><br /></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>while(true) {</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>SET_ADC_CHANNEL(0);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>delay_ms(10);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>tensao = READ_ADC(7);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>temporario = tensao * 0.0048828125;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>temperatura = temporario / 0.01;</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>printf("\fTemperatura: %Lu \n", temperatura);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>delay_ms(1000);</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>}</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY">&nbsp;</p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY"><em>}</em></p>
+<p style="font-weight: normal;" lang="pt-BR" align="JUSTIFY">&nbsp;</p>
+<p style="font-weight: normal; text-align: center;" lang="pt-BR"><span style="font-size: x-large;">Documento por Lucas Teske</span><em><br /></em></p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img border=0 style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" alt="Licen&ccedil;a Creative Commons" /></a><br />Esta <span>obra</span> de <a rel="cc:attributionURL" href="../ver-documento/832.html">EnergyLabs Brasil</a>, foi licenciada com uma Licen&ccedil;a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons - Atribui&ccedil;&atilde;o - Partilha nos Mesmos Termos 3.0 N&atilde;o Adaptada</a>.<br />Permiss&otilde;es adicionais ao &acirc;mbito desta licen&ccedil;a podem estar dispon&iacute;veis em <a rel="cc:morePermissions" href="../ver-documento/832.html">http://www.energylabs.com.br</a>.</p>
